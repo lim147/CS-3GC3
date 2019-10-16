@@ -1,8 +1,29 @@
 #+Title: CS/SE 3GC3 - Computer Graphics Final Project
 #+Author: Alice Ip, Kexin Liu, Lily Lau, Meijing Li
 #+Date: October 16, 2019
+#+Options: toc:nil num:nil
 
+* Project Proposal
 
-* Project Proposal PP
+** Description
+A cooking game take place in a 3-D simulating kitchen, where the player is able 
+to move aroud in first person to select and deselect ingredients and use tool 
+objects to interact with these ingredient objects.
+
+** Game rule
+There are several dish options and the player is able to choose one to cook. 
+For each dish, there is a given receipt and the player first picks the 
+ingredients from a table of vegetables and meat, and secondly uses the tools
+(such as knife, pan, oven etc.) to handle with the ingredients and cook the
+dish.
+
+** What needs to simulate
+- Ingredient and tool objects
+- A 3-D scene showing the kitchen
+- Event handlers: click mouse to select ingredient; drag the ingredient over the 
+  cooking tool
+- Animation to show the cooking process: turn on the oven and the fire comes out; cut 
+  the onion and it splits into pieces; put the beaf on the pan and its color changes
+  from red to brown gradually, etc
 
 
