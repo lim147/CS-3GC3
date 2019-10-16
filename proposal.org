@@ -8,22 +8,21 @@
 ** Description
 A cooking game take place in a 3-D simulating kitchen, where the player is able 
 to move aroud in first person to select and deselect ingredients and use tool 
-objects to interact with these ingredient objects.
-
-** Game rule
-There are several dish options and the player is able to choose one to cook. 
+objects to interact with these ingredient objects.There are several dish options
+ and the player is able to choose one to cook. 
 For each dish, there is a given receipt and the player first picks the 
 ingredients from a table of vegetables and meat, and secondly uses the tools
 (such as knife, pan, oven etc.) to handle with the ingredients and cook the
 dish.
 
-** What needs to simulate
-- Ingredient and tool objects
-- A 3-D scene showing the kitchen
-- Event handlers: click mouse to select ingredient; drag the ingredient over the 
-  cooking tool
-- Animation to show the cooking process: turn on the oven and the fire comes out; cut 
-  the onion and it splits into pieces; put the beaf on the pan and its color changes
-  from red to brown gradually, etc
-
+** Code Objectives
+Some objectives and goals that need to be fulfilled in the production of this 
+game includes constructing the 3-D models for ingredient objects, tool objects
+furniture in the kitchen, as well as the kitchen room itself. Appropriate event
+handlers will be needed include mouse clicking to select objects and keyboard keys
+to move around inside the kitchen room. Additional features include animation 
+of when food objects split into smaller pieces when cut using a knife object, as 
+well as gravity features for objects when they are dropped, momentum of objects
+when interacted with, appropriate textures for the furniture, the room, and food
+and changes in colour/texture when food is cooked or prepared.
 
