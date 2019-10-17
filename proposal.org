@@ -6,14 +6,14 @@
 * Project Proposal
 
 ** Description
-A cooking game take place in a 3-D simulating kitchen, where the player is able 
+A cooking game that takes place in a 3-D simulating kitchen, where the player is able 
 to move aroud in first person to select and deselect ingredients and use tool 
-objects to interact with these ingredient objects.There are several dish options
- and the player is able to choose one to cook. 
-For each dish, there is a given receipt and the player first picks the 
-ingredients from a table of vegetables and meat, and secondly uses the tools
-(such as knife, pan, oven etc.) to handle with the ingredients and cook the
-dish.
+objects to interact with these ingredient objects. There are several recipes 
+that the player can follow. The player combines tools and food objects to get
+ intermediate objects that can then be combined with other objects to create a dish.
+ Food objects and tool objects are scattered throughout the room. Food objects may
+ include apples, salt, eggs, and tool objects may include knives, pans, and ovens.
+
 
 ** Code Objectives
 Some objectives and goals that need to be fulfilled in the production of this 
