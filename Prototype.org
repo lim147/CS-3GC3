@@ -1,0 +1,8 @@
+#+Title: CS/SE 3GC3 - Computer Graphics Final Project
+#+Author: Alice Ip, Kexin Liu, Lily Lau, Meijing Li
+#+Date: November 10, 2019
+#+Options: toc:nil num:nil
+
+* Current Features and Commands
+
+* Features To Be Implemented
