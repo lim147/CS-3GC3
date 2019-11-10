@@ -12,6 +12,42 @@
 #include <stdlib.h>
 using namespace std;
 
+
+/**
+Current Tasks:
+Rachel - Onion, Tomato, Pot
+May - Pan, Fire, Mango
+Lily - Knife, Potato, Steak
+Alice - Main file (Table, floor , wall, stove), Banana
+
+Other Tasks to be Done for Prototype:
+- Brief two paragraph write up including features needed to be added or fixed for the final implementation as well as a list
+of commands available for the prototype - Alice made the skeleton for this file in our repo under the documents folder, 
+Our prototype and this writeup will need to be submitted to one of our course git repositories, under the project folder
+
+- We need a file that parses *.obj files and "mesh drawings"(?)
+
+- Ingrediant class:
+- Position of object
+- Whether or not the object is selected
+- Pointer to appropriate object mesh
+- Texture for object
+- Status ( is the object cut or inside the pan)
+- "You may want to have an array of loaded meshes depending on the state (i.e., a cut tomato will load a different mesh than a whole tomato)"
+
+- Rough prepping room
+- Place the prepping room items into the 3D room
+- To make this room, we can either use assets that we load in using the obj loader, or we can use glut primitives
+
+Our Recipes So Far:
+- Soup - potato, tomato, onion, salt, Knife, Pot
+- Salad - Mango, banana, sugar, Knife, Bowl
+- Steak - Steak, bbq sauce, Knife, Pan
+
+Tools Required:
+- Knife, Pot, Pan
+*/
+
 GLdouble eye[] = {5, 5, 10};
 GLdouble lookAt[] = { 0, 3, 0 };
 GLdouble up[] = { 0, 1, 0 };
