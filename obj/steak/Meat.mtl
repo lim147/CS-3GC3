@@ -1,13 +1,14 @@
-# Blender MTL File: 'Meat.blend'
+# Blender MTL File: 'None'
 # Material Count: 1
 
 newmtl Material.001
-Ns 96.078431
-Ka 0.000000 0.000000 0.000000
+Ns 96.078443
+Ka 1.000000 1.000000 1.000000
 Kd 0.640000 0.640000 0.640000
 Ks 0.221519 0.221519 0.221519
+Ke 0.0 0.0 0.0
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd Meat_texture.png
-map_Bump textures\\Meat_normal.jpg
+map_Bump Meat_normal.jpg
+map_Kd Meat_texture.jpg
