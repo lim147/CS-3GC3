@@ -1,12 +1,12 @@
-#ifndef PARTICLE_H
-#define PARTICLE_H
+#ifndef ingredient_h
+#define ingredient_h
 
 #include <vector>
 
 class Ingredient{
 public:
 	Ingredient(); //initially 0, 0, 0
-	Ingredient(loat a, float b, float c);
+	Ingredient(float a, float b, float c);
 
 	float px;
 	float py;

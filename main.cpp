@@ -10,6 +10,7 @@
 #endif
 #include <stdio.h>
 #include <stdlib.h>
+#include "Ingredient.h"
 using namespace std;
 
 
@@ -48,31 +49,62 @@ Tools Required:
 - Knife, Pot, Pan
 */
 
-GLdouble eye[] = {5, 5, 10};
-GLdouble lookAt[] = { 0, 3, 0 };
+GLdouble eye[] = {30, 30, 30};
+GLdouble lookAt[] = { 0, 0, 0 };
 GLdouble up[] = { 0, 1, 0 };
 
-void display(void)
+
+//Floor size
+
+void drawFloor()
 {
+    // Floor of the fountain
+    glBegin(GL_QUADS);
+    glNormal3f(0,10,0);
+    glColor3f(0.5, 0.5, 0.5);
 
-    /** for (unsigned int i = 0; i < 2; i++) {
-        glLightfv(GL_LIGHT0 + i, GL_POSITION, lightPos[i]);
-        glLightfv(GL_LIGHT0 + i, GL_DIFFUSE, diffuse[i]);
-        glLightfv(GL_LIGHT0 + i, GL_AMBIENT, ambient[i]);
-        glLightfv(GL_LIGHT0 + i, GL_SPECULAR, specular[i]);
-    }*/
+    glVertex3f(-10,0,10);
+    glVertex3f(10,0,10);
+    glVertex3f(10,0,-10);
+    glVertex3f(-10,0,-10);
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnd();
+}
+
+void draw3DScene(){
+    
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective(45, 1, 1, 100);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     gluLookAt(
         eye[0], eye[1], eye[2],
         lookAt[0], lookAt[1], lookAt[2],
         up[0], up[1], up[2]
     );
+    
+    glPushMatrix();
+    glColor3f(1,0,0);
+    drawFloor();
 
-    glutSwapBuffers();
+    glPopMatrix();
 
 }
+
+/* display() - the OpenGL display function, this draws the screen
+ *  it displays a spinning cube
+ */
+void display()
+{
+
+    draw3DScene();
+    glutSwapBuffers();
+    //force a redisplay, to keep the animation running
+    glutPostRedisplay();
+}
+
 
 
 void handleReshape(int w, int h) {
@@ -87,7 +119,6 @@ void handleReshape(int w, int h) {
 
 void keyboard(unsigned char key, int x, int y)
 {
-	//'q' or esc
 	if (key == 'q' or key == 27)
 		exit(0);
 }
