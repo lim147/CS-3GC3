@@ -30,7 +30,7 @@ run: $(PROGRAM_NAME)
 #	./a2
 
 $(PROGRAM_NAME): main.o 
-	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS) 
+	$(CC) -o $@ $^ $(CFLAGS) Ingredient.cpp $(LDFLAGS) 
 	
 clean:
 	$(RM) *.o $(PROGRAM_NAME)$(EXEEXT)

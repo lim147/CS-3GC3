@@ -12,7 +12,7 @@
 #include <stdlib.h>
 #include "Ingredient.h"
 using namespace std;
-
+#include <vector>
 
 /**
 Current Tasks:
@@ -53,12 +53,8 @@ GLdouble eye[] = {30, 30, 30};
 GLdouble lookAt[] = { 0, 0, 0 };
 GLdouble up[] = { 0, 1, 0 };
 
-
-//Floor size
-
-void drawFloor()
+void drawFloor() // Floor of the room
 {
-    // Floor of the fountain
     glBegin(GL_QUADS);
     glNormal3f(0,10,0);
     glColor3f(0.5, 0.5, 0.5);
@@ -69,6 +65,13 @@ void drawFloor()
     glVertex3f(-10,0,-10);
 
     glEnd();
+}
+
+void loadIngredients(){
+	Ingredient i;
+	i = Ingredient();
+	i.loadObject("")
+
 }
 
 void draw3DScene(){
@@ -93,16 +96,11 @@ void draw3DScene(){
 
 }
 
-/* display() - the OpenGL display function, this draws the screen
- *  it displays a spinning cube
- */
 void display()
 {
-
     draw3DScene();
     glutSwapBuffers();
-    //force a redisplay, to keep the animation running
-    glutPostRedisplay();
+    glutPostRedisplay(); //force a redisplay, to keep the animation running
 }
 
 
