@@ -10,9 +10,13 @@
 #endif
 #include <stdio.h>
 #include <stdlib.h>
+
 #include "Ingredient.h"
+#include "mathLib2D.h"
+
 using namespace std;
 #include <vector>
+#include <math.h>
 
 /**
 Current Tasks:
@@ -53,24 +57,55 @@ GLdouble eye[] = {30, 30, 30};
 GLdouble lookAt[] = { 0, 0, 0 };
 GLdouble up[] = { 0, 1, 0 };
 
-void drawFloor() // Floor of the room
+// Array for generating the room ( There is no roof)
+float verts[8][3] = {{-10, -10, 10},
+                    {-10, 10, 10},
+                    {10,10,10},
+                    {10, -10, 10},
+                    {-10,-10,-10},
+                    {-10,10,-10},
+                    {10,10,-10},
+                    {10,-10,-10}};
+
+int indices[5][4] = {
+                    {1,5,4,0},
+                    {5,6,7,4},
+                    {2,6,7,3},
+                    {0,4,7,3},
+                    {1,0,3,2}};
+
+
+
+
+void drawFloor() // Floor of the room, change this to do the room
 {
     glBegin(GL_QUADS);
-    glNormal3f(0,10,0);
-    glColor3f(0.5, 0.5, 0.5);
+    //glNormal3f(0,10,0);
+    glColor3f(1, 1, 1);
 
-    glVertex3f(-10,0,10);
-    glVertex3f(10,0,10);
-    glVertex3f(10,0,-10);
-    glVertex3f(-10,0,-10);
+    //glVertex3f(-10,0,10);
+    //glVertex3f(10,0,10);
+    //glVertex3f(10,0,-10);
+    //glVertex3f(-10,0,-10);
 
     glEnd();
+    int vIndex;
+
+    for(int idx = 0; idx < 6; idx++){
+		    glBegin(GL_POLYGON);
+		    for (int i = 0; i < 4; i++){
+		        vIndex = indices[idx][i];
+		        glVertex3fv(verts[vIndex]);
+		    }
+		    glEnd();
+    }
 }
 
+// Ingredient information should only need to be loaded once
 void loadIngredients(){
 	Ingredient i;
 	i = Ingredient();
-	i.loadObject("")
+	i.loadObject("");
 
 }
 
@@ -150,11 +185,11 @@ int main(int argc, char** argv) {
     glutKeyboardFunc(keyboard);
     glutSpecialFunc(specialKeyboard);
 
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
-    glEnable(GL_BLEND);
-
+    //glEnable(GL_DEPTH_TEST);
+    //glEnable(GL_CULL_FACE);
+    //glCullFace(GL_BACK);
+    //glEnable(GL_BLEND);
+    loadIngredients();
     glutMainLoop();
 
     return 0;
