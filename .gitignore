@@ -30,7 +30,6 @@ bin/
 # Object files
 *.o
 *.ko
-*.obj
 *.elf
 
 # Linker output
