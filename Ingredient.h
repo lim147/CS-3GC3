@@ -18,6 +18,7 @@ public:
 	//void loadtexture(const char* filename);
 
 
+
 };
 
 
