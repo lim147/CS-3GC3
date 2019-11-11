@@ -1,7 +1,7 @@
 # Blender MTL File: 'None'
 # Material Count: 3
 
-newmtl Material__26
+newmtl Material__26.003
 Ns 225.000000
 Ka 1.000000 1.000000 1.000000
 Kd 0.800000 0.800000 0.800000
@@ -10,8 +10,9 @@ Ke 0.0 0.0 0.0
 Ni 1.450000
 d 1.000000
 illum 2
+map_Kd C:\\Users\\Lily Lau\\3GC3_Final_Project\\obj\\knife\\c3b2fdf4355b.jpg
 
-newmtl Material__27
+newmtl Material__27.003
 Ns 225.000000
 Ka 1.000000 1.000000 1.000000
 Kd 0.800000 0.800000 0.800000
@@ -20,8 +21,9 @@ Ke 0.0 0.0 0.0
 Ni 1.450000
 d 1.000000
 illum 2
+map_Kd C:\\Users\\Lily Lau\\3GC3_Final_Project\\obj\\knife\\10eb4f3be7b1.jpg
 
-newmtl Material__29
+newmtl Material__29.003
 Ns 225.000000
 Ka 1.000000 1.000000 1.000000
 Kd 0.800000 0.800000 0.800000
