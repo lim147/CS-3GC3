@@ -54,6 +54,7 @@ public:
     Vec3D multiply(float scalar);
     Point3D movePoint(Point3D source);
     static Vec3D createVector(Point3D p1, Point3D p2);
+    Vec3D crossMultiply(Vec3D a);
 };
 
 class Particle {
