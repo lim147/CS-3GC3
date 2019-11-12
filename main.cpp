@@ -59,34 +59,73 @@ GLdouble eye[] = {30, 30, 30};
 GLdouble lookAt[] = { 0, 0, 0 };
 GLdouble up[] = { 0, 1, 0 };
 
+GLfloat ambient[2][4] = {
+    { 0.2, 0.2, 0.2, 1 },
+    {1 , 1, 1 , 1}
+};
+GLfloat diffuse[2][4] = {
+    {0.8, 0.8, 0.8, 1 },
+    {0,0,1,1}
+
+};
+GLfloat specular[2][4] = {
+    { 0.5, 0.5, 0.5, 1 },
+    {1,1,1,1}
+
+};
+GLfloat lightPos[2][4] = {
+    { 20.0, 20.0, 20.0, 1.0 },
+    { 20,20, -20,0}
+};
+//material0 is pearl 
+//material1 is black plastic
+GLfloat materialAmbient[2][4] = {
+    { 0.25, 0.20725, 0.20725, 1.0}, 
+    {0,0,0,1}
+};
+GLfloat materialDiffuse[2][4] = {
+    { 1,   0.829 ,0.829 , 1.0 },
+    {0.01,0.01,0.01}
+};
+GLfloat materialSpecular[2][4] = {
+    { 0.296648,  0.296648,    0.296648 , 1.0 },
+    {0.5,0.5,0.5}
+};
+GLfloat materialShiny[2] = {
+    0.088,
+    0.25
+};
+
 
 //Timer
 int timer = 0;
-GLfloat ambient[4] = { 0.1, 0.1, 0.1, 1 };
-GLfloat diffuse[4] = { 1, 1, 1, 1 };
-GLfloat specular[4] = { 1, 1, 1, 1 };
-GLfloat lightPos[4] = { 30, 30, 20, 1 };
-
 
 // Array for generating the room ( There is no roof)
-float verts[8][3] = {{-10, -10, 10},
-                    {-10, 10, 10},
-                    {10,10,10},
-                    {10, -10, 10},
-                    {-10,-10,-10},
-                    {-10,10,-10},
-                    {10,10,-10},
-                    {10,-10,-10}};
-
+float verts[8][3] = {{-10, 0, 10},
+                    {-10, 20, 10},
+                    {10,20,10},
+                    {10, 0, 10},
+                    {-10,0,-10},
+                    {-10,20,-10},
+                    {10,20,-10},
+                    {10, 0,-10}};
+                    
 int indices[5][4] = {
-                    {1,5,4,0},
-                    {5,6,7,4},
-                    {2,6,7,3},
-                    {0,4,7,3},
-                    {1,0,3,2}};
+                    {1,5,4,0}, //leftface 
+                    {5,6,7,4}, //rightface 
+                    //{2,6,7,3},
+                    {0,4,7,3}, //bottom face
+                    //{1,0,3,2}
+                    };
 
 
 
+void setMaterials(unsigned int index){
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, materialAmbient[index]);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, materialDiffuse[index]);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, materialSpecular[index]);
+    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS , materialShiny[index]);
+}
 
 void drawFloor() // Floor of the room, change this to do the room
 {
@@ -103,12 +142,16 @@ void drawFloor() // Floor of the room, change this to do the room
     int vIndex;
 
     for(int idx = 0; idx < 6; idx++){
-		    glBegin(GL_POLYGON);
-		    for (int i = 0; i < 4; i++){
-		        vIndex = indices[idx][i];
-		        glVertex3fv(verts[vIndex]);
-		    }
-		    glEnd();
+            glBegin(GL_POLYGON);
+            setMaterials(0);
+            for (int i = 0; i < 4; i++){
+                if ( idx == 2){
+                    setMaterials(1);
+                }
+                vIndex = indices[idx][i];
+                glVertex3fv(verts[vIndex]);
+            }
+            glEnd();
     }
 }
 
@@ -182,10 +225,13 @@ void draw3DScene(){
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
-    glLightfv(GL_LIGHT0, GL_AMBIENT, ambient);
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse);
-    glLightfv(GL_LIGHT0, GL_SPECULAR, specular);
+    for (unsigned int i = 0; i < 2; i++) {
+            
+        glLightfv(GL_LIGHT0 + i, GL_POSITION, lightPos[i]);
+        glLightfv(GL_LIGHT0 + i, GL_DIFFUSE, diffuse[i]);
+        glLightfv(GL_LIGHT0 + i, GL_AMBIENT, ambient[i]);
+        glLightfv(GL_LIGHT0 + i, GL_SPECULAR, specular[i]);
+    }
 
     gluLookAt(
         eye[0], eye[1], eye[2],
@@ -283,6 +329,7 @@ int main(int argc, char** argv) {
 
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
+    glEnable(GL_LIGHT1);
     glEnable(GL_DEPTH_TEST);
 
     glEnable(GL_TEXTURE_2D);
