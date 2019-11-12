@@ -57,6 +57,9 @@ GLdouble eye[] = {30, 30, 30};
 GLdouble lookAt[] = { 0, 0, 0 };
 GLdouble up[] = { 0, 1, 0 };
 
+//Timer
+int timer = 0;
+
 // Array for generating the room ( There is no roof)
 float verts[8][3] = {{-10, -10, 10},
                     {-10, 10, 10},
@@ -156,6 +159,19 @@ void keyboard(unsigned char key, int x, int y)
 		exit(0);
 }
 
+// Mouse Handler for first press and first release
+void mouse(int btn, int state, int x, int y){
+        //std::cout << " mouseMotion coords2: ";
+        //std:: cout << x << ", " << y << std::endl;
+        if (state == GLUT_UP){}
+        if (state == GLUT_DOWN){}
+}
+
+// Is called when you move your mouse
+void passive (int x, int y){ 
+    std::cout << " mouseMotion coords2: ";
+    std:: cout << x << ", " << y << std::endl;
+}
 
 void FPS(int val)
 {
@@ -169,6 +185,23 @@ void specialKeyboard(int key, int x, int y)
     if (key == GLUT_KEY_DOWN){}
     if (key == GLUT_KEY_LEFT){}
     if (key == GLUT_KEY_RIGHT){}
+}
+
+//Idle function 
+void idle(){
+   timer+=1;
+}
+
+// Callback function
+void callBackInit(){
+
+    glutKeyboardFunc(keyboard);
+    glutSpecialFunc(specialKeyboard);
+    glutReshapeFunc(handleReshape);
+    glutMouseFunc(mouse);
+    glutPassiveMotionFunc(passive);
+    glutIdleFunc(idle);
+    glutDisplayFunc(display); //registers "display" as the display callback function
 }
 
 int main(int argc, char** argv) {
@@ -189,7 +222,8 @@ int main(int argc, char** argv) {
     //glEnable(GL_CULL_FACE);
     //glCullFace(GL_BACK);
     //glEnable(GL_BLEND);
-    loadIngredients();
+    callBackInit();
+    //loadIngredients();
     glutMainLoop();
 
     return 0;
