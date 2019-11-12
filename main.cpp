@@ -105,8 +105,8 @@ void drawFloor() // Floor of the room, change this to do the room
 void loadIngredients(){
 	Ingredient i;
 	i = Ingredient();
-	i.loadObject("");
-
+	i.loadObject("obj\banana.obj");
+	cout << "Done" << endl;
 }
 
 void draw3DScene(){

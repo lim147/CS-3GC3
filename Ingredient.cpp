@@ -42,7 +42,7 @@ bool Ingredient::loadObject(const char* filename)
 	    printf("Impossible to open the file !\n");
 	    return false;
 	}
-
+	/*
 	while (1){
 		char lineHeader[128]; 
 		int res = fscanf(file, "%s", lineHeader); // LineHeader is the first word of the line
@@ -89,7 +89,7 @@ bool Ingredient::loadObject(const char* filename)
 		    normalIndices.push_back(normalIndex[2]);
 		}
 
-	}
+	}*/
 	return true;
 
 
