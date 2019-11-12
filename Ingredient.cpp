@@ -32,17 +32,21 @@ bool Ingredient::loadObject(const char* filename)
 {
 	cout << "Loaded object" << endl;
 	
+	/*
 	std::vector <unsigned int> vertexIndices, uvIndices, normalIndices;
-	std::vector <Point3D> temp_vertices;
-	std::vector <Point2D> temp_uvs;
-	std::vector <Vec3D> temp_normals;
+	std::vector <Point3D> temp_vertices; //mesh
+	std::vector <Point2D> temp_uvs; //texture
+	std::vector <Vec3D> temp_normals; //normals
+	*/
+
 	FILE * file = fopen(filename, "r");
 
+	
 	if( file == NULL ){
 	    printf("Impossible to open the file !\n");
 	    return false;
 	}
-	/*
+	
 	while (1){
 		char lineHeader[128]; 
 		int res = fscanf(file, "%s", lineHeader); // LineHeader is the first word of the line
@@ -89,7 +93,7 @@ bool Ingredient::loadObject(const char* filename)
 		    normalIndices.push_back(normalIndex[2]);
 		}
 
-	}*/
+	}
 	return true;
 
 
@@ -99,6 +103,7 @@ bool Ingredient::loadObject(const char* filename)
 	std::vector <glm::vec3> temp_vertices;
 	std::vector <glm::vec2> temp_uvs;
 	std::vector <glm::vec3> temp_normals;
+
 	FILE * file = fopen(filename, "r");
 
 	while (1){
