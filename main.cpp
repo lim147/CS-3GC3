@@ -62,8 +62,8 @@ GLdouble up[] = { 0, 1, 0 };
 
 //Timer
 int timer = 0;
-GLfloat ambient[4] = { 0.1, 0.1, 0.1, 1 };
-GLfloat diffuse[4] = { 1, 1, 1, 1 };
+GLfloat ambient[4] = { 0.2, 0.2, 0.2, 1 };
+GLfloat diffuse[4] = { 0.8, 0.8, 0.8, 1 };
 GLfloat specular[4] = { 1, 1, 1, 1 };
 GLfloat lightPos[4] = { 30, 30, 20, 1 };
 
@@ -131,7 +131,7 @@ void displayIngredient(int index){
     //display ingredient
     glPushMatrix();
         //glCullFace(GL_FRONT);
-        glBegin(GL_TRIANGLES);
+        glBegin(GL_POLYGON);
         int size = ll[index].vertexIndices.size();
         // Render each triangle
         for (int i = 0; i < size; i++) {
@@ -142,7 +142,7 @@ void displayIngredient(int index){
             //texture:
             Point2D t = ll[index].temp_uvs[ll[index].uvIndices[i]];
             glTexCoord2f(t.mX, t.mY);
-            cout << t.mX << endl;
+            //cout << t.mX << endl;
 
             //vertex:
             Point3D m = ll[index].temp_vertices[ll[index].vertexIndices[i]];
@@ -158,8 +158,8 @@ void displayIngredient(int index){
 
 void loadIngrts(){
     //loadIngredient("obj/banana/banana.obj");
-    //loadIngredient("obj/orange/orange.obj");
-    loadIngredient("obj/ktc_table/ktc_table.obj");
+    loadIngredient("obj/orange/orange.obj");
+    //loadIngredient("obj/ktc_table/ktc_table.obj");
 }
 
 
@@ -193,13 +193,13 @@ void draw3DScene(){
         up[0], up[1], up[2]
     );
     
-    glPushMatrix();
-    glColor3f(1,0,0);
+    //glPushMatrix();
+    //glColor3f(1,0,0);
     
     //drawFloor();
     displayIngrts();
 
-    glPopMatrix();
+    //glPopMatrix();
 
 }
 
@@ -294,10 +294,10 @@ int main(int argc, char** argv) {
     glutSpecialFunc(specialKeyboard);
 
     callBackInit();
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
-    glEnable(GL_BLEND);
+    //glEnable(GL_DEPTH_TEST);
+    //glEnable(GL_CULL_FACE);
+    //glCullFace(GL_BACK);
+    //glEnable(GL_BLEND);
     loadIngrts();
     glutMainLoop();
 

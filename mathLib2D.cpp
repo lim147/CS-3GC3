@@ -234,7 +234,8 @@ Vec3D Vec3D::multiply(float scalar){
 }
 
 Vec3D Vec3D::crossMultiply(Vec3D a){
-	float tempX;
-	float tempY;
-	float tempZ;
+	float tempX = this->mY * a.mZ - this->mZ * a.mY;
+	float tempY = this->mZ * a.mX - this->mX * a.mZ;
+	float tempZ = this->mX * a.mY - this->mY * a.mX;
+	return Vec3D(tempX,tempY,tempZ);
 }

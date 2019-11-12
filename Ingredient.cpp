@@ -7,6 +7,8 @@
 #include <cstring>
 #include <fstream>
 #include <string>
+#include <sstream>
+#include <vector>
 
 using namespace std;
 
@@ -26,75 +28,151 @@ Ingredient::Ingredient(float a, float b, float c)
 	state = false; //initially not being used
 }
 
+vector<string> split (const string &s, char delim) {
+    vector<string> result;
+    stringstream ss (s);
+    string item;
+
+    while (getline (ss, item, delim)) {
+        result.push_back (item);
+    }
+
+    return result;
+}
 
 //load the object file
 bool Ingredient::loadObject(const char* filename)
 {
 	cout << "Loaded object" << endl;
-	
-	/*
-	std::vector <unsigned int> vertexIndices, uvIndices, normalIndices;
-	std::vector <Point3D> temp_vertices; //mesh
-	std::vector <Point2D> temp_uvs; //texture
-	std::vector <Vec3D> temp_normals; //normals
-	*/
 
-	FILE * file = fopen(filename, "r");
+    // Counters
+    int p = 0;
+    int t = 0;
+    int n = 0;
+    int f = 0;
+    
+    // Open OBJ file
+    ifstream inOBJ;
+    inOBJ.open(filename);
+    if(!inOBJ.good())
+    {
+        cout << "ERROR OPENING OBJ FILE" << endl;
+        exit(1);
+    }
+    
+    // Read OBJ file
+    while(!inOBJ.eof())
+    {
+        string line;
+        getline(inOBJ, line);
+        string type = line.substr(0,2);
+        
+        // Positions
+        if(type.compare("v ") == 0)
+        {
+    		// 1
+    		// Copy line for parsing
+    		char* l = new char[line.size()+1];
+    		memcpy(l, line.c_str(), line.size()+1);
+    		        
+    		// 2
+    		// Extract tokens
+    		Point3D vertex; // Create a Point3D to hold the values
+    		strtok(l, " "); // Skips past the "v" part
 
-	
-	if( file == NULL ){
-	    printf("Impossible to open the file !\n");
-	    return false;
-	}
-	
-	while (1){
-		char lineHeader[128]; 
-		int res = fscanf(file, "%s", lineHeader); // LineHeader is the first word of the line
-		if (res == EOF)
-			break; // end of file
+    		//The stof() function in C++ interprets the contents of a string as a floating point number
+    		vertex.mX = stof(strtok(NULL, " "));
 
+    		vertex.mY = stof(strtok(NULL, " ")); 
+    		vertex.mZ = stof(strtok(NULL, " ")); 
 
-		// If we are on a vertice line, then there are three floats
-		if (strcmp (lineHeader, "v") == 0){ 
-			Point3D vertex;
-			// Now read the rest of the line and store it in vertex
-			fscanf(file, "%f %f %f\n", &vertex.mX, &vertex.mY, &vertex.mZ );
-			temp_vertices.push_back(vertex);
+    		temp_vertices.push_back(vertex);
+
+    		// 3
+    		// Wrap up
+    		delete[] l;
+    		p++;
+        }
+	        
+		        // Texels
+		else if(type.compare("vt") == 0)
+		{
+		    char* l = new char[line.size()+1];
+		    memcpy(l, line.c_str(), line.size()+1);
+
+			Point2D uv;      
+		    strtok(l, " ");
+
+		    uv.mX = stof(strtok(NULL, " ")); 
+		    uv.mY = stof(strtok(NULL, " "));
+
+		    temp_uvs.push_back(uv);
+
+		    delete[] l;
+		    t++;
+		}
+		        
+		// Normals
+		else if(type.compare("vn") == 0)
+		{
+		    char* l = new char[line.size()+1];
+		    memcpy(l, line.c_str(), line.size()+1);
+		            
+		    Vec3D normal;
+		    strtok(l, " ");
+		    normal.mX = stof(strtok(NULL, " "));
+		    normal.mY = stof(strtok(NULL, " "));
+		    normal.mZ = stof(strtok(NULL, " "));
+
+		    temp_normals.push_back(normal);
+		            
+		    delete[] l;
+		    n++;		
 		}
 
-		//If we are on a vt line, then there are two floats
-		else if (strcmp (lineHeader, "vt" ) == 0) {
-			Point2D uv;
-			fscanf(file, "%f %f\n", &uv.mX, &uv.mY );
-			temp_uvs.push_back(uv);
-		}
+/*
+		    int matches = fscanf(file, "%d/%d/%d %d/%d/%d %d/%d/%d\n", 
+		    	&vertexIndex[0], &uvIndex[0], &normalIndex[0], 
+		    	&vertexIndex[1], &uvIndex[1], &normalIndex[1], 
+		    	&vertexIndex[2], &uvIndex[2], &normalIndex[2] );
+*/   
 
-		else if (strcmp (lineHeader, "vn" ) == 0) {
-			Vec3D normal;
-			fscanf(file, "%f %f %f\n", &normal.mX, &normal.mY, &normal.mZ);
-			temp_normals.push_back(normal);
-		}
+		// Faces
+		else if(type.compare("f ") == 0)
+		{
+		    char* l = new char[line.size()+1];
+		    memcpy(l, line.c_str(), line.size()+1);
 
-		else if ( strcmp( lineHeader, "f" ) == 0 ){
-		    std::string vertex1, vertex2, vertex3;
-		    unsigned int vertexIndex[3], uvIndex[3], normalIndex[3];
-		    int matches = fscanf(file, "%d/%d/%d %d/%d/%d %d/%d/%d\n", &vertexIndex[0], &uvIndex[0], &normalIndex[0], &vertexIndex[1], &uvIndex[1], &normalIndex[1], &vertexIndex[2], &uvIndex[2], &normalIndex[2] );
-		    if (matches != 9){
-		        printf("File can't be read by our simple parser : ( Try exporting with other options\n");
+		    /*
+		    string str = l;
+		    vector<string> v = split(str, ' ');
+		    v.erase (myvector.begin()); // deletes the f from the vector? 
+		    vector<string> v2; // Second vector to hold the numbers
+
+		    for(std::size_t i=0; i<v.size(); ++i) 
+    			v2.push_back(split(v[i], ' ')); 
+			 //f 1214/1543/426 1215/1545/358 1172/1546/369 1173/1544/370
+		     */  
+		        
+		    strtok(l, " ");
+		    for(int i=0; i<3; i++){
+		    	vertexIndices.push_back(stof(strtok(NULL, " /")));
+		    	uvIndices    .push_back(stof(strtok(NULL, " /")));
+		    	normalIndices.push_back(stof(strtok(NULL, " /")));
+		    	//f 140/154/127 119/153/126 135/176/149 155/167/140		    	
 		    }
-		    vertexIndices.push_back(vertexIndex[0]);
-		    vertexIndices.push_back(vertexIndex[1]);
-		    vertexIndices.push_back(vertexIndex[2]);
-		    uvIndices    .push_back(uvIndex[0]);
-		    uvIndices    .push_back(uvIndex[1]);
-		    uvIndices    .push_back(uvIndex[2]);
-		    normalIndices.push_back(normalIndex[0]);
-		    normalIndices.push_back(normalIndex[1]);
-		    normalIndices.push_back(normalIndex[2]);
+
+		    delete[] l;
+		    f++;
 		}
 
 	}
-	return true;
+	    // Close OBJ file
+	    inOBJ.close();
+	    return true;
+}
+
+
 
 /*
 //load materials from .mit file
