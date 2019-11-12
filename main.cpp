@@ -59,15 +59,14 @@ GLdouble eye[] = {30, 30, 30};
 GLdouble lookAt[] = { 0, 0, 0 };
 GLdouble up[] = { 0, 1, 0 };
 
-<<<<<<< HEAD
+
 //Timer
 int timer = 0;
-=======
 GLfloat ambient[4] = { 0.1, 0.1, 0.1, 1 };
 GLfloat diffuse[4] = { 1, 1, 1, 1 };
 GLfloat specular[4] = { 1, 1, 1, 1 };
 GLfloat lightPos[4] = { 30, 30, 20, 1 };
->>>>>>> 75fdd0ee49cc6daa3665fed7be8fc4bb6e851f61
+
 
 // Array for generating the room ( There is no roof)
 float verts[8][3] = {{-10, -10, 10},
@@ -294,20 +293,12 @@ int main(int argc, char** argv) {
     glutKeyboardFunc(keyboard);
     glutSpecialFunc(specialKeyboard);
 
-<<<<<<< HEAD
-    //glEnable(GL_DEPTH_TEST);
-    //glEnable(GL_CULL_FACE);
-    //glCullFace(GL_BACK);
-    //glEnable(GL_BLEND);
     callBackInit();
-    //loadIngredients();
-=======
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
     glEnable(GL_BLEND);
     loadIngrts();
->>>>>>> 75fdd0ee49cc6daa3665fed7be8fc4bb6e851f61
     glutMainLoop();
 
     return 0;
