@@ -59,19 +59,14 @@ public:
 class Particle {
 public:
     Particle();
-    newPos();
-    gravity();
+    //newPos();
+    //gravity();
 
     Point3D location;
     Vec3D direction;
     Vec3D rotation;
     float speed;
     int mC [3];
-    
-    
-    
-    
-    
     int size;
     int material;
     int age;

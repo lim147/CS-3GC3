@@ -4,6 +4,7 @@
 
 typedef tuple <int,int,int> color;
 
+
 // Point2D Class
 
 /**
@@ -117,26 +118,11 @@ Point2D Vec2D::movePoint(Point2D source){
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 Particle::Particle()
 {
+	this->location.mX = 0;
+    this->location.mY = 0;
+    this->location.mZ = 0;
     //initial direction:
     this->direction.mX = (((double)rand() / RAND_MAX) - 0.5); 
     this->direction.mY = (((double)rand() / RAND_MAX) - 0.5); 
@@ -149,11 +135,11 @@ Particle::Particle()
 
     //initial speed
 	this->speed = 1.008;
-	
+
 	//set the color:
-    this->c[0] = 0;
-    this->c[1] = 0;
-    this->c[2] = 1;
+    this->mC[0] = 0;
+    this->mC[1] = 0;
+    this->mC[2] = 1;
 
     //size: 0.05
     this->size = 0.05;
@@ -167,15 +153,7 @@ Particle::Particle()
 
 }
 
-
-void Particle::initialize()
-{
-    this->location.mX = 0;
-    this->location.mY = 0;
-    this->location.mZ = 0;
-
-}
-
+/*
 void Particle::newPos()
 {
     this->position.px = this->position.px + this->direction.dx * speed;
@@ -187,21 +165,7 @@ void Particle::gravity()
 {
     this->direction.dy -= 0.007;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+*/
 
 // Point3D Class
 Point3D::Point3D(){

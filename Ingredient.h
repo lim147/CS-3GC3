@@ -14,7 +14,7 @@ public:
 
 	bool state;
 
-	void loadObject(const char* filename);
+	bool loadObject(const char* filename);
 	//void loadtexture(const char* filename);
 
 
