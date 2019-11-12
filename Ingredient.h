@@ -1,6 +1,7 @@
 #ifndef ingredient_h
 #define ingredient_h
 
+#include "mathLib2D.h"
 #include <vector>
 
 class Ingredient{
@@ -11,6 +12,11 @@ public:
 	float px;
 	float py;
 	float pz;
+
+	std::vector <unsigned int> vertexIndices, uvIndices, normalIndices;
+	std::vector <Point3D> temp_vertices; //mesh
+	std::vector <Point2D> temp_uvs; //texture
+	std::vector <Vec3D> temp_normals; //normals
 
 	bool state;
 

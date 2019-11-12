@@ -67,7 +67,7 @@ public:
     Vec3D rotation;
     float speed;
     int mC [3];
-    int size;
+    float size;
     int material;
     int age;
 };

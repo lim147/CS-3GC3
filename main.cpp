@@ -53,12 +53,21 @@ Tools Required:
 - Knife, Pot, Pan
 */
 
+vector<Ingredient> ll;
+
 GLdouble eye[] = {30, 30, 30};
 GLdouble lookAt[] = { 0, 0, 0 };
 GLdouble up[] = { 0, 1, 0 };
 
+<<<<<<< HEAD
 //Timer
 int timer = 0;
+=======
+GLfloat ambient[4] = { 0.1, 0.1, 0.1, 1 };
+GLfloat diffuse[4] = { 1, 1, 1, 1 };
+GLfloat specular[4] = { 1, 1, 1, 1 };
+GLfloat lightPos[4] = { 30, 30, 20, 1 };
+>>>>>>> 75fdd0ee49cc6daa3665fed7be8fc4bb6e851f61
 
 // Array for generating the room ( There is no roof)
 float verts[8][3] = {{-10, -10, 10},
@@ -105,11 +114,64 @@ void drawFloor() // Floor of the room, change this to do the room
 }
 
 // Ingredient information should only need to be loaded once
-void loadIngredients(){
-	Ingredient i;
-	i = Ingredient();
-	i.loadObject("obj\banana.obj");
-	cout << "Done" << endl;
+void loadIngredient(const char* filename){
+	Ingredient ingredient;
+	ingredient = Ingredient();
+	ingredient.loadObject(filename);
+    /*
+    cout << ingredient.vertexIndices.size() << endl;
+    cout << ingredient.uvIndices.size() << endl;
+    cout << ingredient.normalIndices.size() << endl;
+    */
+    ll.push_back(ingredient);
+}
+
+
+
+void displayIngredient(int index){
+    //display ingredient
+    glPushMatrix();
+        //glCullFace(GL_FRONT);
+        glBegin(GL_TRIANGLES);
+        int size = ll[index].vertexIndices.size();
+        // Render each triangle
+        for (int i = 0; i < size; i++) {
+            //normal:
+            Vec3D v = ll[index].temp_normals[ll[index].normalIndices[i]];
+            glNormal3f(v.mX, v.mY, v.mZ);
+    
+            //texture:
+            Point2D t = ll[index].temp_uvs[ll[index].uvIndices[i]];
+            glTexCoord2f(t.mX, t.mY);
+            cout << t.mX << endl;
+
+            //vertex:
+            Point3D m = ll[index].temp_vertices[ll[index].vertexIndices[i]];
+            glVertex3f(m.mX, m.mY, m.mZ);
+            //cout << m.mX << endl;
+        }
+
+        glEnd();
+    glPopMatrix();
+
+}
+
+
+void loadIngrts(){
+    //loadIngredient("obj/banana/banana.obj");
+    //loadIngredient("obj/orange/orange.obj");
+    loadIngredient("obj/ktc_table/ktc_table.obj");
+}
+
+
+void displayIngrts(){
+    for (int index = 0; index < ll.size(); index++)
+    {
+
+        glScalef(0.4, 0.4, 0.4);
+        //glRotatef(180, 0, 1, 0);
+        displayIngredient(index);
+    }
 }
 
 void draw3DScene(){
@@ -120,6 +182,12 @@ void draw3DScene(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
+
+    glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
+    glLightfv(GL_LIGHT0, GL_AMBIENT, ambient);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, specular);
+
     gluLookAt(
         eye[0], eye[1], eye[2],
         lookAt[0], lookAt[1], lookAt[2],
@@ -128,7 +196,9 @@ void draw3DScene(){
     
     glPushMatrix();
     glColor3f(1,0,0);
-    drawFloor();
+    
+    //drawFloor();
+    displayIngrts();
 
     glPopMatrix();
 
@@ -212,18 +282,32 @@ int main(int argc, char** argv) {
     glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH);
     glutCreateWindow("Prototype");
 
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+    glEnable(GL_DEPTH_TEST);
+
+    glEnable(GL_TEXTURE_2D);
+
     glutTimerFunc(0, FPS, 0);
     glutReshapeFunc(handleReshape);
     glutDisplayFunc(display);
     glutKeyboardFunc(keyboard);
     glutSpecialFunc(specialKeyboard);
 
+<<<<<<< HEAD
     //glEnable(GL_DEPTH_TEST);
     //glEnable(GL_CULL_FACE);
     //glCullFace(GL_BACK);
     //glEnable(GL_BLEND);
     callBackInit();
     //loadIngredients();
+=======
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+    glEnable(GL_BLEND);
+    loadIngrts();
+>>>>>>> 75fdd0ee49cc6daa3665fed7be8fc4bb6e851f61
     glutMainLoop();
 
     return 0;

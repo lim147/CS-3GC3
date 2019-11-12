@@ -232,3 +232,9 @@ Point3D Vec3D::movePoint(Point3D source){
 Vec3D Vec3D::multiply(float scalar){
 	return Vec3D(this->mX*scalar, this->mY*scalar, this->mZ*scalar);
 }
+
+Vec3D Vec3D::crossMultiply(Vec3D a){
+	float tempX;
+	float tempY;
+	float tempZ;
+}

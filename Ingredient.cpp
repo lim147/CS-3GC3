@@ -32,12 +32,16 @@ bool Ingredient::loadObject(const char* filename)
 {
 	cout << "Loaded object" << endl;
 	
+	/*
 	std::vector <unsigned int> vertexIndices, uvIndices, normalIndices;
-	std::vector <Point3D> temp_vertices;
-	std::vector <Point2D> temp_uvs;
-	std::vector <Vec3D> temp_normals;
+	std::vector <Point3D> temp_vertices; //mesh
+	std::vector <Point2D> temp_uvs; //texture
+	std::vector <Vec3D> temp_normals; //normals
+	*/
+
 	FILE * file = fopen(filename, "r");
 
+	
 	if( file == NULL ){
 	    printf("Impossible to open the file !\n");
 	    return false;
@@ -91,10 +95,6 @@ bool Ingredient::loadObject(const char* filename)
 
 	}
 	return true;
-
-
-
-}
 
 /*
 //load materials from .mit file
