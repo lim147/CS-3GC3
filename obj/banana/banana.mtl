@@ -1,12 +1,14 @@
-# Blender MTL File: 'banana.blend'
+# Blender MTL File: 'None'
 # Material Count: 1
 
-newmtl Material.001
-Ns 225.000000
+newmtl Material_MainTexture
+Ns 47.058813
 Ka 1.000000 1.000000 1.000000
-Kd 0.800000 0.477240 0.000000
-Ks 0.500000 0.500000 0.500000
+Kd 0.640000 0.464954 0.101317
+Ks 0.150823 0.150823 0.150823
 Ke 0.0 0.0 0.0
-Ni 1.450000
+Ni 1.000000
 d 1.000000
 illum 2
+map_Bump banana_1/NMap.png
+map_Kd banana_1/MainTexture.png
