@@ -56,7 +56,8 @@ Tools Required:
 
 //dictionary of ingredients
 map<string, Ingredient> ll;
-//vector<Ingredient> ll;
+
+int scene = 1;
 
 GLdouble eye[] = {30, 30, 30};
 GLdouble lookAt[] = { 0, 0, 0 };
@@ -254,6 +255,7 @@ void loadIngrts(){
 
 
 void displaySaladIngrts(){
+    
     glPushMatrix();
         glScalef(0.5, 0.5, 0.5);
         displayIngredient("ktc_table");
@@ -268,7 +270,7 @@ void displaySaladIngrts(){
     //displayIngredient("cutMango");
 
     glPushMatrix();
-        glTranslatef(15, 15, 5);
+        glTranslatef(13, 15, 5);
         glScalef(0.5, 0.5, 0.5);
         displayIngredient("banana");
     glPopMatrix();
@@ -287,7 +289,7 @@ void displaySaladIngrts(){
         glScalef(0.4, 0.4, 0.4);
         displayIngredient("mango");
     glPopMatrix();
-
+    
 }
 
 
@@ -361,7 +363,12 @@ void draw3DScene(){
 
     glPushMatrix();
         glRotatef(45, 0, 1, 0);
-        displaySaladIngrts();
+        if (scene == 1)
+            displaySaladIngrts();
+        if (scene == 2)
+            displayCurryIngrts();
+        if (scene == 3)
+            displaySteakIngrts();
     glPopMatrix();
 
     //glPopMatrix();
@@ -391,6 +398,12 @@ void keyboard(unsigned char key, int x, int y)
 {
     if (key == 'q' or key == 27)
         exit(0);
+    if (key == '1')
+        scene = 1;
+    if (key == '2')
+        scene = 2;
+    if (key == '3')
+        scene = 3;
 }
 
 // Mouse Handler for first press and first release
@@ -410,7 +423,7 @@ void passive (int x, int y){
 void FPS(int val)
 {
     glutPostRedisplay(); //registers "display" as the display callback function
-    glutTimerFunc(10, FPS, 0); //1sec = 1000, 60fps = 1000/60 = ~17
+    glutTimerFunc(5, FPS, 0); //1sec = 1000, 60fps = 1000/60 = ~17
 }
 
 void specialKeyboard(int key, int x, int y)
