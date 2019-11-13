@@ -287,9 +287,9 @@ void displaySaladIngrts(){
     glPopMatrix();
 
     glPushMatrix();
-        glTranslatef(8, 14, -5);
+        glTranslatef(8, 14, -2);
         glRotatef(90, 1, 0, 0);
-        glScalef(0.4, 0.4, 0.4);
+        glScalef(0.5, 0.5, 0.5);
         displayIngredient("mango");
     glPopMatrix();
     
