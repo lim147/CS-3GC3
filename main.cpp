@@ -429,10 +429,10 @@ void FPS(int val)
 
 void specialKeyboard(int key, int x, int y)
 {
-    if (key == GLUT_KEY_UP){}
-    if (key == GLUT_KEY_DOWN){}
-    if (key == GLUT_KEY_LEFT){}
-    if (key == GLUT_KEY_RIGHT){}
+    if (key == GLUT_KEY_UP){ eye[1]++; }
+    if (key == GLUT_KEY_DOWN){ eye[1]--; }
+    if (key == GLUT_KEY_LEFT){ eye[0]--; }
+    if (key == GLUT_KEY_RIGHT){ eye[0]++; }
 }
 
 //Idle function 
