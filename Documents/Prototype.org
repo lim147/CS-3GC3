@@ -7,9 +7,13 @@
 One of the features that we have implemented is the room environment. 
 We set up the lighting and materials. The walls and floor are different colours so they are distinguishable for eachother.
 We also have gathered all the objects that we need in obj files. Like a banana, orange, meat, mango, tomato as well as tools that we need in our project as well like knife, pot, pan and table.
-We have also have the objects that we will use to represent other objects in other states. Like a cut tomato and cut onion.   
-We created a obj loader that will load the obj files into the environment. This obj reader reads the obj files and converts the information in the file to opengl to draw.
+We have the objects that we will use to represent other objects in other states. Like a cut tomato and cut onion.   
+We created a obj loader that will load the obj files into the environment. This obj reader reads the obj files and converts the information in the file to opengl to draw. And we used this obj loader to add the objects into the room. 
+By default all the fruits are loaded in to the room, if you press '2' then the ingredients will be changed to make curry and if you press '3' then the ingredients will be changed to make steak. 
+The camera postion can also be changed with the right and left arrow. 
 
 * Features To Be Implemented/Fixed 
-One of the features that we need to fix is rendering the objects from the obj files. Our obj reader loads the information of the object but displays the object differently from what we would expect it to look. 
-We also need to implement a timer function that represents how much time the user has left. We also need to implement a scoring system, to represent the score the user has in the game. 
+One of the features that we need to fix is rendering the objects from the obj files. Our obj reader loads the information of the object, our next step is the load the textures and materials of the objects. 
+We also noticed that our program loads very slowly, we will fix this by only loading objects based on the user input, for example if they choose to make curry, we will input the curry ingredients only. 
+We also need to implement a timer function that represents how much time the user has left. We also need to implement a scoring system, to represent the score the user has in the game.
+

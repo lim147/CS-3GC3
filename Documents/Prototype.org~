@@ -4,5 +4,12 @@
 #+Options: toc:nil num:nil
 
 * Current Features and Commands
+One of the features that we have implemented is the room environment. 
+We set up the lighting and materials. The walls and floor are different colours so they are distinguishable for eachother.
+We also have gathered all the objects that we need in obj files. Like a banana, orange, meat, mango, tomato as well as tools that we need in our project as well like knife, pot, pan and table.
+We have also have the objects that we will use to represent other objects in other states. Like a cut tomato and cut onion.   
+We created a obj loader that will load the obj files into the environment. This obj reader reads the obj files and converts the information in the file to opengl to draw.
 
-* Features To Be Implemented
+* Features To Be Implemented/Fixed 
+One of the features that we need to fix is rendering the objects from the obj files. Our obj reader loads the information of the object but displays the object differently from what we would expect it to look. 
+We also need to implement a timer function that represents how much time the user has left. We also need to implement a scoring system, to represent the score the user has in the game. 
