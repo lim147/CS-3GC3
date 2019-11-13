@@ -10,6 +10,7 @@
 #endif
 #include <stdio.h>
 #include <stdlib.h>
+#include <map>
 
 #include "Ingredient.h"
 #include "mathLib2D.h"
@@ -53,7 +54,9 @@ Tools Required:
 - Knife, Pot, Pan
 */
 
-vector<Ingredient> ll;
+//dictionary of ingredients
+map<string, Ingredient> ll;
+//vector<Ingredient> ll;
 
 GLdouble eye[] = {30, 30, 30};
 GLdouble lookAt[] = { 0, 0, 0 };
@@ -99,11 +102,11 @@ GLfloat materialShiny[2] = {
 
 //Timer
 int timer = 0;
-<<<<<<< HEAD
-GLfloat ambient[4] = { 0.2, 0.2, 0.2, 1 };
-GLfloat diffuse[4] = { 0.8, 0.8, 0.8, 1 };
-GLfloat specular[4] = { 1, 1, 1, 1 };
-GLfloat lightPos[4] = { 30, 30, 20, 1 };
+
+//GLfloat ambient[4] = { 0.2, 0.2, 0.2, 1 };
+//GLfloat diffuse[4] = { 0.8, 0.8, 0.8, 1 };
+//GLfloat specular[4] = { 1, 1, 1, 1 };
+//GLfloat lightPos[4] = { 30, 30, 20, 1 };
 
 
 
@@ -163,39 +166,39 @@ void drawFloor() // Floor of the room, change this to do the room
 }
 
 // Ingredient information should only need to be loaded once
-void loadIngredient(const char* filename){
-	Ingredient ingredient;
-	ingredient = Ingredient();
-	ingredient.loadObject(filename);
+void loadIngredient(const char* filename, string name){
+    Ingredient ingredient;
+    ingredient = Ingredient();
+    ingredient.loadObject(filename);
     /*
     cout << ingredient.vertexIndices.size() << endl;
     cout << ingredient.uvIndices.size() << endl;
     cout << ingredient.normalIndices.size() << endl;
     */
-    ll.push_back(ingredient);
+    ll[name] = ingredient;
 }
 
 
 
-void displayIngredient(int index){
+void displayIngredient(string name){
     //display ingredient
     glPushMatrix();
         //glCullFace(GL_FRONT);
-        glBegin(GL_POLYGON);
-        int size = ll[index].vertexIndices.size();
+        glBegin(GL_TRIANGLES);
+        int size = ll[name].vertexIndices.size();
         // Render each triangle
         for (int i = 0; i < size; i++) {
             //normal:
-            Vec3D v = ll[index].temp_normals[ll[index].normalIndices[i]];
+            Vec3D v = ll[name].temp_normals[ll[name].normalIndices[i]];
             glNormal3f(v.mX, v.mY, v.mZ);
     
             //texture:
-            Point2D t = ll[index].temp_uvs[ll[index].uvIndices[i]];
+            Point2D t = ll[name].temp_uvs[ll[name].uvIndices[i]];
             glTexCoord2f(t.mX, t.mY);
             //cout << t.mX << endl;
 
             //vertex:
-            Point3D m = ll[index].temp_vertices[ll[index].vertexIndices[i]];
+            Point3D m = ll[name].temp_vertices[ll[name].vertexIndices[i]];
             glVertex3f(m.mX, m.mY, m.mZ);
             //cout << m.mX << endl;
         }
@@ -207,20 +210,64 @@ void displayIngredient(int index){
 
 
 void loadIngrts(){
-    //loadIngredient("obj/banana/banana.obj");
-    loadIngredient("obj/orange/orange.obj");
-    //loadIngredient("obj/ktc_table/ktc_table.obj");
+    
+    loadIngredient("obj/ktc_table/ktc_table.obj", "ktc_table");
+
+    //fruit:
+    loadIngredient("obj/banana/banana.obj", "banana");
+    loadIngredient("obj/orange/orange.obj", "orange");
+    loadIngredient("obj/mango/mango.obj", "mango");
+    
+
+    //vegetable:
+    loadIngredient("obj/onion/onion.obj", "onion");
+    loadIngredient("obj/potato/potato.obj", "potato");
+    loadIngredient("obj/tomato/tomato.obj", "tomato");
+    
+
+    //meat
+    loadIngredient("obj/steak/steak.obj", "steak");
+    
+
+    //tools
+    loadIngredient("obj/pot/pot.obj", "pot");
+    loadIngredient("obj/pan/pan.obj", "pan");
+    loadIngredient("obj/knife/knife.obj", "knife");
+    
+
+    //cut ingredients:
+    loadIngredient("obj/cutOnion/cutOnion.obj", "cutOnion");
+    loadIngredient("obj/cutTomato/cutTomato.obj", "cutTomato");
+    loadIngredient("obj/cutPotato/cutPotato.obj", "cutPotato");
+
+    loadIngredient("obj/cutBanana/cutBanana.obj", "cutBanana");
+    loadIngredient("obj/cutMango/cutMango.obj", "cutMango");
+
+    //cooked beef
+    loadIngredient("obj/cookedBeef/cookedBeef.obj", "cookedBeef");
+
+    
+    
+    
 }
 
 
-void displayIngrts(){
-    for (int index = 0; index < ll.size(); index++)
-    {
 
-        glScalef(0.4, 0.4, 0.4);
-        //glRotatef(180, 0, 1, 0);
-        displayIngredient(index);
-    }
+void displayIngrts(){
+    
+    //glScalef(0.5, 0.5, 0.5);
+    //displayIngredient("ktc_table");
+
+    //glScalef(0.05, 0.05, 0.05);
+    //displayIngredient("pot");
+
+    //glScalef(0.2, 0.2, 0.2);
+    //displayIngredient("pan");
+
+    //glTranslatef(-10, 0, 0);
+    //displayIngredient("cutMango");
+
+    displayIngredient("banana");
 }
 
 void draw3DScene(){
@@ -277,8 +324,8 @@ void handleReshape(int w, int h) {
 
 void keyboard(unsigned char key, int x, int y)
 {
-	if (key == 'q' or key == 27)
-		exit(0);
+    if (key == 'q' or key == 27)
+        exit(0);
 }
 
 // Mouse Handler for first press and first release
@@ -297,8 +344,8 @@ void passive (int x, int y){
 
 void FPS(int val)
 {
-	glutPostRedisplay(); //registers "display" as the display callback function
-	glutTimerFunc(10, FPS, 0); //1sec = 1000, 60fps = 1000/60 = ~17
+    glutPostRedisplay(); //registers "display" as the display callback function
+    glutTimerFunc(10, FPS, 0); //1sec = 1000, 60fps = 1000/60 = ~17
 }
 
 void specialKeyboard(int key, int x, int y)
