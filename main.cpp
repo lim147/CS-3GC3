@@ -280,14 +280,14 @@ void displaySaladIngrts(){
 
 
     glPushMatrix();
-        glTranslatef(15, 13, -1);
+        glTranslatef(15, 13, -3);
         glRotatef(-90, 1, 0, 0);
         glScalef(0.3, 0.3, 0.3);
         displayIngredient("orange");
     glPopMatrix();
 
     glPushMatrix();
-        glTranslatef(8, 14, -1);
+        glTranslatef(8, 14, -5);
         glRotatef(90, 1, 0, 0);
         glScalef(0.4, 0.4, 0.4);
         displayIngredient("mango");
@@ -302,14 +302,40 @@ void displayCurryIngrts(){
         glScalef(0.5, 0.5, 0.5);
         displayIngredient("ktc_table");
     glPopMatrix();
-    //glScalef(0.05, 0.05, 0.05);
-    //displayIngredient("pot");
 
-    //glScalef(0.2, 0.2, 0.2);
-    //displayIngredient("pan");
+    glPushMatrix();
+        glTranslatef(-12, 15, -1); // z value larger moves it close to the camera
+        glScalef(0.3, 0.3, 0.3);
+        displayIngredient("potato");
+    glPopMatrix();
 
-    //glTranslatef(-10, 0, 0);
-    //displayIngredient("cutMango");
+    glPushMatrix();
+        glTranslatef(-8, 13, -1);
+        glRotatef(-90, 1, 0, 0);
+        glScalef(0.2, 0.2, 0.2);
+        displayIngredient("tomato");
+    glPopMatrix();
+
+    glPushMatrix();
+        glTranslatef(-13, 15, 7); // z value larger moves it close to the camera
+        glScalef(0.08, 0.08, 0.08);
+        displayIngredient("onion");
+    glPopMatrix();
+
+    glPushMatrix();
+
+        glTranslatef(-10, 15, 7); // z value larger moves it close to the camera
+        glRotatef(90, 1, 0, 0); // rotating x will roll it towards you
+        glScalef(0.3, 0.3, 0.3); // rotating z will rotate counter clockwise on clock
+        displayIngredient("knife");
+    glPopMatrix();
+
+    glPushMatrix();
+        glTranslatef(2, 14, -1); // x value smaller moves to the left
+        //glRotatef(90, 1, 0, 0);
+        glScalef(0.037, 0.037, 0.037);
+        displayIngredient("pot");
+    glPopMatrix();
 
 }
 
@@ -320,14 +346,29 @@ void displaySteakIngrts(){
         glScalef(0.5, 0.5, 0.5);
         displayIngredient("ktc_table");
     glPopMatrix();
-    //glScalef(0.05, 0.05, 0.05);
-    //displayIngredient("pot");
 
-    //glScalef(0.2, 0.2, 0.2);
-    //displayIngredient("pan");
+    glPushMatrix();
+        glTranslatef(-3, 15, 7); // x value smaller moves to the left
+        glRotatef(270, 1, 0, 0);
+        glScalef(0.09, 0.09, 0.09);
+        displayIngredient("pan");
+    glPopMatrix();
 
-    //glTranslatef(-10, 0, 0);
-    //displayIngredient("cutMango");
+
+    glPushMatrix();
+        glTranslatef(8, 14, 4);
+        glRotatef(0, 1, 0, 0);
+        glScalef(0.4, 0.4, 0.4);
+        displayIngredient("steak");
+    glPopMatrix();
+
+    glPushMatrix();
+
+        glTranslatef(-10, 15, 7); // z value larger moves it close to the camera
+        glRotatef(90, 1, 0, 0); // rotating x will roll it towards you
+        glScalef(0.3, 0.3, 0.3); // rotating z will rotate counter clockwise on clock
+        displayIngredient("knife");
+    glPopMatrix();
 
 }
 
