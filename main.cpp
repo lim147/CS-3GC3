@@ -214,11 +214,13 @@ void loadIngrts(){
     
     loadIngredient("obj/ktc_table/ktc_table.obj", "ktc_table");
 
+    
     //fruit:
     loadIngredient("obj/banana/banana.obj", "banana");
     loadIngredient("obj/orange/orange.obj", "orange");
     loadIngredient("obj/mango/mango.obj", "mango");
     
+
 
     //vegetable:
     loadIngredient("obj/onion/onion.obj", "onion");
@@ -247,7 +249,7 @@ void loadIngrts(){
 
     //cooked beef
     loadIngredient("obj/cookedBeef/cookedBeef.obj", "cookedBeef");
-
+    
     
     
     
@@ -424,7 +426,7 @@ void passive (int x, int y){
 void FPS(int val)
 {
     glutPostRedisplay(); //registers "display" as the display callback function
-    glutTimerFunc(5, FPS, 0); //1sec = 1000, 60fps = 1000/60 = ~17
+    glutTimerFunc(17, FPS, 0); //1sec = 1000, 60fps = 1000/60 = ~17
 }
 
 void specialKeyboard(int key, int x, int y)
@@ -480,6 +482,7 @@ int main(int argc, char** argv) {
     //glEnable(GL_BLEND);
     loadIngrts();
     glutMainLoop();
+
 
     return 0;
 }
