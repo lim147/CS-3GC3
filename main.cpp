@@ -120,7 +120,7 @@ float verts[8][3] = {{-10, 0, 10},
                     {10,20,-10},
                     {10, 0,-10}};
                     
-int indices[5][4] = {
+int indices[3][4] = {
                     {1,5,4,0}, //leftface 
                     {5,6,7,4}, //rightface 
                     //{2,6,7,3},
@@ -151,7 +151,7 @@ void drawFloor() // Floor of the room, change this to do the room
     glEnd();
     int vIndex;
 
-    for(int idx = 0; idx < 6; idx++){
+    for(int idx = 0; idx < 3; idx++){
             glBegin(GL_POLYGON);
             setMaterials(0);
             for (int i = 0; i < 4; i++){
@@ -253,11 +253,11 @@ void loadIngrts(){
 
 
 
-void displayIngrts(){
-    
-    //glScalef(0.5, 0.5, 0.5);
-    //displayIngredient("ktc_table");
-
+void displaySaladIngrts(){
+    glPushMatrix();
+        glScalef(0.5, 0.5, 0.5);
+        displayIngredient("ktc_table");
+    glPopMatrix();
     //glScalef(0.05, 0.05, 0.05);
     //displayIngredient("pot");
 
@@ -267,8 +267,66 @@ void displayIngrts(){
     //glTranslatef(-10, 0, 0);
     //displayIngredient("cutMango");
 
-    displayIngredient("banana");
+    glPushMatrix();
+        glTranslatef(15, 15, 5);
+        glScalef(0.5, 0.5, 0.5);
+        displayIngredient("banana");
+    glPopMatrix();
+
+
+    glPushMatrix();
+        glTranslatef(15, 13, -1);
+        glRotatef(-90, 1, 0, 0);
+        glScalef(0.3, 0.3, 0.3);
+        displayIngredient("orange");
+    glPopMatrix();
+
+    glPushMatrix();
+        glTranslatef(8, 14, -1);
+        glRotatef(90, 1, 0, 0);
+        glScalef(0.4, 0.4, 0.4);
+        displayIngredient("mango");
+    glPopMatrix();
+
 }
+
+
+//TO DO
+void displayCurryIngrts(){
+    glPushMatrix();
+        glScalef(0.5, 0.5, 0.5);
+        displayIngredient("ktc_table");
+    glPopMatrix();
+    //glScalef(0.05, 0.05, 0.05);
+    //displayIngredient("pot");
+
+    //glScalef(0.2, 0.2, 0.2);
+    //displayIngredient("pan");
+
+    //glTranslatef(-10, 0, 0);
+    //displayIngredient("cutMango");
+
+}
+
+
+//TO DO
+void displaySteakIngrts(){
+    glPushMatrix();
+        glScalef(0.5, 0.5, 0.5);
+        displayIngredient("ktc_table");
+    glPopMatrix();
+    //glScalef(0.05, 0.05, 0.05);
+    //displayIngredient("pot");
+
+    //glScalef(0.2, 0.2, 0.2);
+    //displayIngredient("pan");
+
+    //glTranslatef(-10, 0, 0);
+    //displayIngredient("cutMango");
+
+}
+
+
 
 void draw3DScene(){
     
@@ -295,9 +353,16 @@ void draw3DScene(){
     
     //glPushMatrix();
     //glColor3f(1,0,0);
-    
-    //drawFloor();
-    displayIngrts();
+    glPushMatrix();
+        glTranslatef(0, 0, -10);
+        glScalef(2, 2, 2);
+        drawFloor();
+    glPopMatrix();
+
+    glPushMatrix();
+        glRotatef(45, 0, 1, 0);
+        displaySaladIngrts();
+    glPopMatrix();
 
     //glPopMatrix();
 
