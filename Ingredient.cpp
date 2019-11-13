@@ -156,9 +156,9 @@ bool Ingredient::loadObject(const char* filename)
 		        
 		    strtok(l, " ");
 		    for(int i=0; i<3; i++){
-		    	vertexIndices.push_back(stof(strtok(NULL, " /")));
-		    	uvIndices    .push_back(stof(strtok(NULL, " /")));
-		    	normalIndices.push_back(stof(strtok(NULL, " /")));
+		    	vertexIndices.push_back(stoi(strtok(NULL, " /")));
+		    	uvIndices    .push_back(stoi(strtok(NULL, " /")));
+		    	normalIndices.push_back(stoi(strtok(NULL, " /")));
 		    	//f 140/154/127 119/153/126 135/176/149 155/167/140		    	
 		    }
 

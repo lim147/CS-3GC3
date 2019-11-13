@@ -189,16 +189,16 @@ void displayIngredient(string name){
         // Render each triangle
         for (int i = 0; i < size; i++) {
             //normal:
-            Vec3D v = ll[name].temp_normals[ll[name].normalIndices[i]];
+            Vec3D v = ll[name].temp_normals[ll[name].normalIndices[i]-1];
             glNormal3f(v.mX, v.mY, v.mZ);
     
             //texture:
-            Point2D t = ll[name].temp_uvs[ll[name].uvIndices[i]];
+            Point2D t = ll[name].temp_uvs[ll[name].uvIndices[i]-1];
             glTexCoord2f(t.mX, t.mY);
             //cout << t.mX << endl;
 
             //vertex:
-            Point3D m = ll[name].temp_vertices[ll[name].vertexIndices[i]];
+            Point3D m = ll[name].temp_vertices[ll[name].vertexIndices[i]-1];
             glVertex3f(m.mX, m.mY, m.mZ);
             //cout << m.mX << endl;
         }
