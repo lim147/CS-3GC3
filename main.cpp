@@ -99,11 +99,11 @@ GLfloat materialShiny[2] = {
 
 //Timer
 int timer = 0;
-<<<<<<< HEAD
-GLfloat ambient[4] = { 0.2, 0.2, 0.2, 1 };
-GLfloat diffuse[4] = { 0.8, 0.8, 0.8, 1 };
-GLfloat specular[4] = { 1, 1, 1, 1 };
-GLfloat lightPos[4] = { 30, 30, 20, 1 };
+
+//GLfloat ambient[4] = { 0.2, 0.2, 0.2, 1 };
+//GLfloat diffuse[4] = { 0.8, 0.8, 0.8, 1 };
+//GLfloat specular[4] = { 1, 1, 1, 1 };
+//GLfloat lightPos[4] = { 30, 30, 20, 1 };
 
 
 
