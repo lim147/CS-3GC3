@@ -128,31 +128,13 @@ bool Ingredient::loadObject(const char* filename)
 		            
 		    delete[] l;
 		    n++;		
-		}
-
-/*
-		    int matches = fscanf(file, "%d/%d/%d %d/%d/%d %d/%d/%d\n", 
-		    	&vertexIndex[0], &uvIndex[0], &normalIndex[0], 
-		    	&vertexIndex[1], &uvIndex[1], &normalIndex[1], 
-		    	&vertexIndex[2], &uvIndex[2], &normalIndex[2] );
-*/   
+		} 
 
 		// Faces
 		else if(type.compare("f ") == 0)
 		{
 		    char* l = new char[line.size()+1];
-		    memcpy(l, line.c_str(), line.size()+1);
-
-		    /*
-		    string str = l;
-		    vector<string> v = split(str, ' ');
-		    v.erase (myvector.begin()); // deletes the f from the vector? 
-		    vector<string> v2; // Second vector to hold the numbers
-
-		    for(std::size_t i=0; i<v.size(); ++i) 
-    			v2.push_back(split(v[i], ' ')); 
-			 //f 1214/1543/426 1215/1545/358 1172/1546/369 1173/1544/370
-		     */  
+		    memcpy(l, line.c_str(), line.size()+1); 
 		        
 		    strtok(l, " ");
 		    for(int i=0; i<3; i++){
