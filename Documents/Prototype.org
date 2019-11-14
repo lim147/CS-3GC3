@@ -8,9 +8,9 @@ A cooking game that takes place in a 3-D simulating kitchen, where the player se
 
 
 * Current Features and Commands
-One of the features that we have implemented is the room environment, that consists of a floor, walls, lighting and materials. Another implementation in our prototype is a obj reader function in the ingredients.cpp file that reads the obj file path passed to it, and extracts the appropriate information (mesh, texture, normals) into c++ vectors. These vectors are then used to load the objects into the room. The appropriate obj files for the ingredients/tools/textures were obtained from several sources (that are cited in the readme file), and edited as appropriate for our needs. 
+One of the features that we have implemented is the room environment, that consists of a floor, walls, lighting and materials. Another implementation in our prototype is a obj reader function in the ingredients.cpp file that reads the obj file path passed to it, and extracts the appropriate information (mesh, texture, normals, faces) into c++ vectors. These vectors are then used to load the objects into the room. The appropriate obj files for the ingredients/tools/textures were obtained from several sources (that are cited in the readme file), and edited as appropriate for our needs. 
 
-** Commands
+** Keyboard Commands
  - q - quit
  - 1 - View ingredients/objects to make salad recipe (default view)
  - 2 - View ingredients/objects to make curry recipe
