@@ -1,4 +1,4 @@
-#include "ingredient.h"
+#include "Ingredient.h"
 #include "mathLib2D.h"
 #include <stdio.h> 
 #include <stdlib.h>

@@ -1,5 +1,5 @@
-#ifndef ingredient_h
-#define ingredient_h
+#ifndef INGREDIENT_H
+#define INGREDIENT_h
 
 #include "mathLib2D.h"
 #include <vector>
