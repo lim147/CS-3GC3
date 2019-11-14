@@ -1,46 +1,52 @@
-% Created 2019-11-13 Wed 16:13
+% Created 2019-11-13 Wed 18:56
+% Intended LaTeX compiler: pdflatex
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{fixltx2e}
 \usepackage{graphicx}
+\usepackage{grffile}
 \usepackage{longtable}
-\usepackage{float}
 \usepackage{wrapfig}
 \usepackage{rotating}
 \usepackage[normalem]{ulem}
 \usepackage{amsmath}
 \usepackage{textcomp}
-\usepackage{marvosym}
-\usepackage{wasysym}
 \usepackage{amssymb}
+\usepackage{capt-of}
 \usepackage{hyperref}
-\tolerance=1000
 \author{Alice Ip, Kexin Liu, Lily Lau, Meijing Li}
 \date{November 10, 2019}
 \title{CS/SE 3GC3 - Computer Graphics Final Project}
 \hypersetup{
-  pdfkeywords={},
-  pdfsubject={},
-  pdfcreator={Emacs 24.5.1 (Org mode 8.2.10)}}
+ pdfauthor={Alice Ip, Kexin Liu, Lily Lau, Meijing Li},
+ pdftitle={CS/SE 3GC3 - Computer Graphics Final Project},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 26.3 (Org mode 9.1.9)}, 
+ pdflang={English}}
 \begin{document}
 
 \maketitle
 
 \section*{Current Features and Commands}
-\label{sec-1}
-One of the features that we have implemented is the room environment. 
-We set up the lighting and materials. The walls and floor are different colours so they are distinguishable for eachother.
-We also have gathered all the objects that we need in obj files. Like a banana, orange, meat, mango, tomato as well as tools that we need in our project as well like knife, pot, pan and table.
+\label{sec:orgbf833e3}
+One of the features that we have implemented is the room environment, that consists of a floor, walls, lighting and materials. Another implementation in our prototype is a obj reader function in the ingredients.cpp file that reads the obj file path passed to it, and extracts the appropriate information (mesh, texture, normals) into c++ vectors. These vectors are then used to load the objects into the room.
+
+\subsection*{Commands}
+\label{sec:orge3f92ac}
+
+Commands
+
+We also have gathered all the obj files necessary for our kitchen and recipes. Such objects include banana, orange, meat, mango, tomato as well as tools that we need in our project such as the knife, a pot, a pan and a kitchen counter.
 We have the objects that we will use to represent other objects in other states. Like a cut tomato and cut onion.   
-We created a obj loader that will load the obj files into the environment. This obj reader reads the obj files and converts the information in the file to opengl to draw. And we used this obj loader to add the objects into the room. 
-By default all the fruits are loaded in to the room, if you press '2' then the ingredients will be changed to make curry and if you press '3' then the ingredients will be changed to make steak. 
+
+By default, the  all the fruits are loaded in to the room, if you press '2' then the ingredients will be changed to make curry and if you press '3' then the ingredients will be changed to make steak. 
 The camera postion can also be changed with the right and left arrow. 
+Commands
 
 \section*{Features To Be Implemented/Fixed}
-\label{sec-2}
+\label{sec:orged7b5dd}
 One of the features that we need to fix is rendering the objects from the obj files. Our obj reader loads the information of the object, our next step is the load the textures and materials of the objects. 
 We also noticed that our program loads very slowly, we will fix this by only loading objects based on the user input, for example if they choose to make curry, we will input the curry ingredients only. 
 We also need to implement a timer function that represents how much time the user has left. We also need to implement a scoring system, to represent the score the user has in the game.
-% Emacs 24.5.1 (Org mode 8.2.10)
 \end{document}
