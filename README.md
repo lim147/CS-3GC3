@@ -1,7 +1,7 @@
 # 3GC3_Final_Project
 
-To compile the project, use the command "make" while in the main directory.
-
+To compile the project, use the command "make" while in the main directory. (Inside the Project Folder)
+The brief writeup is located in the "Prototype.pdf" file
 
 
 ## References: 
