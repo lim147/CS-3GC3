@@ -313,9 +313,9 @@ void loadIngrts(){
     */
     
     //loadIngredient("obj/orange/orange.obj", "orange");
-    //loadIngredient("obj/ktc_table/ktc_table.obj", "ktc_table");
+    loadIngredient("obj/ktc_table/ktc_table.obj", "ktc_table");
     //loadIngredient("obj/banana/banana.obj", "banana");
-    loadIngredient("obj/mango/mango.obj", "mango");
+    //loadIngredient("obj/mango/mango.obj", "mango");
 }
 
 
@@ -344,7 +344,7 @@ void displaySaladIngrts(){
     glPushMatrix();
         glTranslatef(15, 13, -3);
         glRotatef(-90, 1, 0, 0);
-        glScalef(0.3, 0.3, 0.3);
+        //glScalef(0.3, 0.3, 0.3);
         displayIngredient("orange");
     glPopMatrix();
 
@@ -566,7 +566,7 @@ void init()
     int height = 0;
     int max = 0;
 
-    GLubyte* mango = LoadPPM("obj/mango/mango.ppm", &width, &height, &max);
+    GLubyte* mango = LoadPPM("obj/ktc_table/ktc_table.ppm", &width, &height, &max);
     glMatrixMode(GL_TEXTURE);
     glScalef(-1,1,-1);
 
