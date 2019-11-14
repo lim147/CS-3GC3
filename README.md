@@ -1,5 +1,8 @@
 # 3GC3_Final_Project
 
+To compile the project, use the command "make" while in the main directory.
+
+
 
 ## References: 
 knife: 
