@@ -10,5 +10,5 @@ Ke 0.0 0.0 0.0
 Ni 1.000000
 d 1.000000
 illum 2
-map_Bump banana_1/NMap.png
-map_Kd banana_1/MainTexture.png
+map_Bump NMap.png
+map_Kd MainTexture.png
