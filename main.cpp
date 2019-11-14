@@ -20,41 +20,13 @@ using namespace std;
 #include <math.h>
 
 /**
-Current Tasks:
-Rachel - Onion, Tomato, Pot
-May - Pan, Fire, Mango
-Lily - Knife, Potato, Steak
-Alice - Main file (Table, floor , wall, stove), Banana
-
-Other Tasks to be Done for Prototype:
-- Brief two paragraph write up including features needed to be added or fixed for the final implementation as well as a list
-of commands available for the prototype - Alice made the skeleton for this file in our repo under the documents folder, 
-Our prototype and this writeup will need to be submitted to one of our course git repositories, under the project folder
-
-- We need a file that parses *.obj files and "mesh drawings"(?)
-
-- Ingrediant class:
-- Position of object
-- Whether or not the object is selected
-- Pointer to appropriate object mesh
-- Texture for object
-- Status ( is the object cut or inside the pan)
-- "You may want to have an array of loaded meshes depending on the state (i.e., a cut tomato will load a different mesh than a whole tomato)"
-
-- Rough prepping room
-- Place the prepping room items into the 3D room
-- To make this room, we can either use assets that we load in using the obj loader, or we can use glut primitives
-
 Our Recipes So Far:
-- Soup - potato, tomato, onion, salt, Knife, Pot
-- Salad - Mango, banana, sugar, Knife, Bowl
-- Steak - Steak, bbq sauce, Knife, Pan
-
-Tools Required:
-- Knife, Pot, Pan
+- Soup - Potato, Tomato, Onion, Knife, Pot
+- Salad - Mango, Orange, Banana, Knife
+- Steak - Steak, Knife, Pan
 */
 
-//dictionary of ingredients
+//Dictionary of ingredients
 map<string, Ingredient> ll;
 
 int scene = 1;
@@ -314,21 +286,21 @@ void displayCurryIngrts(){
     glPopMatrix();
 
     glPushMatrix();
-        glTranslatef(-13, 15, 7); // z value larger moves it close to the camera
+        glTranslatef(-13, 15, 5); 
         glScalef(0.08, 0.08, 0.08);
         displayIngredient("onion");
     glPopMatrix();
 
     glPushMatrix();
 
-        glTranslatef(-10, 15, 7); // z value larger moves it close to the camera
-        glRotatef(90, 1, 0, 0); // rotating x will roll it towards you
-        glScalef(0.3, 0.3, 0.3); // rotating z will rotate counter clockwise on clock
+        glTranslatef(-10, 15, 5); 
+        glRotatef(90, 1, 0, 0); 
+        glScalef(0.3, 0.3, 0.3); 
         displayIngredient("knife");
     glPopMatrix();
 
     glPushMatrix();
-        glTranslatef(2, 14, -1); // x value smaller moves to the left
+        glTranslatef(2.5, 14, 2.5); // x value smaller moves to the left
         //glRotatef(90, 1, 0, 0);
         glScalef(0.037, 0.037, 0.037);
         displayIngredient("pot");
@@ -345,7 +317,7 @@ void displaySteakIngrts(){
     glPopMatrix();
 
     glPushMatrix();
-        glTranslatef(-3, 15, 7); // x value smaller moves to the left
+        glTranslatef(-3, 15, 5); // x value smaller moves to the left
         glRotatef(270, 1, 0, 0);
         glScalef(0.09, 0.09, 0.09);
         displayIngredient("pan");
@@ -361,7 +333,7 @@ void displaySteakIngrts(){
 
     glPushMatrix();
 
-        glTranslatef(-10, 15, 7); // z value larger moves it close to the camera
+        glTranslatef(-10, 15, 5); // z value larger moves it close to the camera
         glRotatef(90, 1, 0, 0); // rotating x will roll it towards you
         glScalef(0.3, 0.3, 0.3); // rotating z will rotate counter clockwise on clock
         displayIngredient("knife");
@@ -493,6 +465,17 @@ void callBackInit(){
 }
 
 int main(int argc, char** argv) {
+
+    printf("Key Commands: \n");
+    printf("q - Quit");
+    printf("1 - Ingredients for the salad recipe \n");
+    printf("2 - Ingredients for the curry recipe \n");
+    printf("3 - Ingredients for the steak recipe \n");
+    printf("up arrow - zoom out");
+    printf("down arrow - zoom in");
+    printf("left arrow - rotate left around kitchen counter");
+    printf("right arrow - rotate right around kitchen counter");
+
 
     glutInit(&argc, argv);
     glutInitWindowSize(600,600);
