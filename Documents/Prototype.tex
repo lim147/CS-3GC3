@@ -1,4 +1,4 @@
-% Created 2019-11-13 Wed 20:18
+% Created 2019-11-13 Wed 22:08
 % Intended LaTeX compiler: pdflatex
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
@@ -22,18 +22,23 @@
  pdftitle={CS/SE 3GC3 - Computer Graphics Final Project},
  pdfkeywords={},
  pdfsubject={},
- pdfcreator={Emacs 26.3 (Org mode 9.1.9)}, 
+ pdfcreator={Emacs 26.3 (Org mode 9.2.6)}, 
  pdflang={English}}
 \begin{document}
 
 \maketitle
 
-\section*{Current Features and Commands}
-\label{sec:orgea3dfb7}
-One of the features that we have implemented is the room environment, that consists of a floor, walls, lighting and materials. Another implementation in our prototype is a obj reader function in the ingredients.cpp file that reads the obj file path passed to it, and extracts the appropriate information (mesh, texture, normals) into c++ vectors. These vectors are then used to load the objects into the room. The appropriate obj files for the ingredients/tools/textures were obtained from several sources (that are cited in the readme file), and edited as appropriate for our needs. 
+\section*{Brief Description of Project}
+\label{sec:org14152ec}
+A cooking game that takes place in a 3-D simulating kitchen, where the player selects a recipe and must interact with ingredient objects and tool objects and follow the instructions given to create the dish.
 
-\subsection*{Commands}
-\label{sec:org30351a3}
+
+\section*{Current Features and Commands}
+\label{sec:orga6520a9}
+One of the features that we have implemented is the room environment, that consists of a floor, walls, lighting and materials. Another implementation in our prototype is a obj reader function in the ingredients.cpp file that reads the obj file path passed to it, and extracts the appropriate information (mesh, texture, normals, faces) into c++ vectors. These vectors are then used to load the objects into the room. The appropriate obj files for the ingredients/tools/textures were obtained from several sources (that are cited in the readme file), and edited as appropriate for our needs. 
+
+\subsection*{Keyboard Commands}
+\label{sec:org454b11b}
 \begin{itemize}
 \item q - quit
 \item 1 - View ingredients/objects to make salad recipe (default view)
@@ -46,7 +51,7 @@ One of the features that we have implemented is the room environment, that consi
 \end{itemize}
 
 \subsection*{Recipe Details}
-\label{sec:org609a961}
+\label{sec:org9f96562}
 \begin{itemize}
 \item Soup - Potato, Tomato, Onion, Knife, Pot
 \item Salad - Mango, Orange, Banana, Knife
@@ -55,6 +60,6 @@ One of the features that we have implemented is the room environment, that consi
 
 
 \section*{Features To Be Implemented/Fixed}
-\label{sec:orge60ba0d}
+\label{sec:orgb2e3781}
 Some of the features that will be implemented in the future include the application of textures and materials on the objects. As well, we hope to optimization the object loading, to load only the necessary ingredients/tools required by the recipe the user selects. For example, if the user selects the curry option, we will only load the curry ingredients. In addition, there will be a timer displayed in the window that will inform the user of the remaining time to construct the recipe. A scoring system will be created, and also displayed when the timer runs out. In order to perform actions on the ingredients, we will implement ray casting. A 3D ray will be projected from the mouse position on click. This will allow the user to select an ingredient or tool, apply a tool to an ingredient (knife to orange for fruit salad recipe) or apply an ingredient to a tool (cut potatoes to pot for curry recipe). Functions will be constructed to determine ingredient state changes if the appropriate tool is used on it (e.g. If a knife is used on the orange, the orange will automatically change to the "cut" orange mesh.) As well, when the correct combinations of ingredients are put together, the final recipe object will appear and the game will end. At the bottom left corner of the screen, the instructions of the recipe will be displayed.
 \end{document}
