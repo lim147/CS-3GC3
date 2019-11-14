@@ -223,7 +223,7 @@ void loadIngrts(){
 
 
     //vegetable:
-    loadIngredient("obj/onion/onion.obj", "onion");  //huge file, significantly slow down the system
+    //loadIngredient("obj/onion/onion.obj", "onion");  //huge file, significantly slow down the system
     loadIngredient("obj/potato/potato.obj", "potato");
     loadIngredient("obj/tomato/tomato.obj", "tomato");
     
