@@ -223,7 +223,7 @@ void loadIngrts(){
 
 
     //vegetable:
-    loadIngredient("obj/onion/onion.obj", "onion");
+    loadIngredient("obj/onion/onion.obj", "onion");  //huge file, significantly slow down the system
     loadIngredient("obj/potato/potato.obj", "potato");
     loadIngredient("obj/tomato/tomato.obj", "tomato");
     
@@ -263,14 +263,13 @@ void displaySaladIngrts(){
         glScalef(0.5, 0.5, 0.5);
         displayIngredient("ktc_table");
     glPopMatrix();
-    //glScalef(0.05, 0.05, 0.05);
-    //displayIngredient("pot");
-
-    //glScalef(0.2, 0.2, 0.2);
-    //displayIngredient("pan");
-
-    //glTranslatef(-10, 0, 0);
-    //displayIngredient("cutMango");
+    
+     glPushMatrix();
+        glTranslatef(-10, 15, 7); // z value larger moves it close to the camera
+        glRotatef(90, 1, 0, 0); // rotating x will roll it towards you
+        glScalef(0.3, 0.3, 0.3); // rotating z will rotate counter clockwise on clock
+        displayIngredient("knife");
+    glPopMatrix();
 
     glPushMatrix();
         glTranslatef(13, 15, 5);
@@ -323,7 +322,6 @@ void displayCurryIngrts(){
     glPopMatrix();
 
     glPushMatrix();
-
         glTranslatef(-10, 15, 7); // z value larger moves it close to the camera
         glRotatef(90, 1, 0, 0); // rotating x will roll it towards you
         glScalef(0.3, 0.3, 0.3); // rotating z will rotate counter clockwise on clock
