@@ -59,21 +59,21 @@ map<string, Ingredient> ll;
 
 int scene = 1;
 
-GLdouble eye[] = {30, 30, 30};
-GLdouble lookAt[] = { 0, 0, 0 };
-GLdouble up[] = { 0, 1, 0 };
+GLfloat eye[] = {30, 30, 30};
+GLfloat lookAt[] = { 0, 0, 0 };
+GLfloat up[] = { 0, 1, 0 };
 
 GLfloat ambient[2][4] = {
-    { 0.2, 0.2, 0.2, 1 },
+    { 1, 1, 1, 1 },
     {1 , 1, 1 , 1}
 };
 GLfloat diffuse[2][4] = {
-    {0.8, 0.8, 0.8, 1 },
-    {0,0,1,1}
+    {1, 1, 1, 1 },
+    {1,1,1,1}
 
 };
 GLfloat specular[2][4] = {
-    { 0.5, 0.5, 0.5, 1 },
+    { 1, 1, 1, 1 },
     {1,1,1,1}
 
 };
@@ -138,6 +138,67 @@ void setMaterials(unsigned int index){
     glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS , materialShiny[index]);
 }
 
+
+/* LoadPPM -- loads the specified ppm file, and returns the image data as a GLubyte
+ *  (unsigned byte) array. Also returns the width and height of the image, and the
+ *  maximum colour value by way of arguments
+ *  usage: GLubyte myImg = LoadPPM("myImg.ppm", &width, &height, &max);
+ */
+GLubyte* LoadPPM(char* file, int* width, int* height, int* max)
+{
+    GLubyte* img;
+    FILE *fd;
+    int n, m;
+    int  k, nm;
+    char c;
+    int i;
+    char b[100];
+    float s;
+    int red, green, blue;
+    
+    fd = fopen(file, "r");
+    fscanf(fd,"%[^\n] ",b);
+    if(b[0]!='P'|| b[1] != '3')
+    {
+        printf("%s is not a PPM file!\n",file);
+        exit(0);
+    }
+    printf("%s is a PPM file\n", file);
+    fscanf(fd, "%c",&c);
+    while(c == '#')
+    {
+        fscanf(fd, "%[^\n] ", b);
+        printf("%s\n",b);
+        fscanf(fd, "%c",&c);
+    }
+    ungetc(c,fd);
+    fscanf(fd, "%d %d %d", &n, &m, &k);
+    
+    printf("%d rows  %d columns  max value= %d\n",n,m,k);
+    
+    nm = n*m;
+    
+    img = (GLubyte*)(malloc(3*sizeof(GLuint)*nm));
+    
+    s=255.0/k;
+    
+    
+    for(i=0;i<nm;i++)
+    {
+        fscanf(fd,"%d %d %d",&red, &green, &blue );
+        img[3*nm-3*i-3]=red*s;
+        img[3*nm-3*i-2]=green*s;
+        img[3*nm-3*i-1]=blue*s;
+    }
+    
+    *width = n;
+    *height = m;
+    *max = k;
+    
+    return img;
+}
+
+
 void drawFloor() // Floor of the room, change this to do the room
 {
     glBegin(GL_QUADS);
@@ -192,7 +253,7 @@ void displayIngredient(string name){
             //normal:
             Vec3D v = ll[name].temp_normals[ll[name].normalIndices[i]-1];
             glNormal3f(v.mX, v.mY, v.mZ);
-    
+
             //texture:
             Point2D t = ll[name].temp_uvs[ll[name].uvIndices[i]-1];
             glTexCoord2f(t.mX, t.mY);
@@ -211,7 +272,7 @@ void displayIngredient(string name){
 
 
 void loadIngrts(){
-    
+    /*
     loadIngredient("obj/ktc_table/ktc_table.obj", "ktc_table");
 
     
@@ -249,10 +310,12 @@ void loadIngrts(){
 
     //cooked beef
     loadIngredient("obj/cookedBeef/cookedBeef.obj", "cookedBeef");
+    */
     
-    
-    
-    
+    //loadIngredient("obj/orange/orange.obj", "orange");
+    //loadIngredient("obj/ktc_table/ktc_table.obj", "ktc_table");
+    //loadIngredient("obj/banana/banana.obj", "banana");
+    loadIngredient("obj/mango/mango.obj", "mango");
 }
 
 
@@ -263,7 +326,7 @@ void displaySaladIngrts(){
         glScalef(0.5, 0.5, 0.5);
         displayIngredient("ktc_table");
     glPopMatrix();
-    
+
      glPushMatrix();
         glTranslatef(-10, 15, 7); // z value larger moves it close to the camera
         glRotatef(90, 1, 0, 0); // rotating x will roll it towards you
@@ -286,9 +349,9 @@ void displaySaladIngrts(){
     glPopMatrix();
 
     glPushMatrix();
-        glTranslatef(8, 14, -2);
+        //glTranslatef(8, 14, -2);
         glRotatef(90, 1, 0, 0);
-        glScalef(0.5, 0.5, 0.5);
+        //glScalef(0.5, 0.5, 0.5);
         displayIngredient("mango");
     glPopMatrix();
     
@@ -330,7 +393,7 @@ void displayCurryIngrts(){
 
     glPushMatrix();
         glTranslatef(2, 14, -1); // x value smaller moves to the left
-        //glRotatef(90, 1, 0, 0);
+        glRotatef(90, 1, 0, 0);
         glScalef(0.037, 0.037, 0.037);
         displayIngredient("pot");
     glPopMatrix();
@@ -400,8 +463,9 @@ void draw3DScene(){
     glPushMatrix();
         glTranslatef(0, 0, -10);
         glScalef(2, 2, 2);
-        drawFloor();
+        //drawFloor();
     glPopMatrix();
+
 
     glPushMatrix();
         glRotatef(45, 0, 1, 0);
@@ -458,8 +522,8 @@ void mouse(int btn, int state, int x, int y){
 
 // Is called when you move your mouse
 void passive (int x, int y){ 
-    std::cout << " mouseMotion coords2: ";
-    std:: cout << x << ", " << y << std::endl;
+    //std::cout << " mouseMotion coords2: ";
+    //std:: cout << x << ", " << y << std::endl;
 }
 
 void FPS(int val)
@@ -493,6 +557,28 @@ void callBackInit(){
     glutDisplayFunc(display); //registers "display" as the display callback function
 }
 
+
+void init()
+{
+    glEnable(GL_TEXTURE_2D);
+
+    int width = 0;
+    int height = 0;
+    int max = 0;
+
+    GLubyte* mango = LoadPPM("obj/mango/mango.ppm", &width, &height, &max);
+    glMatrixMode(GL_TEXTURE);
+    glScalef(-1,1,-1);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, mango);
+
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_REPEAT);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+}
+
+
 int main(int argc, char** argv) {
 
     glutInit(&argc, argv);
@@ -506,7 +592,6 @@ int main(int argc, char** argv) {
     glEnable(GL_LIGHT1);
     glEnable(GL_DEPTH_TEST);
 
-    glEnable(GL_TEXTURE_2D);
 
     glutTimerFunc(0, FPS, 0);
     glutReshapeFunc(handleReshape);
@@ -515,6 +600,7 @@ int main(int argc, char** argv) {
     glutSpecialFunc(specialKeyboard);
 
     callBackInit();
+    init();
     //glEnable(GL_DEPTH_TEST);
     //glEnable(GL_CULL_FACE);
     //glCullFace(GL_BACK);
