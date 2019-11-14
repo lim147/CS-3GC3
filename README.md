@@ -3,9 +3,9 @@
 
 References: 
 knife: 
-# created by sepandj 
-# downloaded from turbosquid.com 
-# https://www.turbosquid.com/FullPreview/Index.cfm/ID/1387505
+ created by sepandj 
+ downloaded from turbosquid.com 
+ https://www.turbosquid.com/FullPreview/Index.cfm/ID/1387505
 
 potato 
 # created by printable_models 
