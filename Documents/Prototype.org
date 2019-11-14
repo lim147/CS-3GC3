@@ -3,9 +3,8 @@
 #+Date: November 10, 2019
 #+Options: toc:nil num:nil
 
-* Brief Description of Project
+* Project Description
 A cooking game that takes place in a 3-D simulating kitchen, where the player selects a recipe and must interact with ingredient objects and tool objects and follow the instructions given to create the dish.
-
 
 * Current Features and Commands
 One of the features that we have implemented is the room environment, that consists of a floor, walls, lighting and materials. Another implementation in our prototype is a obj reader function in the ingredients.cpp file that reads the obj file path passed to it, and extracts the appropriate information (mesh, texture, normals, faces) into c++ vectors. These vectors are then used to load the objects into the room. The appropriate obj files for the ingredients/tools/textures were obtained from several sources (that are cited in the readme file), and edited as appropriate for our needs. 
@@ -20,12 +19,39 @@ One of the features that we have implemented is the room environment, that consi
  - left arrow - rotate left around kitchen counter
  - right arrow - rotate right around kitchen counter
 
-** Recipe Details
-- Soup - Potato, Tomato, Onion, Knife, Pot
-- Salad - Mango, Orange, Banana, Knife
-- Steak - Steak, Knife, Pan
-   
-
 * Features To Be Implemented/Fixed 
 Some of the features that will be implemented in the future include the application of textures and materials on the objects. As well, we hope to optimization the object loading, to load only the necessary ingredients/tools required by the recipe the user selects. For example, if the user selects the curry option, we will only load the curry ingredients. In addition, there will be a timer displayed in the window that will inform the user of the remaining time to construct the recipe. A scoring system will be created, and also displayed when the timer runs out. In order to perform actions on the ingredients, we will implement ray casting. A 3D ray will be projected from the mouse position on click. This will allow the user to select an ingredient or tool, apply a tool to an ingredient (knife to orange for fruit salad recipe) or apply an ingredient to a tool (cut potatoes to pot for curry recipe). Functions will be constructed to determine ingredient state changes if the appropriate tool is used on it (e.g. If a knife is used on the orange, the orange will automatically change to the "cut" orange mesh.) As well, when the correct combinations of ingredients are put together, the final recipe object will appear and the game will end. At the bottom left corner of the screen, the instructions of the recipe will be displayed.
+
+
+** Tentative Recipe Details
+- These tentative recipes are based upon objects that we have already implemented in our prototype as well as some additonal features that we will implement in the future
+
+- Curry
+ - Objects: Potato, Tomato, Onion, Knife, Pot
+ - Use knife on Potato (whole)
+ - Use knife on Tomato (whole)
+ - Use knife on Onion (whole)
+ - Use Potato (cut) on Pot
+ - Use Tomato (cut) on Pot
+ - Use Onion (cut) on Pot
+ - Select Pot to turn on the stove
+ - Curry Complete
+
+- Fruit Salad
+ - Objects: Mango, Orange, Banana, Knife
+ - Use Knife on Mango (whole)
+ - Use Knife on Orange (whole)
+ - Use Knife on Banana (whole)
+ - Use Mango (cut) on Bowl
+ - Use Orange (cut) on Bowl
+ - Use Banana (cut) on Bowl
+ - Use Spoon on Bowl to mix
+ - Fruit Salad Complete
+
+- Steak
+ - Objects: Steak, Pan
+ - Use Salt on Steak
+ - Use Steak on Pan
+ - Select Pan to turn on the stove
+ - Steak Complete 
 
