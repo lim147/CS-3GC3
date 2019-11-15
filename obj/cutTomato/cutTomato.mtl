@@ -1,7 +1,7 @@
 # Blender MTL File: 'None'
 # Material Count: 2
 
-newmtl tomat01_SSS.001
+newmtl tomat01_SSS.000
 Ns 323.999994
 Ka 1.000000 1.000000 1.000000
 Kd 0.800000 0.077002 0.071249
@@ -10,9 +10,9 @@ Ke 0.0 0.0 0.0
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd /Users/kexinliu/Desktop/1.jpg
+map_Kd 1.jpg
 
-newmtl tomat03_SSS.001
+newmtl tomat03_SSS.000
 Ns 225.000000
 Ka 1.000000 1.000000 1.000000
 Kd 0.800000 0.800000 0.800000
@@ -21,4 +21,4 @@ Ke 0.0 0.0 0.0
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd /Users/kexinliu/Desktop/1.jpg
+map_Kd 1.jpg
