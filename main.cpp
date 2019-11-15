@@ -63,6 +63,25 @@ GLfloat eye[] = {30, 30, 30};
 GLfloat lookAt[] = { 0, 0, 0 };
 GLfloat up[] = { 0, 1, 0 };
 
+/* 
+//origin light
+
+GLfloat ambient[2][4] = {
+    { 0.2, 0.2, 0.2, 1 },
+    {1 , 1, 1 , 1}
+};
+GLfloat diffuse[2][4] = {
+    {0.8, 0.8, 0.8, 1 },
+    {0,0,1,1}
+
+};
+GLfloat specular[2][4] = {
+    { 0.5, 0.5, 0.5, 1 },
+    {1,1,1,1}
+
+};
+*/
+
 GLfloat ambient[2][4] = {
     { 1, 1, 1, 1 },
     {1 , 1, 1 , 1}
@@ -463,7 +482,7 @@ void draw3DScene(){
     glPushMatrix();
         glTranslatef(0, 0, -10);
         glScalef(2, 2, 2);
-        //drawFloor();
+        drawFloor();
     glPopMatrix();
 
 
