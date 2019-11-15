@@ -566,11 +566,15 @@ void init()
     int height = 0;
     int max = 0;
 
-    GLubyte* mango = LoadPPM("obj/ktc_table/ktc_table.ppm", &width, &height, &max);
+    GLubyte* obj = LoadPPM("obj/ktc_table/ktc_table.ppm", &width, &height, &max);
+    //GLubyte* obj = LoadPPM("obj/orange/orange.ppm", &width, &height, &max);
+    //GLubyte* obj = LoadPPM("obj/banana/banana.ppm", &width, &height, &max);
+    //GLubyte* obj = LoadPPM("obj/mango/mango.ppm", &width, &height, &max);
+
     glMatrixMode(GL_TEXTURE);
     glScalef(-1,1,-1);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, mango);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, obj);
 
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_REPEAT);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
