@@ -331,10 +331,24 @@ void loadIngrts(){
     loadIngredient("obj/cookedBeef/cookedBeef.obj", "cookedBeef");
     */
     
+
     //loadIngredient("obj/orange/orange.obj", "orange");
-    loadIngredient("obj/ktc_table/ktc_table.obj", "ktc_table");
+    //loadIngredient("obj/ktc_table/ktc_table.obj", "ktc_table");
     //loadIngredient("obj/banana/banana.obj", "banana");
     //loadIngredient("obj/mango/mango.obj", "mango");
+
+    //loadIngredient("obj/onion/onion.obj", "onion");
+    //loadIngredient("obj/potato/potato.obj", "potato");
+    //loadIngredient("obj/tomato/tomato.obj", "tomato");
+
+    //loadIngredient("obj/steak/steak.obj", "steak");
+
+    //loadIngredient("obj/cutBanana/cutBanana.obj", "cutBanana");
+    //loadIngredient("obj/cutOnion/cutOnion.obj", "cutOnion");
+    //loadIngredient("obj/cutTomato/cutTomato.obj", "cutTomato");
+    //loadIngredient("obj/cookedBeef/cookedBeef.obj", "cookedBeef");
+
+    loadIngredient("obj/pan/pan.obj", "pan");
 }
 
 
@@ -373,11 +387,31 @@ void displaySaladIngrts(){
         //glScalef(0.5, 0.5, 0.5);
         displayIngredient("mango");
     glPopMatrix();
+
+
+    glPushMatrix();
+        displayIngredient("cutBanana");
+    glPopMatrix();
+
+
+    glPushMatrix();
+        displayIngredient("cutOnion");
+    glPopMatrix();
+    
+
+    glPushMatrix();
+        displayIngredient("cutTomato");
+    glPopMatrix();
+
+
+    glPushMatrix();
+        displayIngredient("cookedBeef");
+    glPopMatrix();
     
 }
 
 
-//TO DO
+
 void displayCurryIngrts(){
     glPushMatrix();
         glScalef(0.5, 0.5, 0.5);
@@ -393,13 +427,13 @@ void displayCurryIngrts(){
     glPushMatrix();
         glTranslatef(-8, 13, -1);
         glRotatef(-90, 1, 0, 0);
-        glScalef(0.2, 0.2, 0.2);
+        //glScalef(0.2, 0.2, 0.2);
         displayIngredient("tomato");
     glPopMatrix();
 
     glPushMatrix();
         glTranslatef(-13, 15, 7); // z value larger moves it close to the camera
-        glScalef(0.08, 0.08, 0.08);
+        glScalef(0.1, 0.1, 0.1);
         displayIngredient("onion");
     glPopMatrix();
 
@@ -412,7 +446,7 @@ void displayCurryIngrts(){
 
     glPushMatrix();
         glTranslatef(2, 14, -1); // x value smaller moves to the left
-        glRotatef(90, 1, 0, 0);
+        //glRotatef(90, 1, 0, 0);
         glScalef(0.037, 0.037, 0.037);
         displayIngredient("pot");
     glPopMatrix();
@@ -420,7 +454,7 @@ void displayCurryIngrts(){
 }
 
 
-//TO DO
+
 void displaySteakIngrts(){
     glPushMatrix();
         glScalef(0.5, 0.5, 0.5);
@@ -482,7 +516,7 @@ void draw3DScene(){
     glPushMatrix();
         glTranslatef(0, 0, -10);
         glScalef(2, 2, 2);
-        drawFloor();
+        //drawFloor();
     glPopMatrix();
 
 
@@ -576,7 +610,15 @@ void callBackInit(){
     glutDisplayFunc(display); //registers "display" as the display callback function
 }
 
-
+/*
+TO DO:
+    1. cutOnion and cutTomato's skin need to have an image material, rn rending scene is kina wired.
+    2. pot does not have uv value in the face (i.e. ...//...). Need to add image material in blender.
+    3. knife, cutMango, cutPotato makes use of 2 images for texture, but i only know how to apply one ppm...
+        - Either search on line to figire out apply multiple texture on the same obj
+        - Or combine 2 jpg(/png...) into one jpg(/png..). Could check ktc_table for example.
+    4. Find new obj online: bowl(to make salad), spoon
+*/
 void init()
 {
     glEnable(GL_TEXTURE_2D);
@@ -585,10 +627,20 @@ void init()
     int height = 0;
     int max = 0;
 
-    GLubyte* obj = LoadPPM("obj/ktc_table/ktc_table.ppm", &width, &height, &max);
+    //GLubyte* obj = LoadPPM("obj/ktc_table/ktc_table.ppm", &width, &height, &max);
     //GLubyte* obj = LoadPPM("obj/orange/orange.ppm", &width, &height, &max);
     //GLubyte* obj = LoadPPM("obj/banana/banana.ppm", &width, &height, &max);
     //GLubyte* obj = LoadPPM("obj/mango/mango.ppm", &width, &height, &max);
+    //GLubyte* obj = LoadPPM("obj/onion/onion.ppm", &width, &height, &max);
+    //GLubyte* obj = LoadPPM("obj/potato/potato.ppm", &width, &height, &max);
+    //GLubyte* obj = LoadPPM("obj/tomato/tomato.ppm", &width, &height, &max);
+    //GLubyte* obj = LoadPPM("obj/steak/steak.ppm", &width, &height, &max);
+    //GLubyte* obj = LoadPPM("obj/cutBanana/cutBanana.ppm", &width, &height, &max);
+    //GLubyte* obj = LoadPPM("obj/cutOnion/cutOnion.ppm", &width, &height, &max);
+    //GLubyte* obj = LoadPPM("obj/cutTomato/cutTomato.ppm", &width, &height, &max);
+    //GLubyte* obj = LoadPPM("obj/cookedBeef/cookedBeef.ppm", &width, &height, &max);
+    GLubyte* obj = LoadPPM("obj/pan/pan.ppm", &width, &height, &max);
+
 
     glMatrixMode(GL_TEXTURE);
     glScalef(-1,1,-1);
