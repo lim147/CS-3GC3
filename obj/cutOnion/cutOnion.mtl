@@ -1,7 +1,7 @@
 # Blender MTL File: 'None'
 # Material Count: 2
 
-newmtl tomat01_SSS.003
+newmtl tomat01_SSS.001
 Ns 225.000000
 Ka 1.000000 1.000000 1.000000
 Kd 0.800000 0.800000 0.800000
@@ -10,9 +10,9 @@ Ke 0.0 0.0 0.0
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd /
+map_Kd 1.jpg
 
-newmtl tomat03_SSS.003
+newmtl tomat01_SSS.008
 Ns 225.000000
 Ka 1.000000 1.000000 1.000000
 Kd 0.800000 0.800000 0.800000
@@ -21,4 +21,4 @@ Ke 0.0 0.0 0.0
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd 36647461-purple-onion-is-thin-split-on-lightbox-it-show-texture-are-beautiful-.jpg
+map_Kd 1.jpg

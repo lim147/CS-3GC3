@@ -1,7 +1,7 @@
 # Blender MTL File: 'None'
 # Material Count: 2
 
-newmtl potato01_SSS.001
+newmtl Material.001
 Ns 225.000000
 Ka 1.000000 1.000000 1.000000
 Kd 0.800000 0.800000 0.800000
@@ -10,7 +10,7 @@ Ke 0.0 0.0 0.0
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd Map__54_Speckle.tga
+map_Kd 1.jpg
 
 newmtl potato03_SSS.001
 Ns 225.000000
@@ -21,4 +21,4 @@ Ke 0.0 0.0 0.0
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd 5b9b024e3c00003200093e80.jpeg
+map_Kd 1.jpg

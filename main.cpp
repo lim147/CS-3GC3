@@ -346,9 +346,12 @@ void loadIngrts(){
     //loadIngredient("obj/cutBanana/cutBanana.obj", "cutBanana");
     //loadIngredient("obj/cutOnion/cutOnion.obj", "cutOnion");
     //loadIngredient("obj/cutTomato/cutTomato.obj", "cutTomato");
+    loadIngredient("obj/cutPotato/cutPotato.obj", "cutPotato");
     //loadIngredient("obj/cookedBeef/cookedBeef.obj", "cookedBeef");
 
-    loadIngredient("obj/pan/pan.obj", "pan");
+    //loadIngredient("obj/pan/pan.obj", "pan");
+    //loadIngredient("obj/knife/knife.obj", "knife");
+    //loadIngredient("obj/pot/pot.obj", "pot");
 }
 
 
@@ -363,7 +366,7 @@ void displaySaladIngrts(){
      glPushMatrix();
         glTranslatef(-10, 15, 7); // z value larger moves it close to the camera
         glRotatef(90, 1, 0, 0); // rotating x will roll it towards you
-        glScalef(0.3, 0.3, 0.3); // rotating z will rotate counter clockwise on clock
+        //glScalef(0.3, 0.3, 0.3); // rotating z will rotate counter clockwise on clock
         displayIngredient("knife");
     glPopMatrix();
 
@@ -395,17 +398,23 @@ void displaySaladIngrts(){
 
 
     glPushMatrix();
+        glRotatef(30, 1, 0, 0);
         displayIngredient("cutOnion");
     glPopMatrix();
     
 
     glPushMatrix();
+        glRotatef(30, 1, 0, 0);
         displayIngredient("cutTomato");
     glPopMatrix();
 
 
     glPushMatrix();
         displayIngredient("cookedBeef");
+    glPopMatrix();
+
+    glPushMatrix();
+        displayIngredient("cutPotato");
     glPopMatrix();
     
 }
@@ -446,8 +455,7 @@ void displayCurryIngrts(){
 
     glPushMatrix();
         glTranslatef(2, 14, -1); // x value smaller moves to the left
-        //glRotatef(90, 1, 0, 0);
-        glScalef(0.037, 0.037, 0.037);
+        glScalef(0.2, 0.2, 0.2);
         displayIngredient("pot");
     glPopMatrix();
 
@@ -612,12 +620,10 @@ void callBackInit(){
 
 /*
 TO DO:
-    1. cutOnion and cutTomato's skin need to have an image material, rn rending scene is kina wired.
-    2. pot does not have uv value in the face (i.e. ...//...). Need to add image material in blender.
-    3. knife, cutMango, cutPotato makes use of 2 images for texture, but i only know how to apply one ppm...
+    1. knife, cutMango make use of 2 images for texture, but i only know how to apply one ppm...
         - Either search on line to figire out apply multiple texture on the same obj
         - Or combine 2 jpg(/png...) into one jpg(/png..). Could check ktc_table for example.
-    4. Find new obj online: bowl(to make salad), spoon
+    2. Find new obj online: bowl(to make salad), spoon
 */
 void init()
 {
@@ -637,9 +643,12 @@ void init()
     //GLubyte* obj = LoadPPM("obj/steak/steak.ppm", &width, &height, &max);
     //GLubyte* obj = LoadPPM("obj/cutBanana/cutBanana.ppm", &width, &height, &max);
     //GLubyte* obj = LoadPPM("obj/cutOnion/cutOnion.ppm", &width, &height, &max);
+    GLubyte* obj = LoadPPM("obj/cutPotato/cutPotato.ppm", &width, &height, &max);
     //GLubyte* obj = LoadPPM("obj/cutTomato/cutTomato.ppm", &width, &height, &max);
     //GLubyte* obj = LoadPPM("obj/cookedBeef/cookedBeef.ppm", &width, &height, &max);
-    GLubyte* obj = LoadPPM("obj/pan/pan.ppm", &width, &height, &max);
+    //GLubyte* obj = LoadPPM("obj/pan/pan.ppm", &width, &height, &max);
+    //GLubyte* obj = LoadPPM("obj/knife/knife.ppm", &width, &height, &max);
+    //GLubyte* obj = LoadPPM("obj/pot/pot.ppm", &width, &height, &max);
 
 
     glMatrixMode(GL_TEXTURE);
