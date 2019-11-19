@@ -104,8 +104,9 @@ bowl
 - https://www.turbosquid.com/3d-models/bowl-jas-cheetah3d-obj-free/1087707
 
 spoon 
-
-
+- medusa86 
+- downloaded from turbosquid.com 
+- https://www.turbosquid.com/FullPreview/Index.cfm/ID/981350
 
 obj loader:
 - https://www.raywenderlich.com/2604-how-to-export-blender-models-to-opengl-es-part-1-3
