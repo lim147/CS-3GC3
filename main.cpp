@@ -6,53 +6,20 @@
 #else
 #  include <GL/gl.h>
 #  include <GL/glu.h>
+#  include <GL/glut.h>
 #  include <GL/freeglut.h>
 #endif
 #include <stdio.h>
 #include <stdlib.h>
 #include <map>
+#include <windows.h> 
+#include <iostream>
+#include <vector>
+#include <math.h>
+using namespace std;
 
 #include "Ingredient.h"
 #include "mathLib2D.h"
-
-using namespace std;
-#include <vector>
-#include <math.h>
-
-/**
-Current Tasks:
-Rachel - Onion, Tomato, Pot
-May - Pan, Fire, Mango
-Lily - Knife, Potato, Steak
-Alice - Main file (Table, floor , wall, stove), Banana
-
-Other Tasks to be Done for Prototype:
-- Brief two paragraph write up including features needed to be added or fixed for the final implementation as well as a list
-of commands available for the prototype - Alice made the skeleton for this file in our repo under the documents folder, 
-Our prototype and this writeup will need to be submitted to one of our course git repositories, under the project folder
-
-- We need a file that parses *.obj files and "mesh drawings"(?)
-
-- Ingrediant class:
-- Position of object
-- Whether or not the object is selected
-- Pointer to appropriate object mesh
-- Texture for object
-- Status ( is the object cut or inside the pan)
-- "You may want to have an array of loaded meshes depending on the state (i.e., a cut tomato will load a different mesh than a whole tomato)"
-
-- Rough prepping room
-- Place the prepping room items into the 3D room
-- To make this room, we can either use assets that we load in using the obj loader, or we can use glut primitives
-
-Our Recipes So Far:
-- Soup - potato, tomato, onion, salt, Knife, Pot
-- Salad - Mango, banana, sugar, Knife, Bowl
-- Steak - Steak, bbq sauce, Knife, Pan
-
-Tools Required:
-- Knife, Pot, Pan
-*/
 
 //dictionary of ingredients
 map<string, Ingredient> ll;
@@ -62,6 +29,18 @@ int scene = 1;
 GLfloat eye[] = {30, 30, 30};
 GLfloat lookAt[] = { 0, 0, 0 };
 GLfloat up[] = { 0, 1, 0 };
+
+// For displaying text on screen
+int w = 600;
+int h = 600;
+const int font=(int)GLUT_BITMAP_9_BY_15;
+char s[30]; 
+double t; 
+
+
+/* Improvements from the prototype:
+ - Onscreen timer
+*/
 
 /* 
 //origin light
@@ -119,16 +98,10 @@ GLfloat materialShiny[2] = {
     0.25
 };
 
-
-//Timer
-int timer = 0;
-
 //GLfloat ambient[4] = { 0.2, 0.2, 0.2, 1 };
 //GLfloat diffuse[4] = { 0.8, 0.8, 0.8, 1 };
 //GLfloat specular[4] = { 1, 1, 1, 1 };
 //GLfloat lightPos[4] = { 30, 30, 20, 1 };
-
-
 
 // Array for generating the room ( There is no roof)
 float verts[8][3] = {{-10, 0, 10},
@@ -158,11 +131,17 @@ void setMaterials(unsigned int index){
 }
 
 
-/* LoadPPM -- loads the specified ppm file, and returns the image data as a GLubyte
- *  (unsigned byte) array. Also returns the width and height of the image, and the
- *  maximum colour value by way of arguments
- *  usage: GLubyte myImg = LoadPPM("myImg.ppm", &width, &height, &max);
+/**
+ *  \brief loads the specified ppm file, and returns the image data as a GLubyte
+ *         (unsigned byte) array. Also returns the width and height of the image, and the
+ *         maximum colour value by way of arguments
+ *         usage: GLubyte myImg = LoadPPM("myImg.ppm", &width, &height, &max);
+ *  \param file - ppm file name
+ *  \param width - 
+ *  \param height - 
+ *  \param max - 
  */
+
 GLubyte* LoadPPM(char* file, int* width, int* height, int* max)
 {
     GLubyte* img;
@@ -217,7 +196,9 @@ GLubyte* LoadPPM(char* file, int* width, int* height, int* max)
     return img;
 }
 
-
+/**
+ *  \brief Displays the room of the kitchen
+ */
 void drawFloor() // Floor of the room, change this to do the room
 {
     glBegin(GL_QUADS);
@@ -246,7 +227,7 @@ void drawFloor() // Floor of the room, change this to do the room
     }
 }
 
-// Ingredient information should only need to be loaded once
+
 void loadIngredient(const char* filename, string name){
     Ingredient ingredient;
     ingredient = Ingredient();
@@ -260,7 +241,10 @@ void loadIngredient(const char* filename, string name){
 }
 
 
-
+/**
+ *  \brief Sets the normals and builds the ingredient object based on mesh information
+ *  \param name - identifier for particular ingredient object to be displayed
+ */
 void displayIngredient(string name){
     //display ingredient
     glPushMatrix();
@@ -289,7 +273,9 @@ void displayIngredient(string name){
 
 }
 
-
+/**
+ *  \brief Loads object information from file
+ */
 void loadIngrts(){
     /*
     loadIngredient("obj/ktc_table/ktc_table.obj", "ktc_table");
@@ -355,7 +341,9 @@ void loadIngrts(){
 }
 
 
-
+/**
+ *  \brief Displays ingredients needed for salad recipe
+ */
 void displaySaladIngrts(){
     
     glPushMatrix();
@@ -419,8 +407,9 @@ void displaySaladIngrts(){
     
 }
 
-
-
+/**
+ *  \brief Displays ingredients needed for curry recipe
+ */
 void displayCurryIngrts(){
     glPushMatrix();
         glScalef(0.5, 0.5, 0.5);
@@ -462,7 +451,9 @@ void displayCurryIngrts(){
 }
 
 
-
+/**
+ *  \brief Displays ingredients needed for Steak recipe
+ */
 void displaySteakIngrts(){
     glPushMatrix();
         glScalef(0.5, 0.5, 0.5);
@@ -494,8 +485,9 @@ void displaySteakIngrts(){
 
 }
 
-
-
+/**
+ *  \brief Sets up the scene, and loads objects
+ */
 void draw3DScene(){
     
     glMatrixMode(GL_PROJECTION);
@@ -519,15 +511,14 @@ void draw3DScene(){
         up[0], up[1], up[2]
     );
     
-    //glPushMatrix();
     //glColor3f(1,0,0);
     glPushMatrix();
         glTranslatef(0, 0, -10);
         glScalef(2, 2, 2);
-        //drawFloor();
+        drawFloor();
     glPopMatrix();
 
-
+    // Toggles ingredients to be displayed
     glPushMatrix();
         glRotatef(45, 0, 1, 0);
         if (scene == 1)
@@ -537,27 +528,81 @@ void draw3DScene(){
         if (scene == 3)
             displaySteakIngrts();
     glPopMatrix();
+}
 
-    //glPopMatrix();
+/**
+ *  \brief Sets the orthographic properties needed for orthographic aspects on screen
+ */
+void setOrthographicProjection() {
+    glMatrixMode(GL_PROJECTION);
+    glPushMatrix();
+    glLoadIdentity();
+       gluOrtho2D(0, w, 0, h);
+    glScalef(1, -1, 1);
+    glTranslatef(0, -h, 0);
+    glMatrixMode(GL_MODELVIEW);
 
 }
 
+/**
+ *  \brief Resets perspective projection
+ */
+void resetPerspectiveProjection() {
+    glMatrixMode(GL_PROJECTION);
+    glPopMatrix();
+    glMatrixMode(GL_MODELVIEW);
+}
+
+/**
+ *  \brief Displays a string on screen
+ *  \param x - x value of text
+ *  \param y - y value of text
+ *  \param *font - font pointer(?)
+ *  \param string - The string to be displayed
+ *  Referenced from https://www.programming-techniques.com/2012/05/font-rendering-in-glut-using-bitmap-fonts-with-sample-example.html
+ */
+void renderBitmapString(float x, float y, void *font,const char *string){
+    const char *c;
+    glRasterPos2f(x, y);
+    for (c=string; *c != '\0'; c++) {
+        glutBitmapCharacter(font, *c);
+    }
+}
+
+
 void display()
 {
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     draw3DScene();
+
+    // The following is for the onscreen timer
+    setOrthographicProjection();
+    glColor3d(1.0, 0.0, 1.0);;
+    glPushMatrix();
+    glLoadIdentity();
+        renderBitmapString(20,40, (void*)font, s);
+    glPopMatrix();
+    //resetPerspectiveProjection();
+
     glutSwapBuffers();
     glutPostRedisplay(); //force a redisplay, to keep the animation running
 }
 
 
 
-void handleReshape(int w, int h) {
-    glViewport(0, 0, w, h);
+void handleReshape(int width, int height) {
+    const float ar = (float) width / (float) height;
+    w = width;
+    h = height;
+    glViewport(0, 0, width, height);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(45, 1, 1, 100);
+    glFrustum(-ar, ar, -1.0, 1.0, 2.0, 100.0);     
+    //gluPerspective(45, 1, 1, 100);
 
     glMatrixMode(GL_MODELVIEW);
+    //
+    glLoadIdentity() ;
 }
 
 
@@ -587,11 +632,7 @@ void passive (int x, int y){
     //std:: cout << x << ", " << y << std::endl;
 }
 
-void FPS(int val)
-{
-    glutPostRedisplay(); //registers "display" as the display callback function
-    glutTimerFunc(17, FPS, 0); //1sec = 1000, 60fps = 1000/60 = ~17
-}
+
 
 void specialKeyboard(int key, int x, int y)
 {
@@ -603,7 +644,7 @@ void specialKeyboard(int key, int x, int y)
 
 //Idle function 
 void idle(){
-   timer+=1;
+   //timer+=1;
 }
 
 // Callback function
@@ -662,14 +703,23 @@ void init()
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 }
 
+void FPS(int val)
+{
+    t = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
+    int time = (int)t;
+    sprintf(s, "%2d", time);
+    glutTimerFunc(1000, FPS, 0);
+    glutPostRedisplay();
+}
 
 int main(int argc, char** argv) {
 
     glutInit(&argc, argv);
-    glutInitWindowSize(600,600);
+    glutInitWindowSize(w,h);
     glutInitWindowPosition(300,300);
-    glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH);
+    glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
     glutCreateWindow("Prototype");
+    glutReshapeFunc(handleReshape);
 
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
@@ -677,11 +727,13 @@ int main(int argc, char** argv) {
     glEnable(GL_DEPTH_TEST);
 
 
-    glutTimerFunc(0, FPS, 0);
-    glutReshapeFunc(handleReshape);
+    
+    
     glutDisplayFunc(display);
     glutKeyboardFunc(keyboard);
     glutSpecialFunc(specialKeyboard);
+
+    glutTimerFunc(0, FPS, 0);
 
     callBackInit();
     init();
