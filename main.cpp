@@ -35,7 +35,7 @@ GLfloat up[] = { 0, 1, 0 };
 // For displaying text on screen
 int w = 600;
 int h = 600;
-const int font=(int)GLUT_BITMAP_9_BY_15;
+// int font=(int)GLUT_BITMAP_9_BY_15;
 char s[30]; 
 double t; 
 
@@ -116,9 +116,7 @@ float verts[8][3] = {{-40, 0, 40}, //0
 int indices[3][4] = {
                     {1,5,4,0}, //leftface 
                     {5,6,7,4}, //rightface 
-                    //{2,6,7,3},
-                    {0,4,7,3}, //bottom face
-                    //{1,0,3,2}
+                    {0,4,7,3} //bottom face
                     };
 
 
@@ -131,14 +129,19 @@ int maximum[20];
 
 
 //ray casting
-bool SteakPick = false;
-
 double* m_start = new double[3];
 double* m_end = new double[3];
 
-float SteakSize = 1.5;
-//float KTCPos[3] = {40, 0, -60};
-float SteakPos[3] = {-5, 15, -16}; //-5, 15, 16
+/*
+    0 - steak
+    1 - mango
+*/
+bool pick[2] = {false, false};
+float size[2] = {1.5, 1.5};
+float pos[2][3] = {
+    {-5, 15, -16},
+    {-15, 15, -20}
+}; 
 
 
 
@@ -155,18 +158,6 @@ void setMaterials(unsigned int index){
  */
 void drawFloor() // Floor of the room, change this to do the room
 {
-    glBegin(GL_QUADS);
-    glColor3f(1, 1, 1);
-
-    //glVertex3f(-10,0,10);
-    //glVertex3f(10,0,10);
-    //glVertex3f(10,0,-10);
-    //glVertex3f(-10,0,-10);
-
-    glEnd();
-    int vIndex;
-
-    
     glBindTexture(GL_TEXTURE_2D, textures[17]);
     //left wall
     glBegin(GL_POLYGON);
@@ -546,13 +537,29 @@ void renderBitmapString(float x, float y, void *font,const char *string){
  */
 void displayMenu(){
     glPushMatrix();
-        glTranslatef(8, 14, 4);
-        glRotatef(0, 1, 0, 0);
+        glTranslatef(pos[0][0], pos[0][1], pos[0][2]);
         glScalef(0.4, 0.4, 0.4);
+        if (pick[0])
+            glColor3f(1,0,0);
+        else
+            glBindTexture(GL_TEXTURE_2D, textures[7]);
         displayIngredient("steak");
     glPopMatrix();
 
+
+    glPushMatrix();
+        glTranslatef(pos[1][0], pos[1][1], pos[1][2]);
+        //glRotatef(90, 1, 0, 0);
+        glScalef(0.5, 0.5, 0.5);
+        if (pick[1])
+            glColor3f(1,0,0);
+        else
+            glBindTexture(GL_TEXTURE_2D, textures[3]);
+        displayIngredient("mango");
+    glPopMatrix();
+
     glMatrixMode(GL_PROJECTION); // Tells opengl that we are doing project matrix work
+
     glPushMatrix();
         glLoadIdentity();
            gluOrtho2D(0, w, 0, h);
@@ -563,7 +570,7 @@ void displayMenu(){
 
     glPushMatrix();
     glLoadIdentity();
-        renderBitmapString(20,60, (void*)font, s);
+        renderBitmapString(20,60, (void*)GLUT_BITMAP_9_BY_15, s);
         //selectRecipe.draw(0, 0);
     glPopMatrix();
 
@@ -620,15 +627,14 @@ void draw3DScene(){
         glTranslatef(-10, 0, -10);
         drawFloor();
     glPopMatrix();
-
     
+    glPushMatrix();
+        glRotatef(45, 0, 1, 0);
+        displayFurniture();
+    glPopMatrix();
+
     // Toggles ingredients to be displayed
     glPushMatrix();
-        glPushMatrix();
-            glRotatef(45, 0, 1, 0);
-            displayFurniture();
-        glPopMatrix();
-
         if (scene == 0)
             displayMenu();
         else if (scene == 1)
@@ -689,6 +695,50 @@ void keyboard(unsigned char key, int x, int y)
         scene = 3;
 }
 
+
+void makeSelectable(int i)
+{
+    double* R0 = new double[3];
+    double* Rd = new double[3];
+
+    double xDiff = m_end[0] - m_start[0];
+    double yDiff = m_end[1] - m_start[1];
+    double zDiff = m_end[2] - m_start[2];
+
+    double mag = sqrt(xDiff*xDiff + yDiff*yDiff + zDiff*zDiff);
+    R0[0] = m_start[0];
+    R0[1] = m_start[1];
+    R0[2] = m_start[2];
+
+    Rd[0] = xDiff / mag;
+    Rd[1] = yDiff / mag;
+    Rd[2] = zDiff / mag;
+    
+
+    double A = Rd[0] * Rd[0] + Rd[1] * Rd[1] + Rd[2] * Rd[2];
+    double* R0Pc = new double[3];
+    R0Pc[0] = R0[0] - pos[i][0];
+    R0Pc[1] = R0[1] - pos[i][1];
+    R0Pc[2] = R0[2] - pos[i][2];
+
+    double B = 2 * ( R0Pc[0] * Rd[0] + R0Pc[1] * Rd[1] + R0Pc[2] * Rd[2]);
+    double C = (R0Pc[0]*R0Pc[0] + R0Pc[1] * R0Pc[1] + R0Pc[2] * R0Pc[2])
+                - (size[i] * size[i]);
+
+    double discriminant = B*B - 4* A *C;
+
+    if( discriminant < 0)
+        printf("no intersection!\n");
+    else{
+        double t1 = (-B + sqrt(discriminant)) / (2*A);
+        double t2 = (-B - sqrt(discriminant)) / (2*A);
+
+        printf("Obj Intersection at t= %f, %f\n", t1, t2);
+
+        pick[i] = !pick[i];
+    }
+}
+
 // Mouse Handler for first press and first release
 //mouse
 void mouse(int btn, int state, int x, int y){
@@ -727,48 +777,15 @@ void mouse(int btn, int state, int x, int y){
         
 
             //----------------------------------------
-            // test ktc_table - Ray intersection
+            // test steak - Ray intersection
             //----------------------------------------
-            
-            double* R0 = new double[3];
-            double* Rd = new double[3];
+            makeSelectable(0);
 
-            double xDiff = m_end[0] - m_start[0];
-            double yDiff = m_end[1] - m_start[1];
-            double zDiff = m_end[2] - m_start[2];
 
-            double mag = sqrt(xDiff*xDiff + yDiff*yDiff + zDiff*zDiff);
-            R0[0] = m_start[0];
-            R0[1] = m_start[1];
-            R0[2] = m_start[2];
-
-            Rd[0] = xDiff / mag;
-            Rd[1] = yDiff / mag;
-            Rd[2] = zDiff / mag;
-            
-
-            double A = Rd[0] * Rd[0] + Rd[1] * Rd[1] + Rd[2] * Rd[2];
-            double* R0Pc = new double[3];
-            R0Pc[0] = R0[0] - SteakPos[0];
-            R0Pc[1] = R0[1] - SteakPos[1];
-            R0Pc[2] = R0[2] - SteakPos[2];
-
-            double B = 2 * ( R0Pc[0] * Rd[0] + R0Pc[1] * Rd[1] + R0Pc[2] * Rd[2]);
-            double C = (R0Pc[0]*R0Pc[0] + R0Pc[1] * R0Pc[1] + R0Pc[2] * R0Pc[2])
-                        - (SteakSize * SteakSize);
-
-            double discriminant = B*B - 4* A *C;
-
-            if( discriminant < 0)
-                printf("no intersection!\n");
-            else{
-                double t1 = (-B + sqrt(discriminant)) / (2*A);
-                double t2 = (-B - sqrt(discriminant)) / (2*A);
-
-                printf("ktc_table Intersection at t= %f, %f\n", t1, t2);
-
-                SteakPick = !SteakPick;
-            }
+            //----------------------------------------
+            // test mango - Ray intersection
+            //----------------------------------------
+            makeSelectable(1);
 
             
         }
