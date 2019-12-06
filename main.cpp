@@ -12,7 +12,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <map>
-#include <windows.h> 
+//#include <windows.h> 
 #include <iostream>
 #include <vector>
 #include <math.h>
@@ -20,6 +20,7 @@ using namespace std;
 
 #include "Ingredient.h"
 #include "mathLib2D.h"
+#include "PPM.h"
 
 //dictionary of ingredients
 map<string, Ingredient> ll;
@@ -33,7 +34,7 @@ GLfloat up[] = { 0, 1, 0 };
 // For displaying text on screen
 int w = 600;
 int h = 600;
-const int font=(int)GLUT_BITMAP_9_BY_15;
+//const int font=(int)GLUT_BITMAP_9_BY_15;
 char s[30]; 
 double t; 
 
@@ -122,6 +123,13 @@ int indices[3][4] = {
                     };
 
 
+GLubyte* tt[17];
+GLuint textures[17];
+
+int height[17];
+int width[17];
+int maximum[17];
+
 
 void setMaterials(unsigned int index){
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, materialAmbient[index]);
@@ -130,71 +138,6 @@ void setMaterials(unsigned int index){
     glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS , materialShiny[index]);
 }
 
-
-/**
- *  \brief loads the specified ppm file, and returns the image data as a GLubyte
- *         (unsigned byte) array. Also returns the width and height of the image, and the
- *         maximum colour value by way of arguments
- *         usage: GLubyte myImg = LoadPPM("myImg.ppm", &width, &height, &max);
- *  \param file - ppm file name
- *  \param width - 
- *  \param height - 
- *  \param max - 
- */
-
-GLubyte* LoadPPM(char* file, int* width, int* height, int* max)
-{
-    GLubyte* img;
-    FILE *fd;
-    int n, m;
-    int  k, nm;
-    char c;
-    int i;
-    char b[100];
-    float s;
-    int red, green, blue;
-    
-    fd = fopen(file, "r");
-    fscanf(fd,"%[^\n] ",b);
-    if(b[0]!='P'|| b[1] != '3')
-    {
-        printf("%s is not a PPM file!\n",file);
-        exit(0);
-    }
-    printf("%s is a PPM file\n", file);
-    fscanf(fd, "%c",&c);
-    while(c == '#')
-    {
-        fscanf(fd, "%[^\n] ", b);
-        printf("%s\n",b);
-        fscanf(fd, "%c",&c);
-    }
-    ungetc(c,fd);
-    fscanf(fd, "%d %d %d", &n, &m, &k);
-    
-    printf("%d rows  %d columns  max value= %d\n",n,m,k);
-    
-    nm = n*m;
-    
-    img = (GLubyte*)(malloc(3*sizeof(GLuint)*nm));
-    
-    s=255.0/k;
-    
-    
-    for(i=0;i<nm;i++)
-    {
-        fscanf(fd,"%d %d %d",&red, &green, &blue );
-        img[3*nm-3*i-3]=red*s;
-        img[3*nm-3*i-2]=green*s;
-        img[3*nm-3*i-1]=blue*s;
-    }
-    
-    *width = n;
-    *height = m;
-    *max = k;
-    
-    return img;
-}
 
 /**
  *  \brief Displays the room of the kitchen
@@ -287,9 +230,9 @@ void loadIngrts(){
     loadIngredient("obj/mango/mango.obj", "mango");
     
 
-
+    
     //vegetable:
-    //loadIngredient("obj/onion/onion.obj", "onion");  //huge file, significantly slow down the system
+    loadIngredient("obj/onion/onion.obj", "onion");
     loadIngredient("obj/potato/potato.obj", "potato");
     loadIngredient("obj/tomato/tomato.obj", "tomato");
     
@@ -316,28 +259,6 @@ void loadIngrts(){
     //cooked beef
     loadIngredient("obj/cookedBeef/cookedBeef.obj", "cookedBeef");
     
-    
-
-    //loadIngredient("obj/orange/orange.obj", "orange");
-    loadIngredient("obj/ktc_table/ktc_table.obj", "ktc_table");
-    //loadIngredient("obj/banana/banana.obj", "banana");
-    //loadIngredient("obj/mango/mango.obj", "mango");
-
-    //loadIngredient("obj/onion/onion.obj", "onion");
-    //loadIngredient("obj/potato/potato.obj", "potato");
-    //loadIngredient("obj/tomato/tomato.obj", "tomato");
-
-    //loadIngredient("obj/steak/steak.obj", "steak");
-
-    //loadIngredient("obj/cutBanana/cutBanana.obj", "cutBanana");
-    //loadIngredient("obj/cutOnion/cutOnion.obj", "cutOnion");
-    //loadIngredient("obj/cutTomato/cutTomato.obj", "cutTomato");
-    //loadIngredient("obj/cutPotato/cutPotato.obj", "cutPotato");
-    //loadIngredient("obj/cookedBeef/cookedBeef.obj", "cookedBeef");
-
-    //loadIngredient("obj/pan/pan.obj", "pan");
-    //loadIngredient("obj/knife/knife.obj", "knife");
-    //loadIngredient("obj/pot/pot.obj", "pot");
 }
 
 
@@ -345,7 +266,7 @@ void loadIngrts(){
  *  \brief Displays ingredients needed for salad recipe
  */
 void displaySaladIngrts(){
-
+    
      glPushMatrix();
         glTranslatef(-10, 15, 7); // z value larger moves it close to the camera
         glRotatef(90, 1, 0, 0); // rotating x will roll it towards you
@@ -356,6 +277,7 @@ void displaySaladIngrts(){
     glPushMatrix();
         glTranslatef(13, 15, 5);
         glScalef(0.5, 0.5, 0.5);
+        glBindTexture(GL_TEXTURE_2D, textures[1]);
         displayIngredient("banana");
     glPopMatrix();
 
@@ -364,40 +286,27 @@ void displaySaladIngrts(){
         glTranslatef(15, 13, -3);
         glRotatef(-90, 1, 0, 0);
         //glScalef(0.3, 0.3, 0.3);
+        glBindTexture(GL_TEXTURE_2D, textures[2]);
         displayIngredient("orange");
     glPopMatrix();
-
+    
     glPushMatrix();
         //glTranslatef(8, 14, -2);
         glRotatef(90, 1, 0, 0);
         //glScalef(0.5, 0.5, 0.5);
+        glBindTexture(GL_TEXTURE_2D, textures[3]);
         displayIngredient("mango");
     glPopMatrix();
 
-
+    
     glPushMatrix();
+        glBindTexture(GL_TEXTURE_2D, textures[8]);
         displayIngredient("cutBanana");
     glPopMatrix();
-
-
-    glPushMatrix();
-        glRotatef(30, 1, 0, 0);
-        displayIngredient("cutOnion");
-    glPopMatrix();
     
-
     glPushMatrix();
-        glRotatef(30, 1, 0, 0);
-        displayIngredient("cutTomato");
-    glPopMatrix();
-
-
-    glPushMatrix();
-        displayIngredient("cookedBeef");
-    glPopMatrix();
-
-    glPushMatrix();
-        displayIngredient("cutPotato");
+        glBindTexture(GL_TEXTURE_2D, textures[9]);
+        displayIngredient("cutMango");
     glPopMatrix();
     
 }
@@ -410,6 +319,7 @@ void displayCurryIngrts(){
     glPushMatrix();
         glTranslatef(-12, 15, -1); // z value larger moves it close to the camera
         glScalef(0.3, 0.3, 0.3);
+        glBindTexture(GL_TEXTURE_2D, textures[5]);
         displayIngredient("potato");
     glPopMatrix();
 
@@ -417,12 +327,14 @@ void displayCurryIngrts(){
         glTranslatef(-8, 13, -1);
         glRotatef(-90, 1, 0, 0);
         //glScalef(0.2, 0.2, 0.2);
+        glBindTexture(GL_TEXTURE_2D, textures[6]);
         displayIngredient("tomato");
     glPopMatrix();
 
     glPushMatrix();
         glTranslatef(-13, 15, 7); // z value larger moves it close to the camera
         glScalef(0.1, 0.1, 0.1);
+        glBindTexture(GL_TEXTURE_2D, textures[4]);
         displayIngredient("onion");
     glPopMatrix();
 
@@ -430,13 +342,33 @@ void displayCurryIngrts(){
         glTranslatef(-10, 15, 7); // z value larger moves it close to the camera
         glRotatef(90, 1, 0, 0); // rotating x will roll it towards you
         glScalef(0.3, 0.3, 0.3); // rotating z will rotate counter clockwise on clock
+        glBindTexture(GL_TEXTURE_2D, textures[15]);
         displayIngredient("knife");
     glPopMatrix();
 
     glPushMatrix();
         glTranslatef(2, 14, -1); // x value smaller moves to the left
         glScalef(0.2, 0.2, 0.2);
+        glBindTexture(GL_TEXTURE_2D, textures[16]);
         displayIngredient("pot");
+    glPopMatrix();
+
+    glPushMatrix();
+        glRotatef(30, 1, 0, 0);
+        glBindTexture(GL_TEXTURE_2D, textures[10]);
+        displayIngredient("cutOnion");
+    glPopMatrix();
+    
+
+    glPushMatrix();
+        glRotatef(30, 1, 0, 0);
+        glBindTexture(GL_TEXTURE_2D, textures[12]);
+        displayIngredient("cutTomato");
+    glPopMatrix();
+
+    glPushMatrix();
+        glBindTexture(GL_TEXTURE_2D, textures[11]);
+        displayIngredient("cutPotato");
     glPopMatrix();
 }
 
@@ -450,6 +382,7 @@ void displaySteakIngrts(){
         glTranslatef(-3, 15, 7); // x value smaller moves to the left
         glRotatef(270, 1, 0, 0);
         glScalef(0.09, 0.09, 0.09);
+        glBindTexture(GL_TEXTURE_2D, textures[14]);
         displayIngredient("pan");
     glPopMatrix();
 
@@ -458,15 +391,22 @@ void displaySteakIngrts(){
         glTranslatef(8, 14, 4);
         glRotatef(0, 1, 0, 0);
         glScalef(0.4, 0.4, 0.4);
+        glBindTexture(GL_TEXTURE_2D, textures[7]);
         displayIngredient("steak");
     glPopMatrix();
 
     glPushMatrix();
-
         glTranslatef(-10, 15, 7); // z value larger moves it close to the camera
         glRotatef(90, 1, 0, 0); // rotating x will roll it towards you
         glScalef(0.3, 0.3, 0.3); // rotating z will rotate counter clockwise on clock
+        glBindTexture(GL_TEXTURE_2D, textures[15]);
         displayIngredient("knife");
+    glPopMatrix();
+
+
+    glPushMatrix();
+        glBindTexture(GL_TEXTURE_2D, textures[13]);
+        displayIngredient("cookedBeef");
     glPopMatrix();
 
 }
@@ -481,7 +421,7 @@ void displayFurniture(){
         glRotatef(45, 0, 1, 0);
         glScalef(0.5, 0.5, 0.5);
         glTranslatef(0, 0, -30);
-
+        glBindTexture(GL_TEXTURE_2D, textures[0]);
         displayIngredient("ktc_table");
     glPopMatrix();
 }
@@ -536,7 +476,7 @@ void renderBitmapString(float x, float y, void *font,const char *string){
     const char *c;
     glRasterPos2f(x, y);
     for (c=string; *c != '\0'; c++) {
-        glutBitmapCharacter(font, *c);
+        glutBitmapCharacter(GLUT_BITMAP_9_BY_15, *c);
     }
 }
 
@@ -548,6 +488,7 @@ void displayMenu(){
         glTranslatef(8, 14, 4);
         glRotatef(0, 1, 0, 0);
         glScalef(0.4, 0.4, 0.4);
+        glBindTexture(GL_TEXTURE_2D, textures[7]);
         displayIngredient("steak");
     glPopMatrix();
 
@@ -568,7 +509,7 @@ void displayMenu(){
 
     glPushMatrix();
     glLoadIdentity();
-        renderBitmapString(20,60, (void*)font, s);
+        renderBitmapString(20,60, (void*)GLUT_BITMAP_9_BY_15, s);
     glPopMatrix();
     //resetPerspectiveProjection();
 
@@ -597,7 +538,7 @@ void draw3DScene(){
     glPushMatrix();
         glTranslatef(0, 0, -10);
         glScalef(2, 2, 2);
-        drawFloor();
+        //drawFloor();
     glPopMatrix();
 
     // Toggles ingredients to be displayed
@@ -627,7 +568,7 @@ void display()
     glColor3d(1.0, 0.0, 1.0);;
     glPushMatrix();
         glLoadIdentity();
-        renderBitmapString(20,40, (void*)font, s);
+        renderBitmapString(20,40, (void*)GLUT_BITMAP_9_BY_15, s);
     glPopMatrix();
     resetPerspectiveProjection();
 
@@ -713,42 +654,60 @@ TO DO:
         - Or combine 2 jpg(/png...) into one jpg(/png..). Could check ktc_table for example.
     2. Find new obj online: bowl(to make salad), spoon
 */
-void init()
+
+//load the ppm file in the given filename as the ith texture
+void texture(const char* filename, int i)
 {
-    glEnable(GL_TEXTURE_2D);
+    GLubyte* obj = LoadPPM(filename, &width[i], &height[i], &maximum[i]);
+    tt[i] = obj;
 
-    int width = 0;
-    int height = 0;
-    int max = 0;
-
-    GLubyte* obj = LoadPPM("obj/ktc_table/ktc_table.ppm", &width, &height, &max);
-    //GLubyte* obj = LoadPPM("obj/orange/orange.ppm", &width, &height, &max);
-    //GLubyte* obj = LoadPPM("obj/banana/banana.ppm", &width, &height, &max);
-    //GLubyte* obj = LoadPPM("obj/mango/mango.ppm", &width, &height, &max);
-    //GLubyte* obj = LoadPPM("obj/onion/onion.ppm", &width, &height, &max);
-    //GLubyte* obj = LoadPPM("obj/potato/potato.ppm", &width, &height, &max);
-    //GLubyte* obj = LoadPPM("obj/tomato/tomato.ppm", &width, &height, &max);
-    //GLubyte* obj = LoadPPM("obj/steak/steak.ppm", &width, &height, &max);
-    //GLubyte* obj = LoadPPM("obj/cutBanana/cutBanana.ppm", &width, &height, &max);
-    //GLubyte* obj = LoadPPM("obj/cutOnion/cutOnion.ppm", &width, &height, &max);
-    //GLubyte* obj = LoadPPM("obj/cutPotato/cutPotato.ppm", &width, &height, &max);
-    //GLubyte* obj = LoadPPM("obj/cutTomato/cutTomato.ppm", &width, &height, &max);
-    //GLubyte* obj = LoadPPM("obj/cookedBeef/cookedBeef.ppm", &width, &height, &max);
-    //GLubyte* obj = LoadPPM("obj/pan/pan.ppm", &width, &height, &max);
-    //GLubyte* obj = LoadPPM("obj/knife/knife.ppm", &width, &height, &max);
-    //GLubyte* obj = LoadPPM("obj/pot/pot.ppm", &width, &height, &max);
-
-
-    glMatrixMode(GL_TEXTURE);
-    glScalef(-1,1,-1);
-
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, obj);
-
+    glBindTexture(GL_TEXTURE_2D, textures[i]);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width[i], height[i], 0, GL_RGB, GL_UNSIGNED_BYTE, tt[i]);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_REPEAT);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 }
+
+
+
+void loadTextures()
+{
+    glMatrixMode(GL_TEXTURE);
+    glScalef(-1,1,-1);
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(17, textures);
+
+    
+    texture("obj/ktc_table/ktc_table.ppm", 0);
+
+    texture("obj/banana/banana.ppm", 1);
+    texture("obj/orange/orange.ppm", 2);
+    texture("obj/mango/mango.ppm", 3);
+
+    texture("obj/onion/onion.ppm", 4);
+    texture("obj/potato/potato.ppm", 5);
+    texture("obj/tomato/tomato.ppm", 6);
+
+    texture("obj/steak/steak.ppm", 7);
+
+    texture("obj/cutBanana/cutBanana.ppm", 8);
+    texture("obj/cutMango/cutMango.ppm", 9);
+
+    texture("obj/cutOnion/cutOnion.ppm", 10);
+    texture("obj/cutPotato/cutPotato.ppm", 11);
+    texture("obj/cutTomato/cutTomato.ppm", 12);
+    texture("obj/cookedBeef/cookedBeef.ppm", 13);
+
+    texture("obj/pan/pan.ppm", 14);
+    texture("obj/knife/knife.ppm", 15);
+    texture("obj/pot/pot.ppm", 16);
+    
+    
+
+}
+
 
 void FPS(int val)
 {
@@ -783,7 +742,7 @@ int main(int argc, char** argv) {
     glutTimerFunc(0, FPS, 0);
 
     callBackInit();
-    init();
+    loadTextures();
     //glEnable(GL_DEPTH_TEST);
     //glEnable(GL_CULL_FACE);
     //glCullFace(GL_BACK);
