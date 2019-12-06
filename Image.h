@@ -1,6 +1,3 @@
-#ifndef IMAGE_H
-#define IMAGE_H
-
 #ifdef __APPLE__
 #  define GL_SILENCE_DEPRECATION
 #  include <OpenGL/gl.h>
@@ -13,10 +10,23 @@
 #  include <GL/freeglut.h>
 #endif
 
-#include "mathLib2D.h"
-#include <vector>
+#ifndef IMAGE_H
+#define IMAGE_H
+
 #include "PPM.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 
+struct Image {
+    int mWidth;
+    int mHeight;
+    int mMax;
+    GLubyte * mImage;
+
+    void load(char * filename);
+    void draw(unsigned int x, unsigned int y);
+    void texture();
+};
 
 #endif
