@@ -906,24 +906,7 @@ void FPS(int val)
 
 void init()
 {
-    //glEnable(GL_TEXTURE_2D);
-
-    //int width = 0;
-    //int height = 0;
-    //int max = 0;
-
-    // Load texture files for interface
     //selectRecipe.load("choice1.ppm");
-
-    //glMatrixMode(GL_TEXTURE);
-    //glScalef(-1,1,-1);
-
-    //glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, obj);
-
-    //glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_REPEAT);
-    //glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
-    //glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    //glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 }
 
 int main(int argc, char** argv) {

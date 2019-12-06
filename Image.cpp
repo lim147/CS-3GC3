@@ -3,13 +3,14 @@
 struct Image {
     int mWidth;
     int mHeight;
+    int mMax;
     GLubyte * mImage;
 
     void load(char * filename) {
         /**
          * YOUR CODE HERE
          */
-        mImage = LoadPPM(filename, &mWidth, &mHeight);
+        mImage = LoadPPM(filename, &mWidth, &mHeight, &mMax);
         printf("%s %d %d\n", filename, mWidth, mHeight);
     }
 
