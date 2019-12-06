@@ -333,7 +333,7 @@ void loadIngrts(){
     
 
     //loadIngredient("obj/orange/orange.obj", "orange");
-    //loadIngredient("obj/ktc_table/ktc_table.obj", "ktc_table");
+    loadIngredient("obj/ktc_table/ktc_table.obj", "ktc_table");
     //loadIngredient("obj/banana/banana.obj", "banana");
     //loadIngredient("obj/mango/mango.obj", "mango");
 
@@ -346,7 +346,7 @@ void loadIngrts(){
     //loadIngredient("obj/cutBanana/cutBanana.obj", "cutBanana");
     //loadIngredient("obj/cutOnion/cutOnion.obj", "cutOnion");
     //loadIngredient("obj/cutTomato/cutTomato.obj", "cutTomato");
-    loadIngredient("obj/cutPotato/cutPotato.obj", "cutPotato");
+    //loadIngredient("obj/cutPotato/cutPotato.obj", "cutPotato");
     //loadIngredient("obj/cookedBeef/cookedBeef.obj", "cookedBeef");
 
     //loadIngredient("obj/pan/pan.obj", "pan");
@@ -633,7 +633,7 @@ void init()
     int height = 0;
     int max = 0;
 
-    //GLubyte* obj = LoadPPM("obj/ktc_table/ktc_table.ppm", &width, &height, &max);
+    GLubyte* obj = LoadPPM("obj/ktc_table/ktc_table.ppm", &width, &height, &max);
     //GLubyte* obj = LoadPPM("obj/orange/orange.ppm", &width, &height, &max);
     //GLubyte* obj = LoadPPM("obj/banana/banana.ppm", &width, &height, &max);
     //GLubyte* obj = LoadPPM("obj/mango/mango.ppm", &width, &height, &max);
@@ -643,7 +643,7 @@ void init()
     //GLubyte* obj = LoadPPM("obj/steak/steak.ppm", &width, &height, &max);
     //GLubyte* obj = LoadPPM("obj/cutBanana/cutBanana.ppm", &width, &height, &max);
     //GLubyte* obj = LoadPPM("obj/cutOnion/cutOnion.ppm", &width, &height, &max);
-    GLubyte* obj = LoadPPM("obj/cutPotato/cutPotato.ppm", &width, &height, &max);
+    //GLubyte* obj = LoadPPM("obj/cutPotato/cutPotato.ppm", &width, &height, &max);
     //GLubyte* obj = LoadPPM("obj/cutTomato/cutTomato.ppm", &width, &height, &max);
     //GLubyte* obj = LoadPPM("obj/cookedBeef/cookedBeef.ppm", &width, &height, &max);
     //GLubyte* obj = LoadPPM("obj/pan/pan.ppm", &width, &height, &max);
