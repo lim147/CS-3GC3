@@ -27,7 +27,7 @@ map<string, Ingredient> ll;
 
 int scene = 0;
 
-GLfloat eye[] = {8, 20, 10}; //z should be 10
+GLfloat eye[] = {8, 21, 10}; //z should be 10
 GLfloat lookAt[] = { 0, 20, 0 };
 GLfloat up[] = { 0, 1, 0 };
 
