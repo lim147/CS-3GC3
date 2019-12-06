@@ -1,3 +1,4 @@
+#ifndef IMAGE_H
 #define IMAGE_H
 
 #include "mathLib2D.h"
@@ -16,7 +17,5 @@ struct Image {
 
 void setMaterials(unsigned int index);
 static GLubyte* LoadPPM(char* file, int* width, int* height, int* max);
-
-
 
 #endif

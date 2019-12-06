@@ -21,6 +21,7 @@ using namespace std;
 #include "Ingredient.h"
 #include "mathLib2D.h"
 #include "PPM.h"
+#include "Image.h"
 
 //dictionary of ingredients
 map<string, Ingredient> ll;
@@ -34,14 +35,12 @@ GLfloat up[] = { 0, 1, 0 };
 // For displaying text on screen
 int w = 600;
 int h = 600;
-//const int font=(int)GLUT_BITMAP_9_BY_15;
+const int font=(int)GLUT_BITMAP_9_BY_15;
 char s[30]; 
 double t; 
 
-
-/* Improvements from the prototype:
- - Onscreen timer
-*/
+Image selectRecipe; // Image with the recipes to choose from
+Image instructions; // Image with the instructions of the game
 
 /* 
 //origin light
@@ -258,7 +257,6 @@ void loadIngredient(const char* filename, string name){
     ll[name] = ingredient;
 }
 
-
 /**
  *  \brief Sets the normals and builds the ingredient object based on mesh information
  *  \param name - identifier for particular ingredient object to be displayed
@@ -298,42 +296,33 @@ void loadIngrts(){
     
     loadIngredient("obj/ktc_table/ktc_table.obj", "ktc_table");
 
-    
     //fruit:
     loadIngredient("obj/banana/banana.obj", "banana");
     loadIngredient("obj/orange/orange.obj", "orange");
     loadIngredient("obj/mango/mango.obj", "mango");
     
-
-    
     //vegetable:
     loadIngredient("obj/onion/onion.obj", "onion");
     loadIngredient("obj/potato/potato.obj", "potato");
     loadIngredient("obj/tomato/tomato.obj", "tomato");
-    
 
     //meat
     loadIngredient("obj/steak/steak.obj", "steak");
     
-
     //tools
     loadIngredient("obj/pot/pot.obj", "pot");
     loadIngredient("obj/pan/pan.obj", "pan");
     loadIngredient("obj/knife/knife.obj", "knife");
     
-
-    
     //cut ingredients:
     loadIngredient("obj/cutOnion/cutOnion.obj", "cutOnion");
     loadIngredient("obj/cutTomato/cutTomato.obj", "cutTomato");
     loadIngredient("obj/cutPotato/cutPotato.obj", "cutPotato");
-
     loadIngredient("obj/cutBanana/cutBanana.obj", "cutBanana");
     loadIngredient("obj/cutMango/cutMango.obj", "cutMango");
 
     //cooked beef
     loadIngredient("obj/cookedBeef/cookedBeef.obj", "cookedBeef");
-    
 }
 
 
@@ -450,7 +439,6 @@ void displayCurryIngrts(){
     glPopMatrix();
 }
 
-
 /**
  *  \brief Displays ingredients needed for Steak recipe
  */
@@ -489,8 +477,6 @@ void displaySteakIngrts(){
 
 }
 
-
-
 /**
  *  \brief Displays furniture in kitchen
  */
@@ -503,7 +489,6 @@ void displayFurniture(){
         displayIngredient("ktc_table");
     glPopMatrix();
 }
-
 
 /**
  *  \brief Sets the orthographic properties needed for orthographic aspects on screen
@@ -531,8 +516,6 @@ void setPerspectiveProjection() {
     glLoadIdentity();
 }
 
-
-
 /**
  *  \brief Resets perspective projection
  */
@@ -559,39 +542,56 @@ void renderBitmapString(float x, float y, void *font,const char *string){
 }
 
 /**
- *  \brief Displays ingredients needed for Steak recipe
+ *  \brief Displays Menu of Recipes
  */
 void displayMenu(){
     glPushMatrix();
-        glTranslatef(SteakPos[0], SteakPos[1], SteakPos[2]); //x = 8
-        //glRotatef(0, 1, 0, 0);
+        glTranslatef(8, 14, 4);
+        glRotatef(0, 1, 0, 0);
         glScalef(0.4, 0.4, 0.4);
-        if (SteakPick)
-            glColor3f(1,0,0);
-        else
-            glBindTexture(GL_TEXTURE_2D, textures[7]);
         displayIngredient("steak");
     glPopMatrix();
 
-
-    // The following is for the onscreen timer
-    setOrthographicProjection();
-
-
-    glColor3d(1.0, 1.0, 1.0);;
-    glBegin(GL_QUADS);
-        glVertex2f(0,0);
-        glVertex2f(0,300);
-        glVertex2f(300,300);
-        glVertex2f(300,0);
-    glEnd();
-
-
+    glMatrixMode(GL_PROJECTION); // Tells opengl that we are doing project matrix work
+    glPushMatrix();
+        glLoadIdentity();
+           gluOrtho2D(0, w, 0, h);
+        //glOrtho(-9.0, 9.0, -9.0, 9.0, 0.0, 30.0);
+        glScalef(1, -1, 1);
+        glTranslatef(0, -h, 0);
+        glMatrixMode(GL_MODELVIEW);
 
     glPushMatrix();
     glLoadIdentity();
-        renderBitmapString(20,60, (void*)GLUT_BITMAP_9_BY_15, s);
+        renderBitmapString(20,60, (void*)font, s);
+        //selectRecipe.draw(0, 0);
     glPopMatrix();
+
+    glLoadIdentity();
+    glMatrixMode(GL_PROJECTION); // Tells opengl that we are doing project matrix work
+    glDisable(GL_DEPTH_TEST); // Makes it so that it stays on screen even when the camera moves
+    glLoadIdentity();
+    glPushMatrix();
+        
+        //gluOrtho2D(0, w, 0, h); // Old Orthoview
+        //glOrtho(-9.0, 9.0, -9.0, 9.0, 0.0, 30.0); // Setup an Ortho view
+        glOrtho(0, w, 0, h, 0.0, 30.0); // Setup an Ortho view
+
+        glScalef(1, -1, 1);
+        glTranslatef(0, -h, 0);
+        glMatrixMode(GL_MODELVIEW);
+
+    glColor3f(1.0, 1.0, 1.0);
+    /*
+    glBegin(GL_QUADS);
+        glVertex2f(0,0); // Top left
+        glVertex2f(0,300); // Bottom left (?)
+        glVertex2f(300,300); // Bottom right(?)
+        glVertex2f(300,0); // Top right
+    glEnd();*/
+
+    glPopMatrix();
+    glEnable(GL_DEPTH_TEST);
     //resetPerspectiveProjection();
 
 }
@@ -642,7 +642,6 @@ void draw3DScene(){
     
 }
 
-
 void display()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear the screen
@@ -661,8 +660,6 @@ void display()
     glutSwapBuffers();
     glutPostRedisplay(); //force a redisplay, to keep the animation running
 }
-
-
 
 void handleReshape(int width, int height) {
     const float ar = (float) width / (float) height;
@@ -778,14 +775,11 @@ void mouse(int btn, int state, int x, int y){
     }
 }
 
-
 // Is called when you move your mouse
 void passive (int x, int y){ 
     //std::cout << " mouseMotion coords2: ";
     //std:: cout << x << ", " << y << std::endl;
 }
-
-
 
 void specialKeyboard(int key, int x, int y)
 {
@@ -881,9 +875,6 @@ void loadTextures()
     texture("obj/room/wall.ppm", 17);
     texture("obj/room/shelves.ppm", 18);
     texture("obj/room/floor.ppm", 19);
-    
-    
-
 }
 
 
@@ -894,6 +885,28 @@ void FPS(int val)
     sprintf(s, "%2d", time);
     glutTimerFunc(1000, FPS, 0);
     glutPostRedisplay();
+}
+
+void init()
+{
+    //glEnable(GL_TEXTURE_2D);
+
+    //int width = 0;
+    //int height = 0;
+    //int max = 0;
+
+    // Load texture files for interface
+    //selectRecipe.load("choice1.ppm");
+
+    //glMatrixMode(GL_TEXTURE);
+    //glScalef(-1,1,-1);
+
+    //glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, obj);
+
+    //glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_REPEAT);
+    //glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
+    //glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    //glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 }
 
 int main(int argc, char** argv) {
@@ -910,9 +923,6 @@ int main(int argc, char** argv) {
     glEnable(GL_LIGHT1);
     glEnable(GL_DEPTH_TEST);
 
-
-    
-    
     glutDisplayFunc(display);
     glutKeyboardFunc(keyboard);
     glutSpecialFunc(specialKeyboard);
@@ -920,6 +930,7 @@ int main(int argc, char** argv) {
     glutTimerFunc(0, FPS, 0);
 
     callBackInit();
+    init();
     loadTextures();
     //glEnable(GL_DEPTH_TEST);
     //glEnable(GL_CULL_FACE);
