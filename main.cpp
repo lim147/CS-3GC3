@@ -908,10 +908,12 @@ void FPS(int val)
 
 void init()
 {
-    //selectRecipe.load("choice1.ppm");
+    
 }
 
 int main(int argc, char** argv) {
+
+    selectRecipe.load("choice1.ppm");
 
     glutInit(&argc, argv);
     glutInitWindowSize(w,h);
@@ -930,9 +932,9 @@ int main(int argc, char** argv) {
     glutSpecialFunc(specialKeyboard);
 
     glutTimerFunc(0, FPS, 0);
-
-    callBackInit();
     init();
+    callBackInit();
+
     loadTextures();
     //glEnable(GL_DEPTH_TEST);
     //glEnable(GL_CULL_FACE);
