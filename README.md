@@ -98,6 +98,16 @@ cookedBeef:
 - downloaded from cgtrader.com
 - https://www.cgtrader.com/free-3d-models/food/miscellaneous/food-set
 
+bowl 
+- created by Neax 24 Studio 
+- downloaded from turobosquid.com 
+- https://www.turbosquid.com/3d-models/bowl-jas-cheetah3d-obj-free/1087707
+
+spoon 
+- medusa86 
+- downloaded from turbosquid.com 
+- https://www.turbosquid.com/FullPreview/Index.cfm/ID/981350
+
 
 
 obj loader:
