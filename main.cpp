@@ -24,7 +24,7 @@ using namespace std;
 //dictionary of ingredients
 map<string, Ingredient> ll;
 
-int scene = 1;
+int scene = 0;
 
 GLfloat eye[] = {30, 30, 30};
 GLfloat lookAt[] = { 0, 0, 0 };
@@ -104,14 +104,14 @@ GLfloat materialShiny[2] = {
 //GLfloat lightPos[4] = { 30, 30, 20, 1 };
 
 // Array for generating the room ( There is no roof)
-float verts[8][3] = {{-10, 0, 10},
-                    {-10, 20, 10},
-                    {10,20,10},
-                    {10, 0, 10},
-                    {-10,0,-10},
-                    {-10,20,-10},
-                    {10,20,-10},
-                    {10, 0,-10}};
+float verts[8][3] = {{-20, 0, 20},
+                    {-20, 20, 20},
+                    {20,20,20},
+                    {20, 0, 20},
+                    {-20,0,-20},
+                    {-20,20,-20},
+                    {20,20,-20},
+                    {20, 0,-20}};
                     
 int indices[3][4] = {
                     {1,5,4,0}, //leftface 
@@ -277,7 +277,7 @@ void displayIngredient(string name){
  *  \brief Loads object information from file
  */
 void loadIngrts(){
-    /*
+    
     loadIngredient("obj/ktc_table/ktc_table.obj", "ktc_table");
 
     
@@ -315,7 +315,7 @@ void loadIngrts(){
 
     //cooked beef
     loadIngredient("obj/cookedBeef/cookedBeef.obj", "cookedBeef");
-    */
+    
     
 
     //loadIngredient("obj/orange/orange.obj", "orange");
@@ -332,7 +332,7 @@ void loadIngrts(){
     //loadIngredient("obj/cutBanana/cutBanana.obj", "cutBanana");
     //loadIngredient("obj/cutOnion/cutOnion.obj", "cutOnion");
     //loadIngredient("obj/cutTomato/cutTomato.obj", "cutTomato");
-    loadIngredient("obj/cutPotato/cutPotato.obj", "cutPotato");
+    //loadIngredient("obj/cutPotato/cutPotato.obj", "cutPotato");
     //loadIngredient("obj/cookedBeef/cookedBeef.obj", "cookedBeef");
 
     //loadIngredient("obj/pan/pan.obj", "pan");
@@ -345,11 +345,6 @@ void loadIngrts(){
  *  \brief Displays ingredients needed for salad recipe
  */
 void displaySaladIngrts(){
-    
-    glPushMatrix();
-        glScalef(0.5, 0.5, 0.5);
-        displayIngredient("ktc_table");
-    glPopMatrix();
 
      glPushMatrix();
         glTranslatef(-10, 15, 7); // z value larger moves it close to the camera
@@ -411,10 +406,6 @@ void displaySaladIngrts(){
  *  \brief Displays ingredients needed for curry recipe
  */
 void displayCurryIngrts(){
-    glPushMatrix();
-        glScalef(0.5, 0.5, 0.5);
-        displayIngredient("ktc_table");
-    glPopMatrix();
 
     glPushMatrix();
         glTranslatef(-12, 15, -1); // z value larger moves it close to the camera
@@ -447,7 +438,6 @@ void displayCurryIngrts(){
         glScalef(0.2, 0.2, 0.2);
         displayIngredient("pot");
     glPopMatrix();
-
 }
 
 
@@ -455,10 +445,6 @@ void displayCurryIngrts(){
  *  \brief Displays ingredients needed for Steak recipe
  */
 void displaySteakIngrts(){
-    glPushMatrix();
-        glScalef(0.5, 0.5, 0.5);
-        displayIngredient("ktc_table");
-    glPopMatrix();
 
     glPushMatrix();
         glTranslatef(-3, 15, 7); // x value smaller moves to the left
@@ -485,64 +471,49 @@ void displaySteakIngrts(){
 
 }
 
+
+
 /**
- *  \brief Sets up the scene, and loads objects
+ *  \brief Displays furniture in kitchen
  */
-void draw3DScene(){
-    
+void displayFurniture(){
+    glPushMatrix();
+        glRotatef(45, 0, 1, 0);
+        glScalef(0.5, 0.5, 0.5);
+        glTranslatef(0, 0, -30);
+
+        displayIngredient("ktc_table");
+    glPopMatrix();
+}
+
+
+/**
+ *  \brief Sets the orthographic properties needed for orthographic aspects on screen
+ */
+void setOrthographicProjection() {
+    glMatrixMode(GL_PROJECTION); // Tells opengl that we are doing project matrix work
+    glPushMatrix();
+        glLoadIdentity();
+           gluOrtho2D(0, w, 0, h);
+        glScalef(1, -1, 1);
+        glTranslatef(0, -h, 0);
+        glMatrixMode(GL_MODELVIEW);
+
+}
+
+/**
+ *  \brief Sets the perspective properties needed for perspective aspects on screen
+ */
+void setPerspectiveProjection() {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluPerspective(45, 1, 1, 100);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-
-    for (unsigned int i = 0; i < 2; i++) {
-            
-        glLightfv(GL_LIGHT0 + i, GL_POSITION, lightPos[i]);
-        glLightfv(GL_LIGHT0 + i, GL_DIFFUSE, diffuse[i]);
-        glLightfv(GL_LIGHT0 + i, GL_AMBIENT, ambient[i]);
-        glLightfv(GL_LIGHT0 + i, GL_SPECULAR, specular[i]);
-    }
-
-    gluLookAt(
-        eye[0], eye[1], eye[2],
-        lookAt[0], lookAt[1], lookAt[2],
-        up[0], up[1], up[2]
-    );
-    
-    //glColor3f(1,0,0);
-    glPushMatrix();
-        glTranslatef(0, 0, -10);
-        glScalef(2, 2, 2);
-        drawFloor();
-    glPopMatrix();
-
-    // Toggles ingredients to be displayed
-    glPushMatrix();
-        glRotatef(45, 0, 1, 0);
-        if (scene == 1)
-            displaySaladIngrts();
-        if (scene == 2)
-            displayCurryIngrts();
-        if (scene == 3)
-            displaySteakIngrts();
-    glPopMatrix();
 }
 
-/**
- *  \brief Sets the orthographic properties needed for orthographic aspects on screen
- */
-void setOrthographicProjection() {
-    glMatrixMode(GL_PROJECTION);
-    glPushMatrix();
-    glLoadIdentity();
-       gluOrtho2D(0, w, 0, h);
-    glScalef(1, -1, 1);
-    glTranslatef(0, -h, 0);
-    glMatrixMode(GL_MODELVIEW);
 
-}
 
 /**
  *  \brief Resets perspective projection
@@ -569,20 +540,96 @@ void renderBitmapString(float x, float y, void *font,const char *string){
     }
 }
 
+/**
+ *  \brief Displays ingredients needed for Steak recipe
+ */
+void displayMenu(){
+    glPushMatrix();
+        glTranslatef(8, 14, 4);
+        glRotatef(0, 1, 0, 0);
+        glScalef(0.4, 0.4, 0.4);
+        displayIngredient("steak");
+    glPopMatrix();
+
+
+    // The following is for the onscreen timer
+    setOrthographicProjection();
+
+
+    glColor3d(1.0, 1.0, 1.0);;
+    glBegin(GL_QUADS);
+        glVertex2f(0,0);
+        glVertex2f(0,300);
+        glVertex2f(300,300);
+        glVertex2f(300,0);
+    glEnd();
+
+
+
+    glPushMatrix();
+    glLoadIdentity();
+        renderBitmapString(20,60, (void*)font, s);
+    glPopMatrix();
+    //resetPerspectiveProjection();
+
+}
+
+/**
+ *  \brief Sets up the scene, and loads objects
+ */
+void draw3DScene(){
+
+    for (unsigned int i = 0; i < 2; i++) {
+            
+        glLightfv(GL_LIGHT0 + i, GL_POSITION, lightPos[i]);
+        glLightfv(GL_LIGHT0 + i, GL_DIFFUSE, diffuse[i]);
+        glLightfv(GL_LIGHT0 + i, GL_AMBIENT, ambient[i]);
+        glLightfv(GL_LIGHT0 + i, GL_SPECULAR, specular[i]);
+    }
+
+    gluLookAt(
+        eye[0], eye[1], eye[2],
+        lookAt[0], lookAt[1], lookAt[2],
+        up[0], up[1], up[2]
+    );
+    
+    //glColor3f(1,0,0);
+    glPushMatrix();
+        glTranslatef(0, 0, -10);
+        glScalef(2, 2, 2);
+        drawFloor();
+    glPopMatrix();
+
+    // Toggles ingredients to be displayed
+    glPushMatrix();
+        glRotatef(45, 0, 1, 0);
+        displayFurniture();
+        if (scene == 0)
+            displayMenu();
+        else if (scene == 1)
+            displaySaladIngrts();
+        else if (scene == 2)
+            displayCurryIngrts();
+        else if (scene == 3)
+            displaySteakIngrts();
+    glPopMatrix();
+}
+
 
 void display()
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear the screen
+    setPerspectiveProjection();
     draw3DScene();
 
     // The following is for the onscreen timer
     setOrthographicProjection();
     glColor3d(1.0, 0.0, 1.0);;
     glPushMatrix();
-    glLoadIdentity();
+        glLoadIdentity();
         renderBitmapString(20,40, (void*)font, s);
     glPopMatrix();
-    //resetPerspectiveProjection();
+    resetPerspectiveProjection();
 
     glutSwapBuffers();
     glutPostRedisplay(); //force a redisplay, to keep the animation running
