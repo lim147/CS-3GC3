@@ -27,8 +27,8 @@ map<string, Ingredient> ll;
 
 int scene = 0;
 
-GLfloat eye[] = {30, 30, 30};
-GLfloat lookAt[] = { 0, 0, 0 };
+GLfloat eye[] = {8, 20, 10}; //z should be 10
+GLfloat lookAt[] = { 0, 20, 0 };
 GLfloat up[] = { 0, 1, 0 };
 
 // For displaying text on screen
@@ -105,14 +105,14 @@ GLfloat materialShiny[2] = {
 //GLfloat lightPos[4] = { 30, 30, 20, 1 };
 
 // Array for generating the room ( There is no roof)
-float verts[8][3] = {{-20, 0, 20},
-                    {-20, 20, 20},
-                    {20,20,20},
-                    {20, 0, 20},
-                    {-20,0,-20},
-                    {-20,20,-20},
-                    {20,20,-20},
-                    {20, 0,-20}};
+float verts[8][3] = {{-40, 0, 40}, //0
+                    {-40, 40, 40}, //1
+                    {40,40,40},    //2
+                    {40, 0, 40},   //3
+                    {-40,0,-40},   //4
+                    {-40,40,-40},  //5
+                    {40,40,-40},   //6
+                    {40, 0,-40}};  //7
                     
 int indices[3][4] = {
                     {1,5,4,0}, //leftface 
@@ -123,12 +123,12 @@ int indices[3][4] = {
                     };
 
 
-GLubyte* tt[17];
-GLuint textures[17];
+GLubyte* tt[20];
+GLuint textures[20];
 
-int height[17];
-int width[17];
-int maximum[17];
+int height[20];
+int width[20];
+int maximum[20];
 
 
 void setMaterials(unsigned int index){
@@ -145,7 +145,6 @@ void setMaterials(unsigned int index){
 void drawFloor() // Floor of the room, change this to do the room
 {
     glBegin(GL_QUADS);
-    //glNormal3f(0,10,0);
     glColor3f(1, 1, 1);
 
     //glVertex3f(-10,0,10);
@@ -156,18 +155,82 @@ void drawFloor() // Floor of the room, change this to do the room
     glEnd();
     int vIndex;
 
+    
+    glBindTexture(GL_TEXTURE_2D, textures[17]);
+    //left wall
+    glBegin(GL_POLYGON);
+        setMaterials(0);
+        glNormal3f(1, 0, 0);
+
+        glTexCoord2f(0, 1);
+        glVertex3fv(verts[1]);
+
+        glTexCoord2f(1, 1);
+        glVertex3fv(verts[5]);
+
+        glTexCoord2f(1, 0);
+        glVertex3fv(verts[4]);
+
+        glTexCoord2f(0, 0);
+        glVertex3fv(verts[0]);
+    glEnd();
+
+
+
+    glBindTexture(GL_TEXTURE_2D, textures[18]);
+    //right wall
+    glBegin(GL_POLYGON);
+        setMaterials(0);
+        glNormal3f(0, 0, 1);
+
+        glTexCoord2f(0, 1);
+        glVertex3fv(verts[5]);
+
+        glTexCoord2f(1, 1);
+        glVertex3fv(verts[6]);
+
+        glTexCoord2f(1, 0);
+        glVertex3fv(verts[7]);
+
+        glTexCoord2f(0, 0);
+        glVertex3fv(verts[4]);
+    glEnd();
+
+
+    glBindTexture(GL_TEXTURE_2D, textures[19]);
+    //floor
+    glBegin(GL_POLYGON);
+        setMaterials(1);
+        glNormal3f(0, 1, 0);
+
+        glTexCoord2f(0, 0);
+        glVertex3fv(verts[0]);
+
+        glTexCoord2f(0, 1);
+        glVertex3fv(verts[4]);
+
+        glTexCoord2f(1, 1);
+        glVertex3fv(verts[7]);
+
+        glTexCoord2f(1, 0);
+        glVertex3fv(verts[3]);
+    glEnd();
+    
+    /*
     for(int idx = 0; idx < 3; idx++){
-            glBegin(GL_POLYGON);
-            setMaterials(0);
-            for (int i = 0; i < 4; i++){
-                if ( idx == 2){
-                    setMaterials(1);
-                }
-                vIndex = indices[idx][i];
-                glVertex3fv(verts[vIndex]);
+        glBegin(GL_POLYGON);
+        setMaterials(0);
+        for (int i = 0; i < 4; i++){
+            if ( idx == 2){
+                setMaterials(1);
             }
-            glEnd();
+            vIndex = indices[idx][i];
+            glVertex3fv(verts[vIndex]);
+        }
+        glEnd();
     }
+    */
+    
 }
 
 
@@ -266,7 +329,7 @@ void loadIngrts(){
  *  \brief Displays ingredients needed for salad recipe
  */
 void displaySaladIngrts(){
-    
+    glTranslatef(-20, 15, -40);
      glPushMatrix();
         glTranslatef(-10, 15, 7); // z value larger moves it close to the camera
         glRotatef(90, 1, 0, 0); // rotating x will roll it towards you
@@ -306,6 +369,7 @@ void displaySaladIngrts(){
     
     glPushMatrix();
         glBindTexture(GL_TEXTURE_2D, textures[9]);
+        glTranslatef(0, 10, 0);
         displayIngredient("cutMango");
     glPopMatrix();
     
@@ -315,7 +379,7 @@ void displaySaladIngrts(){
  *  \brief Displays ingredients needed for curry recipe
  */
 void displayCurryIngrts(){
-
+    glTranslatef(-20, 15, -40);
     glPushMatrix();
         glTranslatef(-12, 15, -1); // z value larger moves it close to the camera
         glScalef(0.3, 0.3, 0.3);
@@ -367,6 +431,8 @@ void displayCurryIngrts(){
     glPopMatrix();
 
     glPushMatrix();
+        glTranslatef(0, 10, 0);
+        glScalef(0.2, 0.2, 0.2);
         glBindTexture(GL_TEXTURE_2D, textures[11]);
         displayIngredient("cutPotato");
     glPopMatrix();
@@ -377,7 +443,7 @@ void displayCurryIngrts(){
  *  \brief Displays ingredients needed for Steak recipe
  */
 void displaySteakIngrts(){
-
+    glTranslatef(-20, 15, -40);
     glPushMatrix();
         glTranslatef(-3, 15, 7); // x value smaller moves to the left
         glRotatef(270, 1, 0, 0);
@@ -420,7 +486,7 @@ void displayFurniture(){
     glPushMatrix();
         glRotatef(45, 0, 1, 0);
         glScalef(0.5, 0.5, 0.5);
-        glTranslatef(0, 0, -30);
+        glTranslatef(40, 0, -60); //make x greater, z smaller
         glBindTexture(GL_TEXTURE_2D, textures[0]);
         displayIngredient("ktc_table");
     glPopMatrix();
@@ -485,6 +551,7 @@ void renderBitmapString(float x, float y, void *font,const char *string){
  */
 void displayMenu(){
     glPushMatrix();
+        glTranslatef(0, 0, -20);
         glTranslatef(8, 14, 4);
         glRotatef(0, 1, 0, 0);
         glScalef(0.4, 0.4, 0.4);
@@ -536,11 +603,11 @@ void draw3DScene(){
     
     //glColor3f(1,0,0);
     glPushMatrix();
-        glTranslatef(0, 0, -10);
-        glScalef(2, 2, 2);
-        //drawFloor();
+        glTranslatef(-10, 0, -10);
+        drawFloor();
     glPopMatrix();
 
+    
     // Toggles ingredients to be displayed
     glPushMatrix();
         glRotatef(45, 0, 1, 0);
@@ -554,6 +621,8 @@ void draw3DScene(){
         else if (scene == 3)
             displaySteakIngrts();
     glPopMatrix();
+    
+    
 }
 
 
@@ -626,8 +695,8 @@ void specialKeyboard(int key, int x, int y)
 {
     if (key == GLUT_KEY_UP){ eye[1]++; }
     if (key == GLUT_KEY_DOWN){ eye[1]--; }
-    if (key == GLUT_KEY_LEFT){ eye[0]--; }
-    if (key == GLUT_KEY_RIGHT){ eye[0]++; }
+    if (key == GLUT_KEY_LEFT){ eye[0]++; }
+    if (key == GLUT_KEY_RIGHT){ eye[0]--; }
 }
 
 //Idle function 
@@ -677,7 +746,7 @@ void loadTextures()
     glScalef(-1,1,-1);
 
     glEnable(GL_TEXTURE_2D);
-    glGenTextures(17, textures);
+    glGenTextures(20, textures);
 
     
     texture("obj/ktc_table/ktc_table.ppm", 0);
@@ -703,6 +772,10 @@ void loadTextures()
     texture("obj/pan/pan.ppm", 14);
     texture("obj/knife/knife.ppm", 15);
     texture("obj/pot/pot.ppm", 16);
+
+    texture("obj/room/wall.ppm", 17);
+    texture("obj/room/shelves.ppm", 18);
+    texture("obj/room/floor.ppm", 19);
     
     
 
