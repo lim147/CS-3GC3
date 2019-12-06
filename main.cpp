@@ -131,6 +131,18 @@ int width[20];
 int maximum[20];
 
 
+//ray casting
+bool SteakPick = false;
+
+double* m_start = new double[3];
+double* m_end = new double[3];
+
+float SteakSize = 1.5;
+//float KTCPos[3] = {40, 0, -60};
+float SteakPos[3] = {-5, 15, -16}; //-5, 15, 16
+
+
+
 void setMaterials(unsigned int index){
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, materialAmbient[index]);
     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, materialDiffuse[index]);
@@ -329,7 +341,7 @@ void loadIngrts(){
  *  \brief Displays ingredients needed for salad recipe
  */
 void displaySaladIngrts(){
-    glTranslatef(-20, 15, -40);
+    //glTranslatef(-20, 15, -40);
      glPushMatrix();
         glTranslatef(-10, 15, 7); // z value larger moves it close to the camera
         glRotatef(90, 1, 0, 0); // rotating x will roll it towards you
@@ -379,7 +391,7 @@ void displaySaladIngrts(){
  *  \brief Displays ingredients needed for curry recipe
  */
 void displayCurryIngrts(){
-    glTranslatef(-20, 15, -40);
+    //glTranslatef(-20, 15, -40);
     glPushMatrix();
         glTranslatef(-12, 15, -1); // z value larger moves it close to the camera
         glScalef(0.3, 0.3, 0.3);
@@ -443,7 +455,7 @@ void displayCurryIngrts(){
  *  \brief Displays ingredients needed for Steak recipe
  */
 void displaySteakIngrts(){
-    glTranslatef(-20, 15, -40);
+    //glTranslatef(-20, 15, -40);
     glPushMatrix();
         glTranslatef(-3, 15, 7); // x value smaller moves to the left
         glRotatef(270, 1, 0, 0);
@@ -551,11 +563,13 @@ void renderBitmapString(float x, float y, void *font,const char *string){
  */
 void displayMenu(){
     glPushMatrix();
-        glTranslatef(0, 0, -20);
-        glTranslatef(8, 14, 4);
-        glRotatef(0, 1, 0, 0);
+        glTranslatef(SteakPos[0], SteakPos[1], SteakPos[2]); //x = 8
+        //glRotatef(0, 1, 0, 0);
         glScalef(0.4, 0.4, 0.4);
-        glBindTexture(GL_TEXTURE_2D, textures[7]);
+        if (SteakPick)
+            glColor3f(1,0,0);
+        else
+            glBindTexture(GL_TEXTURE_2D, textures[7]);
         displayIngredient("steak");
     glPopMatrix();
 
@@ -610,8 +624,11 @@ void draw3DScene(){
     
     // Toggles ingredients to be displayed
     glPushMatrix();
-        glRotatef(45, 0, 1, 0);
-        displayFurniture();
+        glPushMatrix();
+            glRotatef(45, 0, 1, 0);
+            displayFurniture();
+        glPopMatrix();
+
         if (scene == 0)
             displayMenu();
         else if (scene == 1)
@@ -676,12 +693,91 @@ void keyboard(unsigned char key, int x, int y)
 }
 
 // Mouse Handler for first press and first release
+//mouse
 void mouse(int btn, int state, int x, int y){
-        //std::cout << " mouseMotion coords2: ";
-        //std:: cout << x << ", " << y << std::endl;
-        if (state == GLUT_UP){}
-        if (state == GLUT_DOWN){}
+    if (btn == GLUT_LEFT_BUTTON){
+        if (state == GLUT_UP){
+        }
+
+        if (state == GLUT_DOWN){
+
+            printf("time for un projection!!!!\n");
+
+            double matModelView[16], matProjection[16]; 
+            int viewport[4]; 
+
+            // get matrix and viewport:
+            glGetDoublev( GL_MODELVIEW_MATRIX, matModelView ); 
+            glGetDoublev( GL_PROJECTION_MATRIX, matProjection );
+            
+            //the x and y window coordinates of the viewport, followed by its width and height.
+            glGetIntegerv( GL_VIEWPORT, viewport ); 
+
+            // window pos of mouse, Y is inverted on Windows
+            double winX = (double)x; 
+            double winY = viewport[3] - (double)y; 
+
+            // get point on the 'near' plane (third param is set to 0.0)
+            gluUnProject(winX, winY, 0.0, matModelView, matProjection, 
+                    viewport, &m_start[0], &m_start[1], &m_start[2]); 
+
+            // get point on the 'far' plane (third param is set to 1.0)
+            gluUnProject(winX, winY, 1.0, matModelView, matProjection, 
+                    viewport, &m_end[0], &m_end[1], &m_end[2]); 
+
+            // now you can create a ray from m_start to m_end
+            printf("(%f,%f,%f)----(%f,%f,%f)\n\n", m_start[0], m_start[1], m_start[2], m_end[0], m_end[1], m_end[2]);
+        
+
+            //----------------------------------------
+            // test ktc_table - Ray intersection
+            //----------------------------------------
+            
+            double* R0 = new double[3];
+            double* Rd = new double[3];
+
+            double xDiff = m_end[0] - m_start[0];
+            double yDiff = m_end[1] - m_start[1];
+            double zDiff = m_end[2] - m_start[2];
+
+            double mag = sqrt(xDiff*xDiff + yDiff*yDiff + zDiff*zDiff);
+            R0[0] = m_start[0];
+            R0[1] = m_start[1];
+            R0[2] = m_start[2];
+
+            Rd[0] = xDiff / mag;
+            Rd[1] = yDiff / mag;
+            Rd[2] = zDiff / mag;
+            
+
+            double A = Rd[0] * Rd[0] + Rd[1] * Rd[1] + Rd[2] * Rd[2];
+            double* R0Pc = new double[3];
+            R0Pc[0] = R0[0] - SteakPos[0];
+            R0Pc[1] = R0[1] - SteakPos[1];
+            R0Pc[2] = R0[2] - SteakPos[2];
+
+            double B = 2 * ( R0Pc[0] * Rd[0] + R0Pc[1] * Rd[1] + R0Pc[2] * Rd[2]);
+            double C = (R0Pc[0]*R0Pc[0] + R0Pc[1] * R0Pc[1] + R0Pc[2] * R0Pc[2])
+                        - (SteakSize * SteakSize);
+
+            double discriminant = B*B - 4* A *C;
+
+            if( discriminant < 0)
+                printf("no intersection!\n");
+            else{
+                double t1 = (-B + sqrt(discriminant)) / (2*A);
+                double t2 = (-B - sqrt(discriminant)) / (2*A);
+
+                printf("ktc_table Intersection at t= %f, %f\n", t1, t2);
+
+                SteakPick = !SteakPick;
+            }
+
+            
+        }
+    }
 }
+
 
 // Is called when you move your mouse
 void passive (int x, int y){ 
@@ -714,6 +810,15 @@ void callBackInit(){
     glutPassiveMotionFunc(passive);
     glutIdleFunc(idle);
     glutDisplayFunc(display); //registers "display" as the display callback function
+
+    //initialize the values
+    m_start[0] = 0;
+    m_start[1] = 0;
+    m_start[2] = 0;
+
+    m_end[0] = 0;
+    m_end[1] = 0;
+    m_end[2] = 0;
 }
 
 /*
