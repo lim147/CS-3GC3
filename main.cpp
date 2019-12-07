@@ -338,6 +338,49 @@ void loadIngrts(){
 }
 
 
+void displayInstructions(){
+
+    glMatrixMode(GL_PROJECTION); // Tells opengl that we are doing project matrix work
+    glPushMatrix();
+        glLoadIdentity();
+           gluOrtho2D(0, w, 0, h);
+        //glOrtho(-9.0, 9.0, -9.0, 9.0, 0.0, 30.0);
+        glScalef(1, -1, 1);
+        glTranslatef(0, -h, 0);
+        glMatrixMode(GL_MODELVIEW);
+
+    glLoadIdentity();
+    glMatrixMode(GL_PROJECTION); // Tells opengl that we are doing project matrix work
+    glDisable(GL_DEPTH_TEST); // Makes it so that it stays on screen even when the camera moves
+    glLoadIdentity();
+    glPushMatrix();
+        
+        //gluOrtho2D(0, w, 0, h); // Old Orthoview
+        //glOrtho(-9.0, 9.0, -9.0, 9.0, 0.0, 30.0); // Setup an Ortho view
+        glOrtho(0, w, 0, h, 0.0, 30.0); // Setup an Ortho view
+
+        glScalef(1, -1, 1);
+        glTranslatef(0, -h, 0);
+        glMatrixMode(GL_MODELVIEW);
+
+    glColor3f(1.0, 1.0, 1.0);
+
+    if (scene == 1){
+        Salad.draw(570, 580, 0.15, 0.15);
+    }
+    else if (scene == 2){
+        Curry.draw(570, 580, 0.15, 0.15);
+    }
+    else if (scene == 3) {
+        Steak.draw(570, 580, 0.15, 0.15);
+    }
+
+
+    glPopMatrix();
+    glEnable(GL_DEPTH_TEST);
+
+}
+
 /**
  *  \brief Displays ingredients needed for salad recipe
  */
@@ -502,6 +545,8 @@ void displayFurniture(){
     glPopMatrix();
 }
 
+
+
 /**
  *  \brief Sets the orthographic properties needed for orthographic aspects on screen
  */
@@ -557,6 +602,7 @@ void renderBitmapString(float x, float y, void *font,const char *string){
  *  \brief Displays Menu of Recipes
  */
 void displayMenu(){
+    
     glPushMatrix();
         glTranslatef(pos[0][0], pos[0][1], pos[0][2]);
         glScalef(0.4, 0.4, 0.4);
@@ -578,6 +624,9 @@ void displayMenu(){
         glBindTexture(GL_TEXTURE_2D, textures[3]);
         displayIngredient("mango");
     glPopMatrix();
+    
+
+
 
     glMatrixMode(GL_PROJECTION); // Tells opengl that we are doing project matrix work
     glPushMatrix();
@@ -587,14 +636,6 @@ void displayMenu(){
         glScalef(1, -1, 1);
         glTranslatef(0, -h, 0);
         glMatrixMode(GL_MODELVIEW);
-
-    /*
-    glPushMatrix();
-    glLoadIdentity();
-        renderBitmapString(20,60, (void*)GLUT_BITMAP_9_BY_15, s);
-        //selectRecipe.draw(0, 0);
-    glPopMatrix();
-    */
 
     glLoadIdentity();
     glMatrixMode(GL_PROJECTION); // Tells opengl that we are doing project matrix work
@@ -657,12 +698,18 @@ void draw3DScene(){
     glPushMatrix();
         if (scene == 0)
             displayMenu();
-        else if (scene == 1)
+        else if (scene == 1){
             displaySaladIngrts();
-        else if (scene == 2)
+            displayInstructions();
+        }
+        else if (scene == 2){
             displayCurryIngrts();
-        else if (scene == 3)
+            displayInstructions();
+        }
+        else if (scene == 3){
             displaySteakIngrts();
+            displayInstructions();
+        }
     glPopMatrix();
     
     
@@ -707,6 +754,8 @@ void keyboard(unsigned char key, int x, int y)
 {
     if (key == 'q' or key == 27)
         exit(0);
+    if (key == '0')
+        scene = 0;
     if (key == '1')
         scene = 1;
     if (key == '2')
