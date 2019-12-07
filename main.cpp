@@ -31,6 +31,11 @@ using namespace std;
 map<string, Ingredient> ll;
 
 int scene = 0;
+// scene 0 is the select recipe state
+// scene 1 is the salad state
+//                curry state
+//                steak state
+
 int menuState = 0;
 
 GLfloat eye[] = {8, 21, 10}; //z should be 10
@@ -602,32 +607,16 @@ void displayMenu(){
         glMatrixMode(GL_MODELVIEW);
 
     glColor3f(1.0, 1.0, 1.0);
-    /*
-    glBegin(GL_QUADS); // In case we want to use a normal square instead
-        glVertex2f(0,0); // Top left
-        glVertex2f(0,300); // Bottom left (?)
-        glVertex2f(300,300); // Bottom right(?)
-        glVertex2f(300,0); // Top right
-    glEnd();*/
 
-    //mouseHandler.drawHandlers();
-    //selectRecipe.draw(560, 580, 0.25, 0.25);
-    //instructions.draw(550, 430, 0.25, 0.25);
+
+    selectRecipe.draw(550, 430, 0.25, 0.25);
+    mouseHandler.IHandler::drawHandlers();
 
     glPopMatrix();
     glEnable(GL_DEPTH_TEST);
 
     //resetPerspectiveProjection();
     //setPerspectiveProjection();
-
-    /* Trying to get the 3d steak on top of the 2d texture, but this doesn't work
-    glPushMatrix();
-        glTranslatef(pos[0][0], pos[0][1], pos[0][2]);
-        glScalef(0.4, 0.4, 0.4);
-            glBindTexture(GL_TEXTURE_2D, textures[7]);
-        displayIngredient("steak");
-    glPopMatrix();
-    */
 }
 
 /**
@@ -776,7 +765,7 @@ void mouse(int btn, int state, int x, int y){
 
         if (state == GLUT_DOWN){
 
-            if (scene == 0){
+            if (scene == 1 or scene == 2 or scene == 3){
 
                 printf("time for un projection!!!!\n");
 
@@ -807,6 +796,10 @@ void mouse(int btn, int state, int x, int y){
                 {
                     makeSelectable(i);
                 }
+
+            }
+            else if (scene == 0){
+                mouseHandler.leftClickDown(x, y);
 
             }
            

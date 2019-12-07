@@ -2,7 +2,7 @@
 
 
     void IHandler::leftClickDown(int x, int y) {
-        std::cout << "Left click at " << x << ", " << y << std::endl;
+        //std::cout << "Left click at " << x << ", " << y << std::endl;
         for (Handler *handler : mHandlers) {
             handler->handleClickAt(x, y);
         }
