@@ -24,6 +24,8 @@ using namespace std;
 #include "mathLib2D.h"
 #include "PPM.h"
 #include "Image.h"
+#include "InteractionHandler.h"
+#include "Handler.h"
 
 //dictionary of ingredients
 map<string, Ingredient> ll;
@@ -603,7 +605,7 @@ void displayMenu(){
     glEnd();*/
 
     //selectRecipe.draw(560, 580, 0.25, 0.25);
-    instructions.draw(550, 430, 0.25, 0.25);
+    //instructions.draw(550, 430, 0.25, 0.25);
 
     glPopMatrix();
     glEnable(GL_DEPTH_TEST);
