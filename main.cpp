@@ -561,7 +561,6 @@ void displayMenu(){
     glPopMatrix();
 
     glMatrixMode(GL_PROJECTION); // Tells opengl that we are doing project matrix work
-
     glPushMatrix();
         glLoadIdentity();
            gluOrtho2D(0, w, 0, h);
@@ -570,11 +569,13 @@ void displayMenu(){
         glTranslatef(0, -h, 0);
         glMatrixMode(GL_MODELVIEW);
 
+    /*
     glPushMatrix();
     glLoadIdentity();
         renderBitmapString(20,60, (void*)GLUT_BITMAP_9_BY_15, s);
         //selectRecipe.draw(0, 0);
     glPopMatrix();
+    */
 
     glLoadIdentity();
     glMatrixMode(GL_PROJECTION); // Tells opengl that we are doing project matrix work
@@ -592,17 +593,30 @@ void displayMenu(){
 
     glColor3f(1.0, 1.0, 1.0);
     /*
-    glBegin(GL_QUADS);
+    glBegin(GL_QUADS); // In case we want to use a normal square instead
         glVertex2f(0,0); // Top left
         glVertex2f(0,300); // Bottom left (?)
         glVertex2f(300,300); // Bottom right(?)
         glVertex2f(300,0); // Top right
     glEnd();*/
 
+    //selectRecipe.draw(560, 580, 0.25, 0.25);
+    instructions.draw(550, 430, 0.25, 0.25);
+
     glPopMatrix();
     glEnable(GL_DEPTH_TEST);
-    //resetPerspectiveProjection();
 
+    //resetPerspectiveProjection();
+    //setPerspectiveProjection();
+
+    /* Trying to get the 3d steak on top of the 2d texture, but this doesn't work
+    glPushMatrix();
+        glTranslatef(pos[0][0], pos[0][1], pos[0][2]);
+        glScalef(0.4, 0.4, 0.4);
+            glBindTexture(GL_TEXTURE_2D, textures[7]);
+        displayIngredient("steak");
+    glPopMatrix();
+    */
 }
 
 /**
@@ -908,12 +922,11 @@ void FPS(int val)
 
 void init()
 {
-    
+    selectRecipe.load("instructions1.ppm");
+    instructions.load("instructions1.ppm");
 }
 
 int main(int argc, char** argv) {
-
-    selectRecipe.load("choice1.ppm");
 
     glutInit(&argc, argv);
     glutInitWindowSize(w,h);

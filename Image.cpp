@@ -8,15 +8,12 @@ void Image::load(char * filename) {
     printf("%s %d %d\n", filename, mWidth, mHeight);
 }
 
-void Image::draw(unsigned int x, unsigned int y) {
+void Image::draw(unsigned int x, unsigned int y, float size1, float size2) {
 
-    glColor3d(1.0, 1.0, 1.0);;
-    glBegin(GL_QUADS);
-        glVertex2f(0,0);
-        glVertex2f(0,300);
-        glVertex2f(300,300);
-        glVertex2f(300,0);
-    glEnd();
+    glRasterPos2i(x , y);
+    glPixelZoom(-size1, size2);
+    glDrawPixels(mWidth, mHeight, GL_RGB, GL_UNSIGNED_BYTE, mImage);
+
 
 }
 

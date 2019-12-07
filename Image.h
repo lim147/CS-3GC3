@@ -25,7 +25,7 @@ struct Image {
     GLubyte * mImage;
 
     void load(char * filename);
-    void draw(unsigned int x, unsigned int y);
+    void draw(unsigned int x, unsigned int y, float size1, float size2);
     void texture();
 };
 
