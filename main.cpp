@@ -150,7 +150,8 @@ float pos[2][3] = {
     {-15, 15, -20}
 }; 
 
-
+double matModelView[16], matProjection[16]; 
+int viewport[4]; 
 
 
 
@@ -370,7 +371,7 @@ void displaySaladIngrts(){
     
     glPushMatrix();
         glBindTexture(GL_TEXTURE_2D, textures[9]);
-        glTranslatef(0, 10, 0);
+        glTranslatef(0, 10, -20);
         displayIngredient("cutMango");
     glPopMatrix();
     
@@ -549,9 +550,9 @@ void displayMenu(){
         glTranslatef(pos[0][0], pos[0][1], pos[0][2]);
         glScalef(0.4, 0.4, 0.4);
         if (pick[0])
-            glColor3f(1,0,0);
-        else
-            glBindTexture(GL_TEXTURE_2D, textures[7]);
+            glScalef(1.2, 1.2, 1.2); //the selected obj will become bigger
+
+        glBindTexture(GL_TEXTURE_2D, textures[7]);
         displayIngredient("steak");
     glPopMatrix();
 
@@ -561,9 +562,9 @@ void displayMenu(){
         //glRotatef(90, 1, 0, 0);
         glScalef(0.5, 0.5, 0.5);
         if (pick[1])
-            glColor3f(1,0,0);
-        else
-            glBindTexture(GL_TEXTURE_2D, textures[3]);
+            glScalef(1.2, 1.2, 1.2);
+
+        glBindTexture(GL_TEXTURE_2D, textures[3]);
         displayIngredient("mango");
     glPopMatrix();
 
@@ -763,6 +764,7 @@ void makeSelectable(int i)
     }
 }
 
+
 // Mouse Handler for first press and first release
 //mouse
 void mouse(int btn, int state, int x, int y){
@@ -775,9 +777,6 @@ void mouse(int btn, int state, int x, int y){
             if (scene == 0){
 
                 printf("time for un projection!!!!\n");
-
-                double matModelView[16], matProjection[16]; 
-                int viewport[4]; 
 
                 // get matrix and viewport:
                 glGetDoublev( GL_MODELVIEW_MATRIX, matModelView ); 
@@ -802,52 +801,49 @@ void mouse(int btn, int state, int x, int y){
                 printf("(%f,%f,%f)----(%f,%f,%f)\n\n", m_start[0], m_start[1], m_start[2], m_end[0], m_end[1], m_end[2]);
             
 
-                // //----------------------------------------
-                // // test steak - Ray intersection
-                // //----------------------------------------
-                // makeSelectable(0);
-
-
-                // //----------------------------------------
-                // // test mango - Ray intersection
-                // //----------------------------------------
-                // makeSelectable(1);
-
-                for (int i = 0; i < 2; i++){
-                    if (pick[i]){
-                        gluProject(pos[i][0],pos[i][1],pos[i][2],matModelView,matProjection,viewport,&obj_cposition[0],&obj_cposition[1],&obj_cposition[2]);
-
-                        double winZ = obj_cposition[2];
-                        gluUnProject(winX,winY,winZ ,matModelView,matProjection,viewport,&m_position[0],&m_position[1],&m_position[2]); 
-
-
-                        pos[i][0] = m_position[0];
-                        pos[i][1] = m_position[1];
-                        pos[i][2] = m_position[2];
-                        printf("(%f,%f,%f)", m_position[0],m_position[1],m_position[2]);
-
-                        pick[i] = !pick[i];
-                    }
-                    else{
-                        makeSelectable(i);
-                    }
+                for (int i = 0; i < 2; i++)
+                {
+                    makeSelectable(i);
                 }
+
             }
-/*
-            else {
-
-                mouseHandler.leftClickDown(x, h - y);
-            }*/
-
+           
             
         }
     }
 }
 
+
 // Is called when you move your mouse
-void passive (int x, int y){ 
-    //std::cout << " mouseMotion coords2: ";
-    //std:: cout << x << ", " << y << std::endl;
+void passive (int x, int y)
+{ 
+    for (int i = 0; i < 2; i++){
+        if (pick[i]){
+            gluProject(pos[i][0],pos[i][1],pos[i][2],matModelView,matProjection,viewport,&obj_cposition[0],&obj_cposition[1],&obj_cposition[2]);
+
+            double winX = (double)x; 
+            double winY = viewport[3] - (double)y; 
+            double winZ = obj_cposition[2];
+            gluUnProject(winX,winY,winZ ,matModelView,matProjection,viewport,&m_position[0],&m_position[1],&m_position[2]); 
+
+
+            pos[i][0] = m_position[0];
+            pos[i][1] = m_position[1];
+            pos[i][2] = m_position[2];
+            printf("(%f,%f,%f)", m_position[0],m_position[1],m_position[2]);
+
+            //pick[i] = !pick[i];
+        }
+        
+        //all objects are not selected yet
+        /*
+        else{
+            makeSelectable(i);
+        }
+        */
+        
+    }
+    
 }
 
 void specialKeyboard(int key, int x, int y)
