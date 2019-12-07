@@ -47,7 +47,11 @@ int w = 600;
 int h = 600;
 // int font=(int)GLUT_BITMAP_9_BY_15;
 char s[30]; 
-double t; 
+
+// Variables for time
+double allotedTime = 60;
+double startTime;
+double passedTime; 
 
 Image selectRecipe; // Image with the recipes to choose from
 Image Salad; // Image with the instructions of the game
@@ -933,25 +937,34 @@ void loadTextures()
 
 void FPS(int val)
 {
-    t = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
-    int time = (int)t;
-    sprintf(s, "%2d", time);
+    passedTime = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
+    int time = (int)(allotedTime-(passedTime-startTime));
+
+    if (scene == 1 or scene == 2 or scene == 3)
+        sprintf(s, "%2d", time);
+
     glutTimerFunc(1000, FPS, 0);
     glutPostRedisplay();
 }
 
 void selectSalad() {
     menuState=1;
+    scene=1;
+    startTime = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
     std::cout << "menustate "<< menuState << std::endl;
 }
 
 void selectCurry(){
     menuState=2;
+    scene=2;
+    startTime = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
     std::cout << "menustate "<< menuState << std::endl;
 }
 
 void selectSteak(){
     menuState=3;
+    scene=3;
+    startTime = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
     std::cout << "menustate "<< menuState << std::endl;
 }
 
