@@ -27,6 +27,10 @@ using namespace std;
 #include "InteractionHandler.h"
 #include "Handler.h"
 
+//window ID
+GLint WindowID1, WindowID2;
+
+
 //dictionary of ingredients
 map<string, Ingredient> ll;
 
@@ -157,8 +161,8 @@ double* obj_cposition = new double[3];
 bool pick[2] = {false, false};
 float size[2] = {1.5, 1.5};
 float pos[2][3] = {
-    {-5, 15, -16},
-    {-15, 15, -20}
+    {-5, 20, -16},
+    {-15, 20, -20}
 }; 
 
 double matModelView[16], matProjection[16]; 
@@ -182,7 +186,7 @@ void drawFloor() // Floor of the room, change this to do the room
     glBindTexture(GL_TEXTURE_2D, textures[17]);
     //left wall
     glBegin(GL_POLYGON);
-        setMaterials(0);
+        //setMaterials(0);
         glNormal3f(1, 0, 0);
 
         glTexCoord2f(0, 1);
@@ -203,7 +207,7 @@ void drawFloor() // Floor of the room, change this to do the room
     glBindTexture(GL_TEXTURE_2D, textures[18]);
     //right wall
     glBegin(GL_POLYGON);
-        setMaterials(0);
+        //setMaterials(0);
         glNormal3f(0, 0, 1);
 
         glTexCoord2f(0, 1);
@@ -223,7 +227,7 @@ void drawFloor() // Floor of the room, change this to do the room
     glBindTexture(GL_TEXTURE_2D, textures[19]);
     //floor
     glBegin(GL_POLYGON);
-        setMaterials(1);
+        //setMaterials(1);
         glNormal3f(0, 1, 0);
 
         glTexCoord2f(0, 0);
@@ -365,16 +369,20 @@ void displayInstructions(){
 
     glColor3f(1.0, 1.0, 1.0);
 
+    /*
     if (scene == 1){
+        Salad.texture();
         Salad.draw(570, 580, 0.15, 0.15);
     }
     else if (scene == 2){
+        Curry.texture();
         Curry.draw(570, 580, 0.15, 0.15);
     }
     else if (scene == 3) {
+        Steak.texture();
         Steak.draw(570, 580, 0.15, 0.15);
     }
-
+    */
 
     glPopMatrix();
     glEnable(GL_DEPTH_TEST);
@@ -509,12 +517,27 @@ void displaySteakIngrts(){
 
 
     glPushMatrix();
-        glTranslatef(8, 14, 4);
-        glRotatef(0, 1, 0, 0);
+        glTranslatef(pos[0][0], pos[0][1], pos[0][2]);
         glScalef(0.4, 0.4, 0.4);
+        if (pick[0])
+            glScalef(1.2, 1.2, 1.2); //the selected obj will become bigger
+
         glBindTexture(GL_TEXTURE_2D, textures[7]);
         displayIngredient("steak");
     glPopMatrix();
+
+
+    glPushMatrix();
+        glTranslatef(pos[1][0], pos[1][1], pos[1][2]);
+        //glRotatef(90, 1, 0, 0);
+        glScalef(0.5, 0.5, 0.5);
+        if (pick[1])
+            glScalef(1.2, 1.2, 1.2);
+
+        glBindTexture(GL_TEXTURE_2D, textures[3]);
+        displayIngredient("mango");
+    glPopMatrix();
+    
 
     glPushMatrix();
         glTranslatef(-10, 15, 7); // z value larger moves it close to the camera
@@ -602,7 +625,7 @@ void renderBitmapString(float x, float y, void *font,const char *string){
  *  \brief Displays Menu of Recipes
  */
 void displayMenu(){
-    
+
     glPushMatrix();
         glTranslatef(pos[0][0], pos[0][1], pos[0][2]);
         glScalef(0.4, 0.4, 0.4);
@@ -625,8 +648,6 @@ void displayMenu(){
         displayIngredient("mango");
     glPopMatrix();
     
-
-
 
     glMatrixMode(GL_PROJECTION); // Tells opengl that we are doing project matrix work
     glPushMatrix();
@@ -653,7 +674,7 @@ void displayMenu(){
 
     glColor3f(1.0, 1.0, 1.0);
 
-
+    selectRecipe.texture();
     selectRecipe.draw(550, 430, 0.25, 0.25);
     mouseHandler.IHandler::drawHandlers();
 
@@ -993,6 +1014,11 @@ void FPS(int val)
         sprintf(s, "%2d", time);
 
     glutTimerFunc(1000, FPS, 0);
+
+    glutSetWindow( WindowID1 );
+    glutPostRedisplay();
+
+    glutSetWindow( WindowID2 );
     glutPostRedisplay();
 }
 
@@ -1056,13 +1082,65 @@ void init()
     mouseHandler.addHandler(&steakButton);
 }
 
+
+
+
+/*
+                Display instructions into a new window
+--------------------------------------------------------------------
+--------------------------------------------------------------------
+*/
+
+void display2D()
+{
+    glClear(GL_COLOR_BUFFER_BIT);
+    glPushMatrix();
+        if (scene == 1){
+            Salad.texture();
+            Salad.draw(300, 0, 0.18, 0.18);
+        }
+        else if (scene == 2){
+            Curry.texture();
+            Curry.draw(300, 0, 0.18, 0.18);
+        }
+        else if (scene == 3) {
+            Steak.texture();
+            Steak.draw(300, 0, 0.18, 0.18);
+        }
+
+    glPopMatrix();
+
+    glutSwapBuffers();
+}
+
+
+
+
+void reshape2D(int w, int h)
+{
+    glMatrixMode(GL_PROJECTION); //change camera, projection to the screen
+    glLoadIdentity(); //reset the change
+    gluOrtho2D(0, w, 0, h);
+    glMatrixMode(GL_MODELVIEW);
+    glViewport(0, 0, w, h);
+}
+
+
+
+
+/*
+--------------------------------------------------------------------
+--------------------------------------------------------------------
+*/
+
+
 int main(int argc, char** argv) {
 
     glutInit(&argc, argv);
     glutInitWindowSize(w,h);
     glutInitWindowPosition(300,300);
     glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
-    glutCreateWindow("Prototype");
+    WindowID1 = glutCreateWindow("Kitchen");
     glutReshapeFunc(handleReshape);
 
     glEnable(GL_LIGHTING);
@@ -1084,6 +1162,19 @@ int main(int argc, char** argv) {
     //glCullFace(GL_BACK);
     //glEnable(GL_BLEND);
     loadIngrts();
+
+
+
+    glutInitWindowSize(300,270);
+    glutInitWindowPosition(900,150);
+    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
+    WindowID2 = glutCreateWindow("Instructions");   // Create a window 2
+    glutTimerFunc(0, FPS, 0);
+    glutDisplayFunc(display2D);
+    glutKeyboardFunc(keyboard);
+    glutReshapeFunc(reshape2D);
+    glutSpecialFunc(specialKeyboard);
+
     glutMainLoop();
 
 
