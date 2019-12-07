@@ -30,7 +30,7 @@ run: $(PROGRAM_NAME)
 #	./a2
 
 $(PROGRAM_NAME): main.o 
-	$(CC) -o $@ $^ $(CFLAGS) Ingredient.cpp mathLib2D.cpp PPM.cc Image.cpp $(LDFLAGS) 
+	$(CC) -o $@ $^ $(CFLAGS) Ingredient.cpp mathLib2D.cpp PPM.cc Image.cpp Handler.cpp $(LDFLAGS) 
 	
 clean:
 	$(RM) *.o $(PROGRAM_NAME)$(EXEEXT)

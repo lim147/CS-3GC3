@@ -147,6 +147,8 @@ float pos[2][3] = {
 
 
 
+
+
 void setMaterials(unsigned int index){
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, materialAmbient[index]);
     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, materialDiffuse[index]);
