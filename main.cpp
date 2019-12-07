@@ -832,15 +832,8 @@ void passive (int x, int y)
             pos[i][2] = m_position[2];
             printf("(%f,%f,%f)", m_position[0],m_position[1],m_position[2]);
 
-            //pick[i] = !pick[i];
         }
         
-        //all objects are not selected yet
-        /*
-        else{
-            makeSelectable(i);
-        }
-        */
         
     }
     
