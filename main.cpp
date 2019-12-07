@@ -31,6 +31,7 @@ using namespace std;
 map<string, Ingredient> ll;
 
 int scene = 0;
+int menuState = 0;
 
 GLfloat eye[] = {8, 21, 10}; //z should be 10
 GLfloat lookAt[] = { 0, 20, 0 };
@@ -45,6 +46,7 @@ double t;
 
 Image selectRecipe; // Image with the recipes to choose from
 Image instructions; // Image with the instructions of the game
+IHandler mouseHandler;
 
 /* 
 //origin light
@@ -604,6 +606,7 @@ void displayMenu(){
         glVertex2f(300,0); // Top right
     glEnd();*/
 
+    //mouseHandler.drawHandlers();
     //selectRecipe.draw(560, 580, 0.25, 0.25);
     //instructions.draw(550, 430, 0.25, 0.25);
 
@@ -768,44 +771,52 @@ void mouse(int btn, int state, int x, int y){
 
         if (state == GLUT_DOWN){
 
-            printf("time for un projection!!!!\n");
+            if (scene == 0){
 
-            double matModelView[16], matProjection[16]; 
-            int viewport[4]; 
+                printf("time for un projection!!!!\n");
 
-            // get matrix and viewport:
-            glGetDoublev( GL_MODELVIEW_MATRIX, matModelView ); 
-            glGetDoublev( GL_PROJECTION_MATRIX, matProjection );
+                double matModelView[16], matProjection[16]; 
+                int viewport[4]; 
+
+                // get matrix and viewport:
+                glGetDoublev( GL_MODELVIEW_MATRIX, matModelView ); 
+                glGetDoublev( GL_PROJECTION_MATRIX, matProjection );
+                
+                //the x and y window coordinates of the viewport, followed by its width and height.
+                glGetIntegerv( GL_VIEWPORT, viewport ); 
+
+                // window pos of mouse, Y is inverted on Windows
+                double winX = (double)x; 
+                double winY = viewport[3] - (double)y; 
+
+                // get point on the 'near' plane (third param is set to 0.0)
+                gluUnProject(winX, winY, 0.0, matModelView, matProjection, 
+                        viewport, &m_start[0], &m_start[1], &m_start[2]); 
+
+                // get point on the 'far' plane (third param is set to 1.0)
+                gluUnProject(winX, winY, 1.0, matModelView, matProjection, 
+                        viewport, &m_end[0], &m_end[1], &m_end[2]); 
+
+                // now you can create a ray from m_start to m_end
+                printf("(%f,%f,%f)----(%f,%f,%f)\n\n", m_start[0], m_start[1], m_start[2], m_end[0], m_end[1], m_end[2]);
             
-            //the x and y window coordinates of the viewport, followed by its width and height.
-            glGetIntegerv( GL_VIEWPORT, viewport ); 
 
-            // window pos of mouse, Y is inverted on Windows
-            double winX = (double)x; 
-            double winY = viewport[3] - (double)y; 
-
-            // get point on the 'near' plane (third param is set to 0.0)
-            gluUnProject(winX, winY, 0.0, matModelView, matProjection, 
-                    viewport, &m_start[0], &m_start[1], &m_start[2]); 
-
-            // get point on the 'far' plane (third param is set to 1.0)
-            gluUnProject(winX, winY, 1.0, matModelView, matProjection, 
-                    viewport, &m_end[0], &m_end[1], &m_end[2]); 
-
-            // now you can create a ray from m_start to m_end
-            printf("(%f,%f,%f)----(%f,%f,%f)\n\n", m_start[0], m_start[1], m_start[2], m_end[0], m_end[1], m_end[2]);
-        
-
-            //----------------------------------------
-            // test steak - Ray intersection
-            //----------------------------------------
-            makeSelectable(0);
+                //----------------------------------------
+                // test steak - Ray intersection
+                //----------------------------------------
+                makeSelectable(0);
 
 
-            //----------------------------------------
-            // test mango - Ray intersection
-            //----------------------------------------
-            makeSelectable(1);
+                //----------------------------------------
+                // test mango - Ray intersection
+                //----------------------------------------
+                makeSelectable(1);
+            }
+/*
+            else {
+
+                mouseHandler.leftClickDown(x, h - y);
+            }*/
 
             
         }
@@ -923,6 +934,66 @@ void FPS(int val)
     glutTimerFunc(1000, FPS, 0);
     glutPostRedisplay();
 }
+
+/*
+void select() {
+
+}
+
+Handler leftButton = {
+    10,
+    65,
+    100,
+    50,
+    select
+};
+
+Handler rightButton = {
+    110,
+    165,
+    100,
+    50,
+    select
+};*/
+
+/**
+ * YOUR CODE HERE
+ *
+ * Add four more handlers
+ */
+
+/*
+Handler topButton = {
+    64,
+    111,
+    131,
+    71,
+    select
+};
+
+Handler bottomButton = {
+    64,
+    111,
+    71,
+    16,
+    select
+};
+
+Handler rotateLeftButton = {
+    210,
+    269,
+    116,
+    24,
+    select
+};
+
+Handler rotateRightButton = {
+    283,
+    341,
+    116,
+    24,
+    select
+};*/
 
 void init()
 {
