@@ -815,7 +815,7 @@ void mouse(int btn, int state, int x, int y){
 
                 for (int i = 0; i < 2; i++){
                     if (pick[i]){
-                        gluProject(pos[i][i],pos[i][1],pos[i][2],matModelView,matProjection,viewport,&obj_cposition[0],&obj_cposition[1],&obj_cposition[2]);
+                        gluProject(pos[i][0],pos[i][1],pos[i][2],matModelView,matProjection,viewport,&obj_cposition[0],&obj_cposition[1],&obj_cposition[2]);
 
                         double winZ = obj_cposition[2];
                         gluUnProject(winX,winY,winZ ,matModelView,matProjection,viewport,&m_position[0],&m_position[1],&m_position[2]); 
