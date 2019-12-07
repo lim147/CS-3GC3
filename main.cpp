@@ -137,7 +137,8 @@ int maximum[20];
 //ray casting
 double* m_start = new double[3];
 double* m_end = new double[3];
-
+double* m_position = new double[3];
+double* obj_cposition = new double[3];
 /*
     0 - steak
     1 - mango
@@ -801,16 +802,36 @@ void mouse(int btn, int state, int x, int y){
                 printf("(%f,%f,%f)----(%f,%f,%f)\n\n", m_start[0], m_start[1], m_start[2], m_end[0], m_end[1], m_end[2]);
             
 
-                //----------------------------------------
-                // test steak - Ray intersection
-                //----------------------------------------
-                makeSelectable(0);
+                // //----------------------------------------
+                // // test steak - Ray intersection
+                // //----------------------------------------
+                // makeSelectable(0);
 
 
-                //----------------------------------------
-                // test mango - Ray intersection
-                //----------------------------------------
-                makeSelectable(1);
+                // //----------------------------------------
+                // // test mango - Ray intersection
+                // //----------------------------------------
+                // makeSelectable(1);
+
+                for (int i = 0; i < 2; i++){
+                    if (pick[i]){
+                        gluProject(pos[i][i],pos[i][1],pos[i][2],matModelView,matProjection,viewport,&obj_cposition[0],&obj_cposition[1],&obj_cposition[2]);
+
+                        double winZ = obj_cposition[2];
+                        gluUnProject(winX,winY,winZ ,matModelView,matProjection,viewport,&m_position[0],&m_position[1],&m_position[2]); 
+
+
+                        pos[i][0] = m_position[0];
+                        pos[i][1] = m_position[1];
+                        pos[i][2] = m_position[2];
+                        printf("(%f,%f,%f)", m_position[0],m_position[1],m_position[2]);
+
+                        pick[i] = !pick[i];
+                    }
+                    else{
+                        makeSelectable(i);
+                    }
+                }
             }
 /*
             else {
