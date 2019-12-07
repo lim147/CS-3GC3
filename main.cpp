@@ -935,11 +935,12 @@ void FPS(int val)
     glutPostRedisplay();
 }
 
-/*
-void select() {
 
+void select() {
+    menuState+=1;
 }
 
+/*
 Handler leftButton = {
     10,
     65,
@@ -954,15 +955,9 @@ Handler rightButton = {
     100,
     50,
     select
-};*/
+};
 
-/**
- * YOUR CODE HERE
- *
- * Add four more handlers
- */
 
-/*
 Handler topButton = {
     64,
     111,

@@ -4,9 +4,6 @@
     void IHandler::leftClickDown(int x, int y) {
         std::cout << "Left click at " << x << ", " << y << std::endl;
         for (Handler *handler : mHandlers) {
-            /**
-             * YOUR CODE HERE
-             */
             handler->handleClickAt(x, y);
         }
     }
@@ -22,8 +19,5 @@
     }
 
     void IHandler::addHandler(Handler *handler) {
-        /**
-         * YOUR CODE HERE
-         */
         mHandlers.push_back(handler);
     }
