@@ -10,7 +10,7 @@
 
     void Handler::handleClickAt(unsigned int x, unsigned int y) {
         if (isInBounds(x, y)) {
-            mHandlerFunc;
+            mHandlerFunc();
         }
     }
 

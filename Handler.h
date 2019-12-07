@@ -20,7 +20,7 @@
 struct Handler {
     unsigned int mLeft, mRight, mTop, mBottom;
 
-    void *mHandlerFunc;
+    void (*mHandlerFunc)();
     bool isInBounds(unsigned int x, unsigned int y);
     void handleClickAt(unsigned int x, unsigned int y);
     void drawBoxVertices();

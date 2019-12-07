@@ -45,7 +45,9 @@ char s[30];
 double t; 
 
 Image selectRecipe; // Image with the recipes to choose from
-Image instructions; // Image with the instructions of the game
+Image Salad; // Image with the instructions of the game
+Image Curry; // Image with the instructions of the game
+Image Steak; // Image with the instructions of the game
 IHandler mouseHandler;
 
 /* 
@@ -945,65 +947,58 @@ void FPS(int val)
     glutPostRedisplay();
 }
 
-
-void select() {
-    menuState+=1;
+void selectSalad() {
+    menuState=1;
+    std::cout << "menustate "<< menuState << std::endl;
 }
 
-/*
-Handler leftButton = {
-    10,
-    65,
-    100,
-    50,
-    select
+void selectCurry(){
+    menuState=2;
+    std::cout << "menustate "<< menuState << std::endl;
+}
+
+void selectSteak(){
+    menuState=3;
+    std::cout << "menustate "<< menuState << std::endl;
+}
+
+Handler saladButton = {
+    220, //mLeft
+    270, //mRight
+    214, //mTop // is actually the bottom
+    180, //mBottom
+    selectSalad
 };
 
-Handler rightButton = {
-    110,
-    165,
-    100,
-    50,
-    select
+Handler curryButton = {
+    220, //mLeft
+    270, //mRight
+    287, //mTop
+    249, //mBottom
+    selectCurry
 };
 
-
-Handler topButton = {
-    64,
-    111,
-    131,
-    71,
-    select
+Handler steakButton = {
+    220, //mLeft
+    270, //mRight
+    367, //mTop
+    327, //mBottom
+    selectSteak
 };
 
-Handler bottomButton = {
-    64,
-    111,
-    71,
-    16,
-    select
-};
-
-Handler rotateLeftButton = {
-    210,
-    269,
-    116,
-    24,
-    select
-};
-
-Handler rotateRightButton = {
-    283,
-    341,
-    116,
-    24,
-    select
-};*/
 
 void init()
 {
+    //Load textures for the recipe menu and instructions
     selectRecipe.load("instructions1.ppm");
-    instructions.load("instructions1.ppm");
+    Salad.load("Salad.ppm");
+    Curry.load("Curry.ppm");
+    Steak.load("Steak.ppm");
+
+    //Add the buttons to the mouse handler
+    mouseHandler.addHandler(&saladButton);
+    mouseHandler.addHandler(&curryButton);
+    mouseHandler.addHandler(&steakButton);
 }
 
 int main(int argc, char** argv) {
