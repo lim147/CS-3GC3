@@ -170,14 +170,14 @@ double* obj_cposition = new double[3];
 */
 
 
-bool pick[5] = {};
+bool pick[5] = {
             //salad  //curry //steak 
-    // false, //knife   //knife   //knife 
-    // false, //banana  //pot     //pan 
-    // false, //orange  //potato //steak
-    // false, //mango   //tomato 
-    // false,           //onion  
-    // };
+    false, //knife   //knife   //knife 
+    false, //banana  //pot     //pan 
+    false, //orange  //potato //steak
+    false, //mango   //tomato 
+    false,           //onion  
+    };
 float size[5] = {1.5, 1.5,1.5, 1.5,1.5};
 
 
@@ -196,7 +196,14 @@ pos[] | cutBanana | cutTomato |
 pos[] | cutMango  | cutPotato |
 
 */
-float pos[10][3] = {}; 
+float pos[6][3] = {
+    {-10, 30, -30}, // pos[0] 
+    {-10, 25, -30}, // pos[1] 
+    {-10, 20, -30}, // pos[2] 
+    {-10, 15, -30}, // pos[3] 
+    {-10, 10, -30}, // pos[4] 
+    {-10, 5, -30}   // pos[5] 
+}; 
 
 double matModelView[16], matProjection[16]; 
 int viewport[4]; 
@@ -459,17 +466,21 @@ void gameSetUp()
     cut["beef"] = false;
 
 
-    float pos[10][3] = {
-    {-10, 30, -30}, // pos[0] 
-    {-10, 25, -30}, // pos[1] 
-    {-10, 20, -30}, // pos[2] 
-    {-10, 15, -30}, // pos[3] 
-    {-10, 10, -30}, // pos[4] 
-    {-10, 5, -30}   // pos[5] 
+    float pos[6][3] = {
+        {-10, 30, -30}, // pos[0] 
+        {-10, 25, -30}, // pos[1] 
+        {-10, 20, -30}, // pos[2] 
+        {-10, 15, -30}, // pos[3] 
+        {-10, 10, -30}, // pos[4] 
+        {-10, 5, -30}   // pos[5] 
     }; 
 
-    bool pick[5] = {false, false, false, false, false};
 
+    pick[0] = false; 
+    pick[1] = false; 
+    pick[2] = false;
+    pick[3] = false; 
+    pick[4] = false; 
 }
 
 
