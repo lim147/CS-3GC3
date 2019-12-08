@@ -1134,15 +1134,85 @@ void mouse(int btn, int state, int x, int y){
             }
             else if(scene == 1)
             {
-                n = 4; 
+                
+                    Point2D bowlPos = Point2D(pos[4][0], pos[4][1]);
+
+                    Point2D bananaPos = Point2D(pos[1][0], pos[1][1]);
+                    Point2D orangePos = Point2D(pos[2][0], pos[2][1]);
+                    Point2D mangoPos = Point2D(pos[3][0], pos[3][1]);
+
+                    if (bowlPos.distanceTo(bananaPos) < 3.0 && bowlPos.mY>bananaPos.mY && cut["banana"])
+                    {
+                        pick[1] = !pick[1];
+                        pos[1][0] = pos[4][0];
+                        pos[1][1] = pos[4][1];
+                        pos[1][2] = pos[4][2];
+                    }
+        
+                    else if (bowlPos.distanceTo(orangePos) < 3.0 && bowlPos.mY > orangePos.mY && cut["orange"])
+                    {
+                        pick[2] = !pick[2];
+                        pos[2][0] = pos[4][0];
+                        pos[2][1] = pos[4][1];
+                        pos[2][2] = pos[4][2];
+                    }
+                    
+                    else if (bowlPos.distanceTo(mangoPos) < 3.0 && bowlPos.mY>mangoPos.mY && cut["mango"])
+                    {
+                        pick[3] = !pick[3];
+                        pos[3][0] = pos[4][0];
+                        pos[3][1] = pos[4][1];
+                        pos[3][2] = pos[4][2];
+                    }
+                    else{
+                        for (int i = 0; i < 5; i++)
+                        {
+                        makeSelectable(i);
+                        }    
+                    }
             }
             else if(scene == 2)
             {
-                n = 5; 
+                Point2D potPos = Point2D(pos[1][0], pos[1][1]);
+                Point2D potatoPos = Point2D(pos[2][0], pos[2][1]);
+                Point2D tomatoPos = Point2D(pos[3][0], pos[3][1]);
+                Point2D onionPos = Point2D(pos[4][0], pos[4][1]);
+                
+                if (potPos.distanceTo(potatoPos) < 3.0 && potPos.mY>potatoPos.mY && cut["potato"])
+                {
+                        pick[2] = !pick[2];
+                        pos[2][0] = pos[1][0];
+                        pos[2][1] = pos[1][1];
+                        pos[2][2] = pos[1][2];
+                }
+
+                else if(potPos.distanceTo(tomatoPos) < 3.5 && potPos.mY>tomatoPos.mY && cut["tomato"]){
+                        pick[3] = !pick[3];
+                        pos[3][0] = pos[1][0];
+                        pos[3][1] = pos[1][1];
+                        pos[3][2] = pos[1][2];
+                }
+
+
+                else if (potPos.distanceTo(onionPos) < 3.5 && potPos.mY>onionPos.mY && cut["onion"])
+                {
+                        pick[4] = !pick[4];
+                        pos[4][0] = pos[1][0];
+                        pos[4][1] = pos[1][1];
+                        pos[4][2] = pos[1][2];
+                }
+                    
+                else{
+                    for (int i = 0; i < 5; i++)
+                    {
+                        makeSelectable(i);
+                    }                                       
+                }
+
+                //n = 5; 
             }
             else if (scene == 3)
             {
-                n = 2;
                 Point2D panPos = Point2D(pos[0][0], pos[0][1]);
                 Point2D steakPos = Point2D(pos[1][0], pos[1][1]);
 
@@ -1163,12 +1233,6 @@ void mouse(int btn, int state, int x, int y){
                 }
 
             }
-
-            // for (int i = 0; i < n; i++)
-            // {
-            //     makeSelectable(i);
-            // }
-
         }
     }
 
@@ -1284,7 +1348,7 @@ void passive (int x, int y)
 { 
     int n = 0;
     if (scene == 1){
-        n = 4; 
+        n = 5; 
     }
     else if(scene == 2){
         n = 5; 
