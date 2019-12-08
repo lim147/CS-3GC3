@@ -184,9 +184,9 @@ float size[5] = {1.5, 1.5,1.5, 1.5,1.5};
 /*
 Index  | Salad     | Curry     | Steak
 ___________________________________________
-pos[0] | knife     | knife     | knife
-pos[1] | banana    | pot       | pan
-pos[2] | orange    | potato    | beef
+pos[0] | knife     | knife     | pan
+pos[1] | banana    | pot       | beef
+pos[2] | orange    | potato    | 
 pos[3] | mango     | tomato    | 
 pos[4] | bowl      | onion     | 
 
@@ -712,21 +712,10 @@ void displayCurryIngrts(){
 void displaySteakIngrts(){
 
     glPushMatrix();
-        glTranslatef(pos[0][0], pos[0][1], pos[0][2]); // z value larger moves it close to the camera
-        glRotatef(100, 1, 0, 0); // rotating x will roll it towards you
-        glRotatef(110, 1, 0, 0);
-        glScalef(0.6, 0.6, 0.6); // rotating z will rotate counter clockwise on clock
-        if(pick[0])
-            glScalef(1.6,1.6,1.6);
-        glBindTexture(GL_TEXTURE_2D, textures[15]);
-        displayIngredient("knife");
-    glPopMatrix();
-
-    glPushMatrix();
-        glTranslatef(pos[1][0], pos[1][1], pos[1][2]); // x value smaller moves to the left
+        glTranslatef(pos[0][0], pos[0][1], pos[0][2]); // x value smaller moves to the left
         glRotatef(270, 1, 0, 0);
         glScalef(0.12, 0.12, 0.12);
-        if(pick[1])
+        if(pick[0])
             glScalef(1.12,1.12,1.12);
         glBindTexture(GL_TEXTURE_2D, textures[14]);
         displayIngredient("pan");
@@ -734,10 +723,10 @@ void displaySteakIngrts(){
 
 
     glPushMatrix();
-        glTranslatef(pos[2][0], pos[2][1], pos[2][2]);
+        glTranslatef(pos[1][0], pos[1][1], pos[1][2]);
         glRotatef(0, 1, 0, 0);
         glScalef(0.4, 0.4, 0.4);
-        if(pick[2])
+        if(pick[1])
             glScalef(1.4,1.4,1.4);
         glBindTexture(GL_TEXTURE_2D, textures[7]);
         displayIngredient("steak");
@@ -751,6 +740,7 @@ void displaySteakIngrts(){
     //     glScalef(0.15, 0.15, 0.15);
     //     displayIngredient("cookedBeef");
     // glPopMatrix();
+
 }
 
 /**
@@ -1152,13 +1142,32 @@ void mouse(int btn, int state, int x, int y){
             }
             else if (scene == 3)
             {
-                n = 3; 
+                n = 2;
+                Point2D panPos = Point2D(pos[0][0], pos[0][1]);
+                Point2D steakPos = Point2D(pos[1][0], pos[1][1]);
+
+                if (panPos.distanceTo(steakPos) < 3.5 && panPos.mY> steakPos.mY)
+                    {
+                        printf("steak is near the pan\n");
+                        pick[1] = !pick[1]; 
+                        pos[1][0] = pos[0][0];
+                        pos[1][1] = pos[0][1];
+                        pos[1][2] = pos[0][2];
+
+                }else{
+                
+                    for (int i = 0; i < 2; i++)
+                    {
+                        makeSelectable(i);
+                    }                     
+                }
+
             }
 
-            for (int i = 0; i < n; i++)
-            {
-                makeSelectable(i);
-            }
+            // for (int i = 0; i < n; i++)
+            // {
+            //     makeSelectable(i);
+            // }
 
         }
     }
@@ -1280,7 +1289,7 @@ void passive (int x, int y)
     else if(scene == 2){
         n = 5; 
     }else if(scene == 3){
-        n = 3;
+        n = 2;
     }
     for (int i = 0; i < n; i++){
         if (pick[i]){
