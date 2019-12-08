@@ -50,18 +50,25 @@ GLfloat up[] = { 0, 1, 0 };
 int w = 600;
 int h = 600;
 // int font=(int)GLUT_BITMAP_9_BY_15;
-char s[30]; 
+char s[30];
+char s2[30];
 
 // Variables for time
 double allotedTime = 60;
 double startTime;
 double passedTime; 
+int time = allotedTime;
 
 Image selectRecipe; // Image with the recipes to choose from
-Image Salad; // Image with the instructions of the game
-Image Curry; // Image with the instructions of the game
-Image Steak; // Image with the instructions of the game
+Image Instructions;
+Image Salad; // Image with the recipe of Salad
+Image Curry; // Image with the recpie of Curry
+Image Steak; // Image with the recipe of Steak
+Image Score; // Image for score
+Image Controls;
+
 IHandler mouseHandler;
+IHandler mouseHandler2;
 
 /* 
 //origin light
@@ -669,46 +676,11 @@ void renderBitmapString(float x, float y, void *font,const char *string){
     const char *c;
     glRasterPos2f(x, y);
     for (c=string; *c != '\0'; c++) {
-        glutBitmapCharacter(GLUT_BITMAP_9_BY_15, *c);
+        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, *c);
     }
 }
 
-/**
- *  \brief Displays Menu of Recipes
- */
-void displayMenu(){
-
-    // glPushMatrix();
-    //     glTranslatef(pos[0][0], pos[0][1], pos[0][2]);
-    //     glScalef(0.4, 0.4, 0.4);
-    //     if (pick[0])
-    //         glScalef(1.2, 1.2, 1.2); //the selected obj will become bigger
-
-    //     glBindTexture(GL_TEXTURE_2D, textures[7]);
-    //     displayIngredient("steak");
-    // glPopMatrix();
-
-
-    // glPushMatrix();
-    //     glTranslatef(pos[1][0], pos[1][1], pos[1][2]);
-    //     //glRotatef(90, 1, 0, 0);
-    //     glScalef(0.5, 0.5, 0.5);
-    //     if (pick[1])
-    //         glScalef(1.2, 1.2, 1.2);
-
-    //     glBindTexture(GL_TEXTURE_2D, textures[3]);
-    //     displayIngredient("mango");
-    // glPopMatrix();
-    
-
-    glMatrixMode(GL_PROJECTION); // Tells opengl that we are doing project matrix work
-    glPushMatrix();
-        glLoadIdentity();
-           gluOrtho2D(0, w, 0, h);
-        //glOrtho(-9.0, 9.0, -9.0, 9.0, 0.0, 30.0);
-        glScalef(1, -1, 1);
-        glTranslatef(0, -h, 0);
-        glMatrixMode(GL_MODELVIEW);
+void displayScore(){
 
     glLoadIdentity();
     glMatrixMode(GL_PROJECTION); // Tells opengl that we are doing project matrix work
@@ -716,8 +688,34 @@ void displayMenu(){
     glLoadIdentity();
     glPushMatrix();
         
-        //gluOrtho2D(0, w, 0, h); // Old Orthoview
-        //glOrtho(-9.0, 9.0, -9.0, 9.0, 0.0, 30.0); // Setup an Ortho view
+        glOrtho(0, w, 0, h, 0.0, 30.0); // Setup an Ortho view
+
+        glScalef(1, -1, 1);
+        glTranslatef(0, -h, 0);
+        glMatrixMode(GL_MODELVIEW);
+
+    glColor3f(1.0, 1.0, 1.0);
+
+    Score.texture();
+    Score.draw(550, 430, 0.25, 0.25);
+    mouseHandler.IHandler::drawHandlers();
+
+    glPopMatrix();
+    glEnable(GL_DEPTH_TEST);
+}
+
+
+/**
+ *  \brief Displays Menu of Recipes
+ */
+void displayMenu(){
+
+    glLoadIdentity();
+    glMatrixMode(GL_PROJECTION); // Tells opengl that we are doing project matrix work
+    glDisable(GL_DEPTH_TEST); // Makes it so that it stays on screen even when the camera moves
+    glLoadIdentity();
+    glPushMatrix();
+        
         glOrtho(0, w, 0, h, 0.0, 30.0); // Setup an Ortho view
 
         glScalef(1, -1, 1);
@@ -732,9 +730,6 @@ void displayMenu(){
 
     glPopMatrix();
     glEnable(GL_DEPTH_TEST);
-
-    //resetPerspectiveProjection();
-    //setPerspectiveProjection();
 }
 
 /**
@@ -783,6 +778,9 @@ void draw3DScene(){
             displaySteakIngrts();
             displayInstructions();
         }
+        else if (scene == 4){
+            displayScore();
+        }
     glPopMatrix();
     
     
@@ -829,12 +827,20 @@ void keyboard(unsigned char key, int x, int y)
         exit(0);
     if (key == '0')
         scene = 0;
-    if (key == '1')
+    if (key == '1'){
+        startTime = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
         scene = 1;
-    if (key == '2')
+    }
+    if (key == '2'){
+        startTime = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
         scene = 2;
-    if (key == '3')
+    }
+    if (key == '3'){
+        startTime = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
         scene = 3;
+    }
+    if (key == '4')
+        scene = 4;
 }
 
 
@@ -920,7 +926,10 @@ void mouse(int btn, int state, int x, int y){
             if (scene == 0){
                 mouseHandler.leftClickDown(x, y);
 
-            }else 
+            }else if (scene ==4){
+                mouseHandler2.leftClickDown(x,y);
+            }
+            else 
                 if(scene == 1){
                     n = 4; 
                 }else if(scene == 2){
@@ -1069,11 +1078,17 @@ void loadTextures()
 
 void FPS(int val)
 {
-    passedTime = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
-    int time = (int)(allotedTime-(passedTime-startTime));
 
-    if (scene == 1 or scene == 2 or scene == 3)
+    if (time <= 1){
+        scene = 4;
+    }
+
+
+    if (scene == 1 or scene == 2 or scene == 3){
+        passedTime = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
+        time = (int)(allotedTime-(passedTime-startTime));
         sprintf(s, "%2d", time);
+    }
 
     glutTimerFunc(1000, FPS, 0);
 
@@ -1088,21 +1103,27 @@ void selectSalad() {
     menuState=1;
     scene=1;
     startTime = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
-    std::cout << "menustate "<< menuState << std::endl;
+    //std::cout << "menustate "<< menuState << std::endl;
 }
 
 void selectCurry(){
     menuState=2;
     scene=2;
     startTime = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
-    std::cout << "menustate "<< menuState << std::endl;
+    //std::cout << "menustate "<< menuState << std::endl;
 }
 
 void selectSteak(){
     menuState=3;
     scene=3;
     startTime = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
-    std::cout << "menustate "<< menuState << std::endl;
+    //std::cout << "menustate "<< menuState << std::endl;
+}
+
+void restart(){
+    scene=0;
+    //menuState=0;
+
 }
 
 Handler saladButton = {
@@ -1129,19 +1150,30 @@ Handler steakButton = {
     selectSteak
 };
 
+Handler tryAgainButton = {
+    220, 
+    270, 
+    367, 
+    327, 
+    restart
+};
+
 
 void init()
 {
     //Load textures for the recipe menu and instructions
-    selectRecipe.load("instructions1.ppm");
-    Salad.load("Salad.ppm");
-    Curry.load("Curry.ppm");
-    Steak.load("Steak.ppm");
+    selectRecipe.load("ppm/instructions1.ppm");
+    Salad.load("ppm/Salad.ppm");
+    Curry.load("ppm/Curry.ppm");
+    Steak.load("ppm/Steak.ppm");
+    Score.load("ppm/Score.ppm");
+    Controls.load("ppm/Controls.ppm");
 
     //Add the buttons to the mouse handler
     mouseHandler.addHandler(&saladButton);
     mouseHandler.addHandler(&curryButton);
     mouseHandler.addHandler(&steakButton);
+    mouseHandler2.addHandler(&tryAgainButton);
 }
 
 
@@ -1157,6 +1189,10 @@ void display2D()
 {
     glClear(GL_COLOR_BUFFER_BIT);
     glPushMatrix();
+        if (scene == 0){
+            Controls.texture();
+            Controls.draw(300, 0, 0.18, 0.18);  
+        }
         if (scene == 1){
             Salad.texture();
             Salad.draw(300, 0, 0.18, 0.18);
@@ -1169,9 +1205,11 @@ void display2D()
             Steak.texture();
             Steak.draw(300, 0, 0.18, 0.18);
         }
+        else if (scene == 4){
+
+        }
 
     glPopMatrix();
-
     glutSwapBuffers();
 }
 
@@ -1227,7 +1265,7 @@ int main(int argc, char** argv) {
 
 
 
-    glutInitWindowSize(300,270);
+    glutInitWindowSize(320,270);
     glutInitWindowPosition(900,150);
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
     WindowID2 = glutCreateWindow("Instructions");   // Create a window 2
