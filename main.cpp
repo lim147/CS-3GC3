@@ -34,6 +34,9 @@ GLint WindowID1, WindowID2;
 //dictionary of ingredients
 map<string, Ingredient> ll;
 
+//dictionary to keep track of ingredients are cut or not
+map<string, bool> cut;
+
 int scene = 0;
 // scene 0 is the select recipe state
 // scene 1 is the salad state
@@ -362,6 +365,12 @@ void loadIngrts(){
 
     //cooked beef
     loadIngredient("obj/cookedBeef/cookedBeef.obj", "cookedBeef");
+}
+
+void gameSetUp()
+{
+    cut["banana"] = false;
+    cut["orange"] = false;
 }
 
 
@@ -850,6 +859,14 @@ void makeSelectable(int i)
 void mouse(int btn, int state, int x, int y){
     if (btn == GLUT_LEFT_BUTTON){
         if (state == GLUT_UP){
+            //TO DO: 
+            /*
+                if (pick[knife_i])
+                {
+                    if (distance(knife, obj) < ...)
+                    obj.display cut image
+                }
+            */
         }
 
         if (state == GLUT_DOWN){
@@ -887,6 +904,8 @@ void mouse(int btn, int state, int x, int y){
                 }
 
             }
+
+
             else if (scene == 0){
                 mouseHandler.leftClickDown(x, y);
 
