@@ -1145,29 +1145,37 @@ void mouse(int btn, int state, int x, int y){
                     Point2D orangePos = Point2D(pos[2][0], pos[2][1]);
                     Point2D mangoPos = Point2D(pos[3][0], pos[3][1]);
 
-                    if (bowlPos.distanceTo(bananaPos) < 3.0 && bowlPos.mY>bananaPos.mY && cut["banana"])
-                    {
-                        pick[1] = !pick[1];
-                        pos[1][0] = pos[4][0];
-                        pos[1][1] = pos[4][1];
-                        pos[1][2] = pos[4][2];
+                    if (cut["banana"]){
+                        if(bowlPos.distanceTo(bananaPos) < 3.0 && bowlPos.mY>bananaPos.mY){
+                            pick[1] = !pick[1];
+                            pos[1][0] = pos[4][0];
+                            pos[1][1] = pos[4][1];
+                            pos[1][2] = pos[4][2];
+                        }
                     }
         
-                    else if (bowlPos.distanceTo(orangePos) < 3.0 && bowlPos.mY > orangePos.mY && cut["orange"])
+                    else if (cut["orange"])
                     {
-                        pick[2] = !pick[2];
-                        pos[2][0] = pos[4][0];
-                        pos[2][1] = pos[4][1];
-                        pos[2][2] = pos[4][2];
+                        if(bowlPos.distanceTo(orangePos) < 3.0 && bowlPos.mY > orangePos.mY ){
+                            pick[2] = !pick[2];
+                            pos[2][0] = pos[4][0];
+                            pos[2][1] = pos[4][1];
+                            pos[2][2] = pos[4][2];
+                        }
+                        
                     }
-                    
-                    else if (bowlPos.distanceTo(mangoPos) < 3.0 && bowlPos.mY>mangoPos.mY && cut["mango"])
+    
+                    else if (cut["mango"])
                     {
-                        pick[3] = !pick[3];
-                        pos[3][0] = pos[4][0];
-                        pos[3][1] = pos[4][1];
-                        pos[3][2] = pos[4][2];
+                        if (bowlPos.distanceTo(mangoPos) < 3.0 && bowlPos.mY>mangoPos.mY){
+                            pick[3] = !pick[3];
+                            pos[3][0] = pos[4][0];
+                            pos[3][1] = pos[4][1];
+                            pos[3][2] = pos[4][2];
+                        }
+                        
                     }
+
                     else{
                         for (int i = 0; i < 5; i++)
                         {
@@ -1182,28 +1190,36 @@ void mouse(int btn, int state, int x, int y){
                 Point2D tomatoPos = Point2D(pos[3][0], pos[3][1]);
                 Point2D onionPos = Point2D(pos[4][0], pos[4][1]);
                 
-                if (potPos.distanceTo(potatoPos) < 3.0 && potPos.mY>potatoPos.mY && cut["potato"])
+                if (cut["potato"])
                 {
+                    if (potPos.distanceTo(potatoPos) < 3.0 && potPos.mY>potatoPos.mY){
                         pick[2] = !pick[2];
                         pos[2][0] = pos[1][0];
                         pos[2][1] = pos[1][1];
                         pos[2][2] = pos[1][2];
+                    }
+            
                 }
 
-                else if(potPos.distanceTo(tomatoPos) < 3.5 && potPos.mY>tomatoPos.mY && cut["tomato"]){
+                else if(cut["tomato"]){
+                        if (potPos.distanceTo(tomatoPos) < 3.5 && potPos.mY>tomatoPos.mY){
                         pick[3] = !pick[3];
                         pos[3][0] = pos[1][0];
                         pos[3][1] = pos[1][1];
                         pos[3][2] = pos[1][2];
+                    }
                 }
 
 
-                else if (potPos.distanceTo(onionPos) < 3.5 && potPos.mY>onionPos.mY && cut["onion"])
+                else if (cut["onion"])
                 {
+                    if (potPos.distanceTo(onionPos) < 3.5 && potPos.mY>onionPos.mY && ){
                         pick[4] = !pick[4];
                         pos[4][0] = pos[1][0];
                         pos[4][1] = pos[1][1];
                         pos[4][2] = pos[1][2];
+                    }
+                        
                 }
                     
                 else{
