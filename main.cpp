@@ -569,7 +569,7 @@ void displaySaladIngrts(){
             glScalef(1.6, 1.6, 1.6);
             
         }
-        glBindTexture(GL_TEXTURE_2D, textures[15]);
+        glBindTexture(GL_TEXTURE_2D, textures[21]);
         displayIngredient("bowl");
     glPopMatrix();
 
