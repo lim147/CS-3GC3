@@ -158,34 +158,43 @@ double* obj_cposition = new double[3];
     0 - steak
     1 - mango
 */
-bool pick[2] = {false, false};
-float size[2] = {1.5, 1.5};
+
+
+bool pick[5] = {
+            //salad  //curry //steak 
+    false, //knife   //knife   //knife 
+    false, //banana  //pot     //pan 
+    false, //orange  //potato //steak
+    false, //mango   //tomato 
+    false,           //onion  
+    };
+float size[5] = {1.5, 1.5,1.5, 1.5,1.5};
 
 
 /*
 Index  | Salad     | Curry     | Steak
 ___________________________________________
-pos[2] |           | knife     | 
-pos[3] |           | pot       | 
-pos[4] | knife     | potato    | knife
-pos[5] | banana    | tomato    | pan
-pos[6] | orange    | onion     | beef
-pos[7] | mango     | cutOnion  | cookedBeef
-pos[8] | cutBanana | cutTomato |
-pos[9] | cutMango  | cutPotato |
+pos[0] | knife     | knife     | knife
+pos[1] | banana    | pot       | pan
+pos[2] | orange    | potato    | beef
+pos[3] | mango     | tomato    | 
+pos[4] |           | onion     | 
+
+not loaded 
+pos[] |           | cutOnion  | cookedBeef
+pos[] | cutBanana | cutTomato |
+pos[] | cutMango  | cutPotato |
 
 */
 float pos[10][3] = {
-    {-5, 15, -16},
-    {-15, 15, -20},
-    {-10, 40, -30}, // pos[2] 
-    {-10, 35, -30}, // pos[3] 
-    {-10, 30, -30}, // pos[4] 
-    {-10, 25, -30}, // pos[5] 
-    {-10, 20, -30}, // pos[6] 
-    {-10, 15, -30}, // pos[7] 
-    {-10, 10, -30}, // pos[8] 
-    {-10, 5, -30}   // pos[9] 
+    //{-10, 40, -30}, // pos[2] 
+    //{-10, 35, -30}, // pos[3] 
+    {-10, 30, -30}, // pos[0] 
+    {-10, 25, -30}, // pos[1] 
+    {-10, 20, -30}, // pos[2] 
+    {-10, 15, -30}, // pos[3] 
+    {-10, 10, -30}, // pos[4] 
+    {-10, 5, -30}   // pos[5] 
 }; 
 
 double matModelView[16], matProjection[16]; 
@@ -417,51 +426,63 @@ void displayInstructions(){
  */
 void displaySaladIngrts(){
     glPushMatrix();
-        glTranslatef(pos[4][0], pos[4][1], pos[4][2]); // z value larger moves it close to the camera
+        glTranslatef(pos[0][0], pos[0][1], pos[0][2]); // z value larger moves it close to the camera
         glRotatef(90, 1, 0, 0); // rotating x will roll it towards you
         glScalef(0.6, 0.6, 0.6); // rotating z will rotate counter clockwise on clock
+        if(pick[0]){
+            glScalef(1.6, 1.6, 1.6);
+        }
         glBindTexture(GL_TEXTURE_2D, textures[15]);
         displayIngredient("knife");
     glPopMatrix();
 
     glPushMatrix();
-        glTranslatef(pos[5][0], pos[5][1], pos[5][2]);
+        glTranslatef(pos[1][0], pos[1][1], pos[1][2]);
         glScalef(0.5, 0.5, 0.5);
+        if(pick[1]){
+            glScalef(1.5, 1.5, 1.5);
+        }
         glBindTexture(GL_TEXTURE_2D, textures[1]);
         displayIngredient("banana");
     glPopMatrix();
 
 
     glPushMatrix();
-        glTranslatef(pos[6][0], pos[6][1], pos[6][2]);
+        glTranslatef(pos[2][0], pos[2][1], pos[2][2]);
         glRotatef(-90, 1, 0, 0);
         glScalef(0.3, 0.3, 0.3);
+        if(pick[2]){
+            glScalef(1.3, 1.3, 1.3);
+        }
         glBindTexture(GL_TEXTURE_2D, textures[2]);
         displayIngredient("orange");
     glPopMatrix();
     
     glPushMatrix();
-        glTranslatef(pos[7][0], pos[7][1], pos[7][2]);
+        glTranslatef(pos[3][0], pos[3][1], pos[3][2]);
         glRotatef(90, 1, 0, 0);
         glScalef(0.5, 0.5, 0.5);
+        if(pick[3]){
+            glScalef(1.5, 1.5, 1.5);
+        }
         glBindTexture(GL_TEXTURE_2D, textures[3]);
         displayIngredient("mango");
     glPopMatrix();
 
     
-    glPushMatrix();
-        glTranslatef(pos[8][0], pos[8][1], pos[8][2]);
-        glBindTexture(GL_TEXTURE_2D, textures[8]);
-        glScalef(0.2, 0.2, 0.2);
-        displayIngredient("cutBanana");
-    glPopMatrix();
+    // glPushMatrix();
+    //     glTranslatef(pos[8][0], pos[8][1], pos[8][2]);
+    //     glBindTexture(GL_TEXTURE_2D, textures[8]);
+    //     glScalef(0.2, 0.2, 0.2);
+    //     displayIngredient("cutBanana");
+    // glPopMatrix();
     
-    glPushMatrix();
-        glTranslatef(pos[9][0], pos[9][1], pos[9][2]);
-        glBindTexture(GL_TEXTURE_2D, textures[9]);
-        glScalef(0.2, 0.2, 0.2);
-        displayIngredient("cutMango");
-    glPopMatrix();
+    // glPushMatrix();
+    //     glTranslatef(pos[9][0], pos[9][1], pos[9][2]);
+    //     glBindTexture(GL_TEXTURE_2D, textures[9]);
+    //     glScalef(0.2, 0.2, 0.2);
+    //     displayIngredient("cutMango");
+    // glPopMatrix();
 }
 
 /**
@@ -469,65 +490,75 @@ void displaySaladIngrts(){
  */
 void displayCurryIngrts(){
     glPushMatrix();
-        glTranslatef(pos[2][0], pos[2][1], pos[2][2]); // z value larger moves it close to the camera
+        glTranslatef(pos[0][0], pos[0][1], pos[0][2]); // z value larger moves it close to the camera
         glRotatef(90, 1, 0, 0); // rotating x will roll it towards you
         glScalef(0.6, 0.6, 0.6); // rotating z will rotate counter clockwise on clock
+        if(pick[0])
+            glScalef(1.6, 1.6, 1.6);
         glBindTexture(GL_TEXTURE_2D, textures[15]);
         displayIngredient("knife");
     glPopMatrix();
 
     glPushMatrix();
-        glTranslatef(pos[3][0], pos[3][1], pos[3][2]); // x value smaller moves to the left
+        glTranslatef(pos[1][0], pos[1][1], pos[1][2]); // x value smaller moves to the left
         glScalef(0.15, 0.15, 0.15);
+        if(pick[1])
+            glScalef(1.15,1.15,1.15);
         glBindTexture(GL_TEXTURE_2D, textures[16]);
         displayIngredient("pot");
     glPopMatrix();
     glPushMatrix();
-        glTranslatef(pos[4][0], pos[4][1], pos[4][2]); // z value larger moves it close to the camera
+        glTranslatef(pos[2][0], pos[2][1], pos[2][2]); // z value larger moves it close to the camera
         glScalef(0.4, 0.4, 0.4);
+        if(pick[2])
+            glScalef(1.4,1.4,1.4);
         glBindTexture(GL_TEXTURE_2D, textures[5]);
         displayIngredient("potato");
     glPopMatrix();
 
     glPushMatrix();
-        glTranslatef(pos[5][0], pos[5][1], pos[5][2]);
+        glTranslatef(pos[3][0], pos[3][1], pos[3][2]);
         glRotatef(-90, 1, 0, 0);
         glScalef(0.25, 0.25, 0.25);
+        if(pick[3])
+            glScalef(1.25,1.25,1.25);
         glBindTexture(GL_TEXTURE_2D, textures[6]);
         displayIngredient("tomato");
     glPopMatrix();
 
     glPushMatrix();
-        glTranslatef(pos[6][0], pos[6][1], pos[6][2]); // z value larger moves it close to the camera
+        glTranslatef(pos[4][0], pos[4][1], pos[4][2]); // z value larger moves it close to the camera
         glScalef(0.15, 0.15, 0.15);
+        if(pick[4])
+            glScalef(1.15,1.15,1.15);
         glBindTexture(GL_TEXTURE_2D, textures[4]);
         displayIngredient("onion");
     glPopMatrix();
 
 
-    glPushMatrix();
-        glTranslatef(pos[7][0], pos[7][1], pos[7][2]);
-        glRotatef(30, 1, 0, 0);
-        glScalef(0.3, 0.3, 0.3);
-        glBindTexture(GL_TEXTURE_2D, textures[10]);
-        displayIngredient("cutOnion");
-    glPopMatrix();
+    // glPushMatrix();
+    //     glTranslatef(pos[7][0], pos[7][1], pos[7][2]);
+    //     glRotatef(30, 1, 0, 0);
+    //     glScalef(0.3, 0.3, 0.3);
+    //     glBindTexture(GL_TEXTURE_2D, textures[10]);
+    //     displayIngredient("cutOnion");
+    // glPopMatrix();
     
 
-    glPushMatrix();
-        glTranslatef(pos[8][0], pos[8][1], pos[8][2]);
-        glRotatef(30, 1, 0, 0);
-        glScalef(0.3, 0.3, 0.3);
-        glBindTexture(GL_TEXTURE_2D, textures[12]);
-        displayIngredient("cutTomato");
-    glPopMatrix();
+    // glPushMatrix();
+    //     glTranslatef(pos[8][0], pos[8][1], pos[8][2]);
+    //     glRotatef(30, 1, 0, 0);
+    //     glScalef(0.3, 0.3, 0.3);
+    //     glBindTexture(GL_TEXTURE_2D, textures[12]);
+    //     displayIngredient("cutTomato");
+    // glPopMatrix();
 
-    glPushMatrix();
-        glTranslatef(pos[9][0], pos[9][1], pos[9][2]);
-        glScalef(0.15, 0.15, 0.15);
-        glBindTexture(GL_TEXTURE_2D, textures[11]);
-        displayIngredient("cutPotato");
-    glPopMatrix();
+    // glPushMatrix();
+    //     glTranslatef(pos[9][0], pos[9][1], pos[9][2]);
+    //     glScalef(0.15, 0.15, 0.15);
+    //     glBindTexture(GL_TEXTURE_2D, textures[11]);
+    //     displayIngredient("cutPotato");
+    // glPopMatrix();
 }
 
 /**
@@ -536,38 +567,44 @@ void displayCurryIngrts(){
 void displaySteakIngrts(){
 
     glPushMatrix();
-        glTranslatef(pos[4][0], pos[4][1], pos[4][2]); // z value larger moves it close to the camera
+        glTranslatef(pos[0][0], pos[0][1], pos[0][2]); // z value larger moves it close to the camera
         glRotatef(90, 1, 0, 0); // rotating x will roll it towards you
         glScalef(0.6, 0.6, 0.6); // rotating z will rotate counter clockwise on clock
+        if(pick[0])
+            glScalef(1.6,1.6,1.6);
         glBindTexture(GL_TEXTURE_2D, textures[15]);
         displayIngredient("knife");
     glPopMatrix();
 
     glPushMatrix();
-        glTranslatef(pos[5][0], pos[5][1], pos[5][2]); // x value smaller moves to the left
+        glTranslatef(pos[1][0], pos[1][1], pos[1][2]); // x value smaller moves to the left
         glRotatef(270, 1, 0, 0);
         glScalef(0.12, 0.12, 0.12);
+        if(pick[1])
+            glScalef(1.12,1.12,1.12);
         glBindTexture(GL_TEXTURE_2D, textures[14]);
         displayIngredient("pan");
     glPopMatrix();
 
 
     glPushMatrix();
-        glTranslatef(pos[6][0], pos[6][1], pos[6][2]);
+        glTranslatef(pos[2][0], pos[2][1], pos[2][2]);
         glRotatef(0, 1, 0, 0);
         glScalef(0.4, 0.4, 0.4);
+        if(pick[2])
+            glScalef(1.4,1.4,1.4);
         glBindTexture(GL_TEXTURE_2D, textures[7]);
         displayIngredient("steak");
     glPopMatrix();
 
 
-    glPushMatrix();
-        glTranslatef(-10, 15, -30);
-        glRotatef(90, 0, 1, 0);
-        glBindTexture(GL_TEXTURE_2D, textures[13]);
-        glScalef(0.15, 0.15, 0.15);
-        displayIngredient("cookedBeef");
-    glPopMatrix();
+    // glPushMatrix();
+    //     glTranslatef(-10, 15, -30);
+    //     glRotatef(90, 0, 1, 0);
+    //     glBindTexture(GL_TEXTURE_2D, textures[13]);
+    //     glScalef(0.15, 0.15, 0.15);
+    //     displayIngredient("cookedBeef");
+    // glPopMatrix();
 }
 
 /**
@@ -641,27 +678,27 @@ void renderBitmapString(float x, float y, void *font,const char *string){
  */
 void displayMenu(){
 
-    glPushMatrix();
-        glTranslatef(pos[0][0], pos[0][1], pos[0][2]);
-        glScalef(0.4, 0.4, 0.4);
-        if (pick[0])
-            glScalef(1.2, 1.2, 1.2); //the selected obj will become bigger
+    // glPushMatrix();
+    //     glTranslatef(pos[0][0], pos[0][1], pos[0][2]);
+    //     glScalef(0.4, 0.4, 0.4);
+    //     if (pick[0])
+    //         glScalef(1.2, 1.2, 1.2); //the selected obj will become bigger
 
-        glBindTexture(GL_TEXTURE_2D, textures[7]);
-        displayIngredient("steak");
-    glPopMatrix();
+    //     glBindTexture(GL_TEXTURE_2D, textures[7]);
+    //     displayIngredient("steak");
+    // glPopMatrix();
 
 
-    glPushMatrix();
-        glTranslatef(pos[1][0], pos[1][1], pos[1][2]);
-        //glRotatef(90, 1, 0, 0);
-        glScalef(0.5, 0.5, 0.5);
-        if (pick[1])
-            glScalef(1.2, 1.2, 1.2);
+    // glPushMatrix();
+    //     glTranslatef(pos[1][0], pos[1][1], pos[1][2]);
+    //     //glRotatef(90, 1, 0, 0);
+    //     glScalef(0.5, 0.5, 0.5);
+    //     if (pick[1])
+    //         glScalef(1.2, 1.2, 1.2);
 
-        glBindTexture(GL_TEXTURE_2D, textures[3]);
-        displayIngredient("mango");
-    glPopMatrix();
+    //     glBindTexture(GL_TEXTURE_2D, textures[3]);
+    //     displayIngredient("mango");
+    // glPopMatrix();
     
 
     glMatrixMode(GL_PROJECTION); // Tells opengl that we are doing project matrix work
@@ -854,8 +891,6 @@ void mouse(int btn, int state, int x, int y){
 
         if (state == GLUT_DOWN){
 
-            if (scene == 1 or scene == 2 or scene == 3){
-
                 printf("time for un projection!!!!\n");
 
                 // get matrix and viewport:
@@ -879,20 +914,25 @@ void mouse(int btn, int state, int x, int y){
 
                 // now you can create a ray from m_start to m_end
                 printf("(%f,%f,%f)----(%f,%f,%f)\n\n", m_start[0], m_start[1], m_start[2], m_end[0], m_end[1], m_end[2]);
-            
+        
 
-                for (int i = 0; i < 2; i++)
+            int n = 0; 
+            if (scene == 0){
+                mouseHandler.leftClickDown(x, y);
+
+            }else 
+                if(scene == 1){
+                    n = 4; 
+                }else if(scene == 2){
+                    n = 5; 
+                }else if (scene == 3){
+                    n = 3; 
+                }
+
+                for (int i = 0; i < n; i++)
                 {
                     makeSelectable(i);
                 }
-
-            }
-            else if (scene == 0){
-                mouseHandler.leftClickDown(x, y);
-
-            }
-           
-            
         }
     }
 }
@@ -901,9 +941,18 @@ void mouse(int btn, int state, int x, int y){
 // Is called when you move your mouse
 void passive (int x, int y)
 { 
-    for (int i = 0; i < 2; i++){
+    int n = 0;
+    if (scene == 1){
+        n = 4; 
+    }
+    else if(scene == 2){
+        n = 5; 
+    }else if(scene == 3){
+        n = 3;
+    }
+    for (int i = 0; i < n; i++){
         if (pick[i]){
-            gluProject(pos[i][0],pos[i][1],pos[i][2],matModelView,matProjection,viewport,&obj_cposition[0],&obj_cposition[1],&obj_cposition[2]);
+           gluProject(pos[i][0],pos[i][1],pos[i][2],matModelView,matProjection,viewport,&obj_cposition[0],&obj_cposition[1],&obj_cposition[2]);
 
             double winX = (double)x; 
             double winY = viewport[3] - (double)y; 
@@ -916,9 +965,7 @@ void passive (int x, int y)
             pos[i][2] = m_position[2];
             printf("(%f,%f,%f)", m_position[0],m_position[1],m_position[2]);
 
-        }
-        
-        
+        }    
     }
     
 }
