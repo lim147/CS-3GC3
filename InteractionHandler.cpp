@@ -9,7 +9,7 @@
     }
 
     void IHandler::drawHandlers() {
-        glColor3f(1, 1, 1);
+        glColor3f(1, 0, 1);
         glLineWidth(2);
         glBegin(GL_LINES);
         for (Handler *handler : mHandlers) {

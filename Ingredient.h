@@ -18,7 +18,8 @@ public:
 	std::vector <Point2D> temp_uvs; //texture
 	std::vector <Vec3D> temp_normals; //normals
 
-	bool state;
+	//represent if the obj is cut or not
+	bool cut;
 
 	bool loadObject(const char* filename);
 	//void loadtexture(const char* filename);

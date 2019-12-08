@@ -16,7 +16,7 @@ Ingredient::Ingredient(){
 	px = 0;
 	py = 0;
 	pz = 0;
-	state = false;
+	cut = false;
 }
 //set the position
 
@@ -25,7 +25,7 @@ Ingredient::Ingredient(float a, float b, float c)
 	px = a;
 	py = b;
 	pz = c;
-	state = false; //initially not being used
+	cut = false; //initially not being cut
 }
 
 vector<string> split (const string &s, char delim) {

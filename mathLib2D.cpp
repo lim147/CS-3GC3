@@ -180,6 +180,11 @@ Point3D::Point3D(float inX, float inY, float inZ){
 	this->mZ=inZ;
 }
 
+float Point3D::distanceTo(Point3D other){
+	return sqrt(pow((other.mX - this->mX),2)+ pow((other.mY-this->mY),2) + pow((other.mZ-this->mZ),2));
+}
+
+
 // Vec3D Class
 /**
  *  \brief Vec3D default class constructor

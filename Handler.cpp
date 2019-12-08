@@ -15,14 +15,14 @@
     }
 
     void Handler::drawBoxVertices() {
-        glVertex3f(mLeft, mTop, 1);
-        glVertex3f(mLeft, mBottom, 1);
-        glVertex3f(mRight, mTop, 1);
-        glVertex3f(mRight, mBottom, 1);
-        glVertex3f(mLeft, mTop, 1);
-        glVertex3f(mRight, mTop, 1);
-        glVertex3f(mLeft, mBottom, 1);
-        glVertex3f(mRight, mBottom, 1);
+        glVertex2f(mLeft, mTop);
+        glVertex2f(mLeft, mBottom);
+        glVertex2f(mRight, mTop);
+        glVertex2f(mRight, mBottom);
+        glVertex2f(mLeft, mTop);
+        glVertex2f(mRight, mTop);
+        glVertex2f(mLeft, mBottom);
+        glVertex2f(mRight, mBottom);
     }
 
 
