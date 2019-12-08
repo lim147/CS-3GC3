@@ -5,6 +5,13 @@ The brief writeup is located in the "Prototype.pdf" file
 
 
 ## References: 
+
+renderBitmapString:
+ - referenced from https://www.programming-techniques.com/2012/05/font-rendering-in-glut-using-bitmap-fonts-with-sample-example.html
+
+Handler, Interaction Handler
+- referenced from course tutorial material (tutorial 6)
+
 knife: 
  - created by sepandj
  - downloaded from turbosquid.com

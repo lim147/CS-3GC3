@@ -54,4 +54,3 @@ Some of the features that will be implemented in the future include the applicat
  - Use Steak on Pan
  - Select Pan to turn on the stove
  - Steak Complete 
-

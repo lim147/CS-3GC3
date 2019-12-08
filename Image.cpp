@@ -1,20 +1,14 @@
 #include "Image.h"
 
-
-
-
 void Image::load(char * filename) {
     mImage = LoadPPM(filename, &mWidth, &mHeight, &mMax);
     printf("%s %d %d\n", filename, mWidth, mHeight);
 }
 
 void Image::draw(unsigned int x, unsigned int y, float size1, float size2) {
-
     glRasterPos2i(x , y);
     glPixelZoom(-size1, size2);
     glDrawPixels(mWidth, mHeight, GL_RGB, GL_UNSIGNED_BYTE, mImage);
-
-
 }
 
 void Image::texture() {

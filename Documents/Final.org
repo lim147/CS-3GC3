@@ -1,0 +1,105 @@
+#+Title: CS/SE 3GC3 - Computer Graphics Final Project
+#+Author: Alice Ip, Kexin Liu, Lily Lau, Meijing Li
+#+Date: December 08, 2019
+#+Options: toc:nil num:nil
+
+* Project Description
+A cooking game that takes place in a 3-D simulating kitchen,
+ where the player selects a recipe and must interact with
+ ingredient objects and tool objects and follow the instructions
+ given to create the dish.
+
+* Keyboard Commands
+ - q - quit
+
+ - up arrow - move camera to look up
+ - down arrow - move camera to look down
+ - left arrow - move camera to look left
+ - right arrow - move camerat to look right
+
+ - left-click to select an ingredient or tool
+ - right click to use tool (if a tool is selcted)
+ 
+
+* Features from Prototype
+ The appropriate obj files for the ingredients/tools/textures
+ were obtained from several sources (that are cited in the
+ readme file), and edited as appropriate for our needs. 
+
+Summed Up:
+ - Basic room with floors, walls, lighting
+ - Basic meshes for each food object and tool object, and kitchen counter
+ - .obj file parser (modification of parser taken from tutorial)
+  - Extracts data (mesh, texture, normals, faces) into c++ vectors
+ - Loading object meshes into the room
+
+* New Features
+
+** Key Features (Advanced Graphics Features)
+ - Lighting [5%]
+ - Textures [10%] 
+   - On objects, wall, floor
+ - Ray Casting [10%]
+   -  To select tool/ingredient objects in screen
+ - Non-geometric primitives(bitmaps, pixel maps) [10%]
+   - Pixel map for choosing a recipe, and End screen 
+   - Interaction handlers on the pixel map
+   - Timer text on the top left corner (Bitmap String)
+ - [5%]
+
+** Other Relevant Features
+Some of the features that were implemented in the final implementation include the
+ application of textures  on the objects. Depending on which recipe
+is chosen by the user, the appropriate instructions for the recipe and only the 
+necessary ingredients for that object are loaded in. The recipe instructions are 
+loaded in a separate window.  Once a recipe is chosen, a 
+timer is displayed in the window indicating remaining time for that recipe. The
+scoring system is based on the amount of time left when the user completes the 
+recipe. In order to perform actions on the ingredients, we implemented ray casting
+ to detect collision between the mouse position (left click) and objects in the screen.
+ If there is an intersection,
+then the selected object will increase in size (to indicate that it was selected) and
+can be moved to a new position (by moving the mouse to a new position) and deselected
+ (using left-click). A tool can be selected and used on a ingredient, by right-clicking 
+(when selected) over a ingredient. The appropriate mesh (cut version of ingrediant, or
+cooked version of ingredient) will appear. When the correct combinations of ingredients
+ are put together, the game will end.
+
+Summed up:
+- Basic Camera rotation 
+- Movement of 3D objects on 2D plane
+- Timer
+- Recipe/Control instructions in new window
+- Start screen
+- End screen
+- Use of both orthographic and perspective projection
+- Ray shading
+
+** Recipe Details
+
+- Curry
+ - Objects: Potato, Tomato, Onion, Knife, Pot
+ - Use knife on Potato (whole)
+ - Use Potato (cut) on Pot
+ - Use knife on Tomato (whole)
+ - Use Tomato (cut) on Pot
+ - Use knife on Onion (whole)
+ - Use Onion (cut) on Pot
+ - Curry Complete
+
+- Fruit Salad
+ - Objects: Mango, Orange, Banana, Knife
+ - Use Knife on Mango (whole)
+ - Use Mango (cut) on Bowl
+ - Use Knife on Orange (whole)
+ - Use Orange (cut) on Bowl
+ - Use Knife on Banana (whole)
+ - Use Banana (cut) on Bowl
+ - Fruit Salad Complete
+
+- Steak
+ - Objects: Steak, Pan
+ - Use Steak on Pan
+ - Wait 10 Seconds 
+ - Steak Complete 
+

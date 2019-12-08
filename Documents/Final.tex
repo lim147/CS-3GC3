@@ -1,0 +1,161 @@
+% Created 2019-12-08 Sun 16:47
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\author{Alice Ip, Kexin Liu, Lily Lau, Meijing Li}
+\date{December 08, 2019}
+\title{CS/SE 3GC3 - Computer Graphics Final Project}
+\hypersetup{
+ pdfauthor={Alice Ip, Kexin Liu, Lily Lau, Meijing Li},
+ pdftitle={CS/SE 3GC3 - Computer Graphics Final Project},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 26.3 (Org mode 9.1.9)}, 
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+
+\section*{Project Description}
+\label{sec:org1d8940a}
+A cooking game that takes place in a 3-D simulating kitchen,
+ where the player selects a recipe and must interact with
+ ingredient objects and tool objects and follow the instructions
+ given to create the dish.
+
+\section*{Keyboard Commands}
+\label{sec:orgd56cdd5}
+\begin{itemize}
+\item q - quit
+
+\item up arrow - move camera to look up
+\item down arrow - move camera to look down
+\item left arrow - move camera to look left
+\item right arrow - move camerat to look right
+
+\item left-click to select an ingredient or tool
+\item right click to use tool (if a tool is selcted)
+\end{itemize}
+
+
+\section*{Features from Prototype}
+\label{sec:orgf8f58d8}
+The appropriate obj files for the ingredients/tools/textures
+were obtained from several sources (that are cited in the
+readme file), and edited as appropriate for our needs. 
+
+Summed Up:
+\begin{itemize}
+\item Basic room with floors, walls, lighting
+\item Basic meshes for each food object and tool object, and kitchen counter
+\item .obj file parser (modification of parser taken from tutorial)
+\begin{itemize}
+\item Extracts data (mesh, texture, normals, faces) into c++ vectors
+\end{itemize}
+\item Loading object meshes into the room
+\end{itemize}
+
+\section*{New Features}
+\label{sec:orgac3d105}
+
+\subsection*{Key Features (Advanced Graphics Features)}
+\label{sec:org701e791}
+\begin{itemize}
+\item Lighting [5\%]
+\item Textures [10\%] 
+\begin{itemize}
+\item On objects, wall, floor
+\end{itemize}
+\item Ray Casting [10\%]
+\begin{itemize}
+\item To select tool/ingredient objects in screen
+\end{itemize}
+\item Non-geometric primitives(bitmaps, pixel maps) [10\%]
+\begin{itemize}
+\item Pixel map for choosing a recipe, and End screen
+\item Interaction handlers on the pixel map
+\item Timer text on the top left corner (Bitmap String)
+\end{itemize}
+\item\relax [5\%]
+\end{itemize}
+
+\subsection*{Other Relevant Features}
+\label{sec:orgc7815aa}
+Some of the features that were implemented in the final implementation include the
+ application of textures  on the objects. Depending on which recipe
+is chosen by the user, the appropriate instructions for the recipe and only the 
+necessary ingredients for that object are loaded in. The recipe instructions are 
+loaded in a separate window.  Once a recipe is chosen, a 
+timer is displayed in the window indicating remaining time for that recipe. The
+scoring system is based on the amount of time left when the user completes the 
+recipe. In order to perform actions on the ingredients, we implemented ray casting
+ to detect collision between the mouse position (left click) and objects in the screen.
+ If there is an intersection,
+then the selected object will increase in size (to indicate that it was selected) and
+can be moved to a new position (by moving the mouse to a new position) and deselected
+ (using left-click). A tool can be selected and used on a ingredient, by right-clicking 
+(when selected) over a ingredient. The appropriate mesh (cut version of ingrediant, or
+cooked version of ingredient) will appear. When the correct combinations of ingredients
+ are put together, the game will end.
+
+Summed up:
+\begin{itemize}
+\item Basic Camera rotation
+\item Movement of 3D objects on 2D plane
+\item Timer
+\item Recipe/Control instructions in new window
+\item Start screen
+\item End screen
+\item Use of both orthographic and perspective projection
+\item Ray shading
+\end{itemize}
+
+\subsection*{Recipe Details}
+\label{sec:orgc125921}
+
+\begin{itemize}
+\item Curry
+\begin{itemize}
+\item Objects: Potato, Tomato, Onion, Knife, Pot
+\item Use knife on Potato (whole)
+\item Use Potato (cut) on Pot
+\item Use knife on Tomato (whole)
+\item Use Tomato (cut) on Pot
+\item Use knife on Onion (whole)
+\item Use Onion (cut) on Pot
+\item Curry Complete
+\end{itemize}
+
+\item Fruit Salad
+\begin{itemize}
+\item Objects: Mango, Orange, Banana, Knife
+\item Use Knife on Mango (whole)
+\item Use Mango (cut) on Bowl
+\item Use Knife on Orange (whole)
+\item Use Orange (cut) on Bowl
+\item Use Knife on Banana (whole)
+\item Use Banana (cut) on Bowl
+\item Fruit Salad Complete
+\end{itemize}
+
+\item Steak
+\begin{itemize}
+\item Objects: Steak, Pan
+\item Use Steak on Pan
+\item Wait 10 Seconds
+\item Steak Complete
+\end{itemize}
+\end{itemize}
+\end{document}
