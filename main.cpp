@@ -1454,19 +1454,19 @@ void display2D()
     glPushMatrix();
         if (scene == 0){
             Controls.texture();
-            Controls.draw(300, 0, 0.18, 0.18);  
+            Controls.draw(320, 0, 0.18, 0.18);  
         }
         if (scene == 1){
             Salad.texture();
-            Salad.draw(300, 0, 0.18, 0.18);
+            Salad.draw(320, 0, 0.18, 0.18);
         }
         else if (scene == 2){
             Curry.texture();
-            Curry.draw(300, 0, 0.18, 0.18);
+            Curry.draw(320, 0, 0.18, 0.18);
         }
         else if (scene == 3) {
             Steak.texture();
-            Steak.draw(300, 0, 0.18, 0.18);
+            Steak.draw(320, 0, 0.18, 0.18);
         }
         else if (scene == 4){
 
