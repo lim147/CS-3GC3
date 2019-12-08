@@ -54,7 +54,7 @@ char s[30];
 char s2[30];
 
 // Variables for time
-double allotedTime = 60;
+double allotedTime = 5;
 double startTime;
 double passedTime; 
 int time = allotedTime;
@@ -695,11 +695,10 @@ void displayScore(){
         glTranslatef(0, -h, 0);
         glMatrixMode(GL_MODELVIEW);
 
-    glColor3f(1.0, 1.0, 1.0);
-
+    
     Score.texture();
     Score.draw(550, 430, 0.25, 0.25);
-    mouseHandler.IHandler::drawHandlers();
+    mouseHandler2.IHandler::drawHandlers();
 
     glPopMatrix();
     glEnable(GL_DEPTH_TEST);
@@ -711,27 +710,52 @@ void displayScore(){
  */
 void displayMenu(){
 
+
+    glMatrixMode(GL_PROJECTION); // Tells opengl that we are doing project matrix work
+    glPushMatrix();
+        glLoadIdentity();
+           gluOrtho2D(0, w, 0, h);
+        //glOrtho(-9.0, 9.0, -9.0, 9.0, 0.0, 30.0);
+        glScalef(1, -1, 1);
+        glTranslatef(0, -h, 0);
+        glMatrixMode(GL_MODELVIEW);
+
+
     glLoadIdentity();
     glMatrixMode(GL_PROJECTION); // Tells opengl that we are doing project matrix work
     glDisable(GL_DEPTH_TEST); // Makes it so that it stays on screen even when the camera moves
     glLoadIdentity();
     glPushMatrix();
-        
+
+
         glOrtho(0, w, 0, h, 0.0, 30.0); // Setup an Ortho view
 
         glScalef(1, -1, 1);
         glTranslatef(0, -h, 0);
         glMatrixMode(GL_MODELVIEW);
 
-    glColor3f(1.0, 1.0, 1.0);
+    
+        
+        selectRecipe.texture();
+        selectRecipe.draw(550, 430, 0.25, 0.25);
+        mouseHandler.IHandler::drawHandlers();
+    
 
-    selectRecipe.texture();
-    selectRecipe.draw(550, 430, 0.25, 0.25);
-    mouseHandler.IHandler::drawHandlers();
+    /*
+    glBegin(GL_QUADS); // In case we want to use a normal square instead
+        glVertex2f(0,0); // Top left
+        glVertex2f(0,300); // Bottom left (?)
+        glVertex2f(300,300); // Bottom right(?)
+        glVertex2f(300,0); // Top right
+    glEnd();*/
+
 
     glPopMatrix();
     glEnable(GL_DEPTH_TEST);
+
 }
+
+
 
 /**
  *  \brief Sets up the scene, and loads objects
@@ -1123,7 +1147,8 @@ void selectSteak(){
 
 void restart(){
     scene=0;
-    //menuState=0;
+    menuState=0;
+    time=allotedTime;
 
 }
 
@@ -1153,7 +1178,7 @@ Handler steakButton = {
 
 Handler tryAgainButton = {
     220, 
-    270, 
+    425, 
     367, 
     327, 
     restart
@@ -1163,7 +1188,7 @@ Handler tryAgainButton = {
 void init()
 {
     //Load textures for the recipe menu and instructions
-    selectRecipe.load("ppm/instructions1.ppm");
+    selectRecipe.load("ppm/Choose.ppm");
     Salad.load("ppm/Salad.ppm");
     Curry.load("ppm/Curry.ppm");
     Steak.load("ppm/Steak.ppm");
