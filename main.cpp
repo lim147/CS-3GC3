@@ -170,23 +170,23 @@ double* obj_cposition = new double[3];
 */
 
 
-bool pick[5] = {
+bool pick[5] = {};
             //salad  //curry //steak 
-    false, //knife   //knife   //knife 
-    false, //banana  //pot     //pan 
-    false, //orange  //potato //steak
-    false, //mango   //tomato 
-    false,           //onion  
-    };
+    // false, //knife   //knife   //knife 
+    // false, //banana  //pot     //pan 
+    // false, //orange  //potato //steak
+    // false, //mango   //tomato 
+    // false,           //onion  
+    // };
 float size[5] = {1.5, 1.5,1.5, 1.5,1.5};
 
 
 /*
 Index  | Salad     | Curry     | Steak
 ___________________________________________
-pos[0] | knife     | knife     | knife
-pos[1] | banana    | pot       | pan
-pos[2] | orange    | potato    | beef
+pos[0] | knife     | knife     | pan
+pos[1] | banana    | pot       | beef
+pos[2] | orange    | potato    | 
 pos[3] | mango     | tomato    | 
 pos[4] | bowl      | onion     | 
 
@@ -196,16 +196,7 @@ pos[] | cutBanana | cutTomato |
 pos[] | cutMango  | cutPotato |
 
 */
-float pos[10][3] = {
-    //{-10, 40, -30}, // pos[2] 
-    //{-10, 35, -30}, // pos[3] 
-    {-10, 30, -30}, // pos[0] 
-    {-10, 25, -30}, // pos[1] 
-    {-10, 20, -30}, // pos[2] 
-    {-10, 15, -30}, // pos[3] 
-    {-10, 10, -30}, // pos[4] 
-    {-10, 5, -30}   // pos[5] 
-}; 
+float pos[10][3] = {}; 
 
 double matModelView[16], matProjection[16]; 
 int viewport[4]; 
@@ -466,6 +457,19 @@ void gameSetUp()
     cut["potato"] =  false;
     cut["tomato"] =  false;
     cut["beef"] = false;
+
+
+    float pos[10][3] = {
+    {-10, 30, -30}, // pos[0] 
+    {-10, 25, -30}, // pos[1] 
+    {-10, 20, -30}, // pos[2] 
+    {-10, 15, -30}, // pos[3] 
+    {-10, 10, -30}, // pos[4] 
+    {-10, 5, -30}   // pos[5] 
+    }; 
+
+    bool pick[5] = {false, false, false, false, false};
+
 }
 
 
@@ -712,21 +716,10 @@ void displayCurryIngrts(){
 void displaySteakIngrts(){
 
     glPushMatrix();
-        glTranslatef(pos[0][0], pos[0][1], pos[0][2]); // z value larger moves it close to the camera
-        glRotatef(100, 1, 0, 0); // rotating x will roll it towards you
-        glRotatef(110, 1, 0, 0);
-        glScalef(0.6, 0.6, 0.6); // rotating z will rotate counter clockwise on clock
-        if(pick[0])
-            glScalef(1.6,1.6,1.6);
-        glBindTexture(GL_TEXTURE_2D, textures[15]);
-        displayIngredient("knife");
-    glPopMatrix();
-
-    glPushMatrix();
-        glTranslatef(pos[1][0], pos[1][1], pos[1][2]); // x value smaller moves to the left
+        glTranslatef(pos[0][0], pos[0][1], pos[0][2]); // x value smaller moves to the left
         glRotatef(270, 1, 0, 0);
         glScalef(0.12, 0.12, 0.12);
-        if(pick[1])
+        if(pick[0])
             glScalef(1.12,1.12,1.12);
         glBindTexture(GL_TEXTURE_2D, textures[14]);
         displayIngredient("pan");
@@ -734,10 +727,10 @@ void displaySteakIngrts(){
 
 
     glPushMatrix();
-        glTranslatef(pos[2][0], pos[2][1], pos[2][2]);
+        glTranslatef(pos[1][0], pos[1][1], pos[1][2]);
         glRotatef(0, 1, 0, 0);
         glScalef(0.4, 0.4, 0.4);
-        if(pick[2])
+        if(pick[1])
             glScalef(1.4,1.4,1.4);
         glBindTexture(GL_TEXTURE_2D, textures[7]);
         displayIngredient("steak");
@@ -751,6 +744,7 @@ void displaySteakIngrts(){
     //     glScalef(0.15, 0.15, 0.15);
     //     displayIngredient("cookedBeef");
     // glPopMatrix();
+
 }
 
 /**
@@ -1144,22 +1138,121 @@ void mouse(int btn, int state, int x, int y){
             }
             else if(scene == 1)
             {
-                n = 4; 
+                
+                    Point2D bowlPos = Point2D(pos[4][0], pos[4][1]);
+
+                    Point2D bananaPos = Point2D(pos[1][0], pos[1][1]);
+                    Point2D orangePos = Point2D(pos[2][0], pos[2][1]);
+                    Point2D mangoPos = Point2D(pos[3][0], pos[3][1]);
+
+                    if (cut["banana"]){
+                        if(bowlPos.distanceTo(bananaPos) < 3.0 && bowlPos.mY>bananaPos.mY){
+                            pick[1] = !pick[1];
+                            pos[1][0] = pos[4][0];
+                            pos[1][1] = pos[4][1];
+                            pos[1][2] = pos[4][2];
+                        }
+                    }
+        
+                    else if (cut["orange"])
+                    {
+                        if(bowlPos.distanceTo(orangePos) < 3.0 && bowlPos.mY > orangePos.mY ){
+                            pick[2] = !pick[2];
+                            pos[2][0] = pos[4][0];
+                            pos[2][1] = pos[4][1];
+                            pos[2][2] = pos[4][2];
+                        }
+                        
+                    }
+    
+                    else if (cut["mango"])
+                    {
+                        if (bowlPos.distanceTo(mangoPos) < 3.0 && bowlPos.mY>mangoPos.mY){
+                            pick[3] = !pick[3];
+                            pos[3][0] = pos[4][0];
+                            pos[3][1] = pos[4][1];
+                            pos[3][2] = pos[4][2];
+                        }
+                        
+                    }
+
+                    else{
+                        for (int i = 0; i < 5; i++)
+                        {
+                        makeSelectable(i);
+                        }    
+                    }
             }
             else if(scene == 2)
             {
-                n = 5; 
+                Point2D potPos = Point2D(pos[1][0], pos[1][1]);
+                Point2D potatoPos = Point2D(pos[2][0], pos[2][1]);
+                Point2D tomatoPos = Point2D(pos[3][0], pos[3][1]);
+                Point2D onionPos = Point2D(pos[4][0], pos[4][1]);
+                
+                if (cut["potato"])
+                {
+                    if (potPos.distanceTo(potatoPos) < 3.0 && potPos.mY>potatoPos.mY){
+                        pick[2] = !pick[2];
+                        pos[2][0] = pos[1][0];
+                        pos[2][1] = pos[1][1];
+                        pos[2][2] = pos[1][2];
+                    }
+            
+                }
+
+                else if(cut["tomato"]){
+                        if (potPos.distanceTo(tomatoPos) < 3.5 && potPos.mY>tomatoPos.mY){
+                        pick[3] = !pick[3];
+                        pos[3][0] = pos[1][0];
+                        pos[3][1] = pos[1][1];
+                        pos[3][2] = pos[1][2];
+                    }
+                }
+
+
+                else if (cut["onion"])
+                {
+                    if (potPos.distanceTo(onionPos) < 3.5 && potPos.mY>onionPos.mY && ){
+                        pick[4] = !pick[4];
+                        pos[4][0] = pos[1][0];
+                        pos[4][1] = pos[1][1];
+                        pos[4][2] = pos[1][2];
+                    }
+                        
+                }
+                    
+                else{
+                    for (int i = 0; i < 5; i++)
+                    {
+                        makeSelectable(i);
+                    }                                       
+                }
+
+                //n = 5; 
             }
             else if (scene == 3)
             {
-                n = 3; 
-            }
+                Point2D panPos = Point2D(pos[0][0], pos[0][1]);
+                Point2D steakPos = Point2D(pos[1][0], pos[1][1]);
 
-            for (int i = 0; i < n; i++)
-            {
-                makeSelectable(i);
-            }
+                if (panPos.distanceTo(steakPos) < 3.5 && panPos.mY> steakPos.mY)
+                    {
+                        printf("steak is near the pan\n");
+                        pick[1] = !pick[1]; 
+                        pos[1][0] = pos[0][0];
+                        pos[1][1] = pos[0][1];
+                        pos[1][2] = pos[0][2];
 
+                }else{
+                
+                    for (int i = 0; i < 2; i++)
+                    {
+                        makeSelectable(i);
+                    }                     
+                }
+
+            }
         }
     }
 
@@ -1275,12 +1368,12 @@ void passive (int x, int y)
 { 
     int n = 0;
     if (scene == 1){
-        n = 4; 
+        n = 5; 
     }
     else if(scene == 2){
         n = 5; 
     }else if(scene == 3){
-        n = 3;
+        n = 2;
     }
     for (int i = 0; i < n; i++){
         if (pick[i]){
@@ -1386,6 +1479,8 @@ void restart(){
     scene=0;
     menuState=0;
     tick=allotedTime;
+
+
 
 }
 
