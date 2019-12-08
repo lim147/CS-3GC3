@@ -68,10 +68,12 @@ Image Salad; // Image with the recipe of Salad
 Image Curry; // Image with the recpie of Curry
 Image Steak; // Image with the recipe of Steak
 Image Score; // Image for score
-Image Controls;
+Image Controls; // Image for controls
+Image Done; // Image for done button
 
-IHandler mouseHandler;
-IHandler mouseHandler2;
+IHandler mouseHandler; // For selecting recipe
+IHandler mouseHandler2; // For the try again button
+IHandler mouseHandler3; // For the done button
 
 /* 
 //origin light
@@ -839,32 +841,25 @@ void displayScore(){
         glMatrixMode(GL_MODELVIEW);
 
     
-    Score.texture();
-    Score.draw(550, 430, 0.25, 0.25);
+        Score.texture();
+        Score.draw(550, 430, 0.25, 0.25);
 
-    glDisable(GL_LIGHTING);
-    mouseHandler2.IHandler::drawHandlers();
-    glEnable(GL_LIGHTING);
+        glDisable(GL_LIGHTING);
+        mouseHandler2.IHandler::drawHandlers();
+        glEnable(GL_LIGHTING);
 
     glPopMatrix();
     glEnable(GL_DEPTH_TEST);
 }
 
+//105 x 
+
+//52 x 74
 
 /**
  *  \brief Displays Menu of Recipes
  */
 void displayMenu(){
-
-
-    glMatrixMode(GL_PROJECTION); // Tells opengl that we are doing project matrix work
-    glPushMatrix();
-        glLoadIdentity();
-           gluOrtho2D(0, w, 0, h);
-        //glOrtho(-9.0, 9.0, -9.0, 9.0, 0.0, 30.0);
-        glScalef(1, -1, 1);
-        glTranslatef(0, -h, 0);
-        glMatrixMode(GL_MODELVIEW);
 
 
     glLoadIdentity();
@@ -875,12 +870,9 @@ void displayMenu(){
 
 
         glOrtho(0, w, 0, h, 0.0, 30.0); // Setup an Ortho view
-
         glScalef(1, -1, 1);
         glTranslatef(0, -h, 0);
         glMatrixMode(GL_MODELVIEW);
-
-    
         
         selectRecipe.texture();
         selectRecipe.draw(550, 430, 0.25, 0.25);
@@ -888,16 +880,6 @@ void displayMenu(){
         glDisable(GL_LIGHTING);
         mouseHandler.IHandler::drawHandlers();
         glEnable(GL_LIGHTING);
-    
-
-    /*
-    glBegin(GL_QUADS); // In case we want to use a normal square instead
-        glVertex2f(0,0); // Top left
-        glVertex2f(0,300); // Bottom left (?)
-        glVertex2f(300,300); // Bottom right(?)
-        glVertex2f(300,0); // Top right
-    glEnd();*/
-
 
     glPopMatrix();
     glEnable(GL_DEPTH_TEST);
@@ -956,6 +938,29 @@ void draw3DScene(){
             displayScore();
         }
     glPopMatrix();
+
+    if (scene == 1 or scene == 2 or scene == 3){
+        glPushMatrix();
+            glLoadIdentity();
+            glMatrixMode(GL_PROJECTION); // Tells opengl that we are doing project matrix work
+            glDisable(GL_DEPTH_TEST); // Makes it so that it stays on screen even when the camera moves
+            glLoadIdentity();
+
+            glOrtho(0, w, 0, h, 0.0, 30.0); // Setup an Ortho view
+            glScalef(1, -1, 1);
+            glTranslatef(0, -h, 0);
+            glMatrixMode(GL_MODELVIEW);
+            
+            Done.texture();
+            Done.draw(580, 580, 0.05, 0.05); // second one moves up and down
+
+            glDisable(GL_LIGHTING);
+            mouseHandler3.IHandler::drawHandlers();
+            glEnable(GL_LIGHTING);
+
+            glEnable(GL_DEPTH_TEST);
+        glPopMatrix();
+}
     
     
 }
@@ -1527,6 +1532,13 @@ Handler tryAgainButton = {
     restart
 };
 
+Handler doneButton = {
+    530, //left
+    580, //right
+    579, //bottom
+    529,  //top
+    restart  
+};
 
 void init()
 {
@@ -1537,12 +1549,14 @@ void init()
     Steak.load("ppm/Steak.ppm");
     Score.load("ppm/Score.ppm");
     Controls.load("ppm/Controls.ppm");
+    Done.load("ppm/Done.ppm");
 
     //Add the buttons to the mouse handler
     mouseHandler.addHandler(&saladButton);
     mouseHandler.addHandler(&curryButton);
     mouseHandler.addHandler(&steakButton);
     mouseHandler2.addHandler(&tryAgainButton);
+    mouseHandler3.addHandler(&doneButton);
 }
 
 
