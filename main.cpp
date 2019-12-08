@@ -438,6 +438,7 @@ void displaySaladIngrts(){
         glScalef(0.6, 0.6, 0.6); // rotating z will rotate counter clockwise on clock
         if(pick[0]){
             glScalef(1.6, 1.6, 1.6);
+            
         }
         glBindTexture(GL_TEXTURE_2D, textures[15]);
         displayIngredient("knife");
