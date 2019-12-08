@@ -1213,7 +1213,7 @@ void mouse(int btn, int state, int x, int y){
 
                 else if (cut["onion"])
                 {
-                    if (potPos.distanceTo(onionPos) < 3.5 && potPos.mY>onionPos.mY && ){
+                    if (potPos.distanceTo(onionPos) < 3.5 && potPos.mY>onionPos.mY){
                         pick[4] = !pick[4];
                         pos[4][0] = pos[1][0];
                         pos[4][1] = pos[1][1];
