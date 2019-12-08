@@ -151,12 +151,12 @@ int indices[3][4] = {
                     };
 
 
-GLubyte* tt[20];
-GLuint textures[20];
+GLubyte* tt[22];
+GLuint textures[22];
 
-int height[20];
-int width[20];
-int maximum[20];
+int height[22];
+int width[22];
+int maximum[22];
 
 
 //ray casting
@@ -188,7 +188,7 @@ pos[0] | knife     | knife     | knife
 pos[1] | banana    | pot       | pan
 pos[2] | orange    | potato    | beef
 pos[3] | mango     | tomato    | 
-pos[4] |           | onion     | 
+pos[4] | bowl      | onion     | 
 
 not loaded 
 pos[] |           | cutOnion  | cookedBeef
@@ -371,6 +371,7 @@ void loadIngrts(){
     loadIngredient("obj/pot/pot.obj", "pot");
     loadIngredient("obj/pan/pan.obj", "pan");
     loadIngredient("obj/knife/knife.obj", "knife");
+    loadIngredient("obj/bowl/bowl.obj", "bowl");
     
     //cut ingredients:
     loadIngredient("obj/cutOnion/cutOnion.obj", "cutOnion");
@@ -378,6 +379,7 @@ void loadIngrts(){
     loadIngredient("obj/cutPotato/cutPotato.obj", "cutPotato");
     loadIngredient("obj/cutBanana/cutBanana.obj", "cutBanana");
     loadIngredient("obj/cutMango/cutMango.obj", "cutMango");
+    loadIngredient("obj/cutOrange/cutOrange.obj", "cutOrange");
 
     //cooked beef
     loadIngredient("obj/cookedBeef/cookedBeef.obj", "cookedBeef");
@@ -414,7 +416,7 @@ void loadTextures()
     glScalef(-1,1,-1);
 
     glEnable(GL_TEXTURE_2D);
-    glGenTextures(20, textures);
+    glGenTextures(22, textures);
 
     
     texture("obj/ktc_table/ktc_table.ppm", 0);
@@ -431,6 +433,7 @@ void loadTextures()
 
     texture("obj/cutBanana/cutBanana.ppm", 8);
     texture("obj/cutMango/cutMango.ppm", 9);
+    texture("obj/cutOrange/cutOrange.ppm", 20);
 
     texture("obj/cutOnion/cutOnion.ppm", 10);
     texture("obj/cutPotato/cutPotato.ppm", 11);
@@ -440,10 +443,13 @@ void loadTextures()
     texture("obj/pan/pan.ppm", 14);
     texture("obj/knife/knife.ppm", 15);
     texture("obj/pot/pot.ppm", 16);
+    texture("obj/bowl/bowl.ppm", 21);
+
 
     texture("obj/room/wall.ppm", 17);
     texture("obj/room/shelves.ppm", 18);
     texture("obj/room/floor.ppm", 19);
+
 }
 
 
@@ -555,6 +561,19 @@ void displaySaladIngrts(){
         glPopMatrix();
     }
 
+
+    glPushMatrix();
+        glTranslatef(pos[4][0], pos[4][1], pos[4][2]); // z value larger moves it close to the camera
+        glScalef(5.0, 5.0, 5.0); // rotating z will rotate counter clockwise on clock
+        if(pick[0]){
+            glScalef(1.6, 1.6, 1.6);
+            
+        }
+        glBindTexture(GL_TEXTURE_2D, textures[15]);
+        displayIngredient("bowl");
+    glPopMatrix();
+
+
     if (cut["banana"])
     {
         glPushMatrix();
@@ -562,6 +581,16 @@ void displaySaladIngrts(){
             glBindTexture(GL_TEXTURE_2D, textures[8]);
             glScalef(0.2, 0.2, 0.2);
             displayIngredient("cutBanana");
+        glPopMatrix();
+    }
+
+    if (cut["orange"])
+    {
+        glPushMatrix();
+            glTranslatef(pos[2][0], pos[2][1], pos[2][2]);
+            glBindTexture(GL_TEXTURE_2D, textures[20]);
+            glScalef(0.25, 0.25, 0.25);
+            displayIngredient("cutOrange");
         glPopMatrix();
     }
      
@@ -807,7 +836,10 @@ void displayScore(){
     
     Score.texture();
     Score.draw(550, 430, 0.25, 0.25);
+
+    glDisable(GL_LIGHTING);
     mouseHandler2.IHandler::drawHandlers();
+    glEnable(GL_LIGHTING);
 
     glPopMatrix();
     glEnable(GL_DEPTH_TEST);
@@ -847,7 +879,10 @@ void displayMenu(){
         
         selectRecipe.texture();
         selectRecipe.draw(550, 430, 0.25, 0.25);
+
+        glDisable(GL_LIGHTING);
         mouseHandler.IHandler::drawHandlers();
+        glEnable(GL_LIGHTING);
     
 
     /*
@@ -1177,12 +1212,12 @@ void mouse(int btn, int state, int x, int y){
                     
                     //printf("%f\n", knifePos.distanceTo(bananaPos) && knifePos.mY>orangePos.mY);
 
-                    /*
+                    
                     if (knifePos.distanceTo(orangePos) < 3.0)
                     {
                         cut["orange"] = true;
                     }
-                    */
+                    printf("%f\n", knifePos.distanceTo(bananaPos) && knifePos.mY>orangePos.mY);
 
                     if (knifePos.distanceTo(mangoPos) < 3.0 && knifePos.mY>mangoPos.mY)
                     {
