@@ -566,7 +566,7 @@ void displaySaladIngrts(){
     }
      
     
-    if (cut["orange"])
+    if (cut["mango"])
     {
         glPushMatrix();
             glTranslatef(pos[3][0], pos[3][1], pos[3][2]);
@@ -600,58 +600,81 @@ void displayCurryIngrts(){
         glBindTexture(GL_TEXTURE_2D, textures[16]);
         displayIngredient("pot");
     glPopMatrix();
-    glPushMatrix();
-        glTranslatef(pos[2][0], pos[2][1], pos[2][2]); // z value larger moves it close to the camera
-        glScalef(0.4, 0.4, 0.4);
-        if(pick[2])
-            glScalef(1.4,1.4,1.4);
-        glBindTexture(GL_TEXTURE_2D, textures[5]);
-        displayIngredient("potato");
-    glPopMatrix();
-
-    glPushMatrix();
-        glTranslatef(pos[3][0], pos[3][1], pos[3][2]);
-        glRotatef(-90, 1, 0, 0);
-        glScalef(0.25, 0.25, 0.25);
-        if(pick[3])
-            glScalef(1.25,1.25,1.25);
-        glBindTexture(GL_TEXTURE_2D, textures[6]);
-        displayIngredient("tomato");
-    glPopMatrix();
-
-    glPushMatrix();
-        glTranslatef(pos[4][0], pos[4][1], pos[4][2]); // z value larger moves it close to the camera
-        glScalef(0.15, 0.15, 0.15);
-        if(pick[4])
-            glScalef(1.15,1.15,1.15);
-        glBindTexture(GL_TEXTURE_2D, textures[4]);
-        displayIngredient("onion");
-    glPopMatrix();
 
 
-    // glPushMatrix();
-    //     glTranslatef(pos[7][0], pos[7][1], pos[7][2]);
-    //     glRotatef(30, 1, 0, 0);
-    //     glScalef(0.3, 0.3, 0.3);
-    //     glBindTexture(GL_TEXTURE_2D, textures[10]);
-    //     displayIngredient("cutOnion");
-    // glPopMatrix();
+    if (cut["potato"] == false)
+    {
+        glPushMatrix();
+            glTranslatef(pos[2][0], pos[2][1], pos[2][2]); // z value larger moves it close to the camera
+            glScalef(0.4, 0.4, 0.4);
+            if(pick[2])
+                glScalef(1.4,1.4,1.4);
+            glBindTexture(GL_TEXTURE_2D, textures[5]);
+            displayIngredient("potato");
+        glPopMatrix();
+    }
     
 
-    // glPushMatrix();
-    //     glTranslatef(pos[8][0], pos[8][1], pos[8][2]);
-    //     glRotatef(30, 1, 0, 0);
-    //     glScalef(0.3, 0.3, 0.3);
-    //     glBindTexture(GL_TEXTURE_2D, textures[12]);
-    //     displayIngredient("cutTomato");
-    // glPopMatrix();
+    if (cut["tomato"] == false)
+    {
+        glPushMatrix();
+            glTranslatef(pos[3][0], pos[3][1], pos[3][2]);
+            glRotatef(-90, 1, 0, 0);
+            glScalef(0.25, 0.25, 0.25);
+            if(pick[3])
+                glScalef(1.25,1.25,1.25);
+            glBindTexture(GL_TEXTURE_2D, textures[6]);
+            displayIngredient("tomato");
+        glPopMatrix();
+    }
+    
 
-    // glPushMatrix();
-    //     glTranslatef(pos[9][0], pos[9][1], pos[9][2]);
-    //     glScalef(0.15, 0.15, 0.15);
-    //     glBindTexture(GL_TEXTURE_2D, textures[11]);
-    //     displayIngredient("cutPotato");
-    // glPopMatrix();
+    if (cut["onion"] == false)
+    {
+        glPushMatrix();
+            glTranslatef(pos[4][0], pos[4][1], pos[4][2]); // z value larger moves it close to the camera
+            glScalef(0.15, 0.15, 0.15);
+            if(pick[4])
+                glScalef(1.15,1.15,1.15);
+            glBindTexture(GL_TEXTURE_2D, textures[4]);
+            displayIngredient("onion");
+        glPopMatrix();
+    }
+    
+
+    if (cut["onion"])
+    {
+        glPushMatrix();
+            glTranslatef(pos[4][0], pos[4][1], pos[4][2]);
+            glRotatef(30, 1, 0, 0);
+            glScalef(0.3, 0.3, 0.3);
+            glBindTexture(GL_TEXTURE_2D, textures[10]);
+            displayIngredient("cutOnion");
+        glPopMatrix();
+    }
+    
+    
+    if (cut["tomato"])
+    {
+        glPushMatrix();
+            glTranslatef(pos[3][0], pos[3][1], pos[3][2]);
+            glRotatef(30, 1, 0, 0);
+            glScalef(0.3, 0.3, 0.3);
+            glBindTexture(GL_TEXTURE_2D, textures[12]);
+            displayIngredient("cutTomato");
+        glPopMatrix();
+    }
+    
+    if (cut["potato"])
+    {
+        glPushMatrix();
+            glTranslatef(pos[2][0], pos[2][1], pos[2][2]);
+            glScalef(0.15, 0.15, 0.15);
+            glBindTexture(GL_TEXTURE_2D, textures[11]);
+            displayIngredient("cutPotato");
+        glPopMatrix();
+    }
+    
 }
 
 /**
@@ -1111,7 +1134,6 @@ void mouse(int btn, int state, int x, int y){
     {
         if (state == GLUT_UP)
         {
-            cout << "up" << endl;
 
             // get matrix and viewport:
             glGetDoublev( GL_MODELVIEW_MATRIX, matModelView ); 
@@ -1148,12 +1170,62 @@ void mouse(int btn, int state, int x, int y){
                     Point2D mangoPos = Point2D(pos[3][0], pos[3][1]);
 
                     //compute the distance with banana, mango, orange
-                    if (knifePos.distanceTo(bananaPos) < 3.0)
+                    if (knifePos.distanceTo(bananaPos) < 3.0 && knifePos.mY>bananaPos.mY)
                     {
                         cut["banana"] = true;
                     }
                     
-                    printf("%f\n", knifePos.distanceTo(bananaPos));
+                    //printf("%f\n", knifePos.distanceTo(bananaPos) && knifePos.mY>orangePos.mY);
+
+                    /*
+                    if (knifePos.distanceTo(orangePos) < 3.0)
+                    {
+                        cut["orange"] = true;
+                    }
+                    */
+
+                    if (knifePos.distanceTo(mangoPos) < 3.0 && knifePos.mY>mangoPos.mY)
+                    {
+                        cut["mango"] = true;
+                    }
+                }
+            }
+
+
+            else if (scene == 2)
+            {
+                bool knifeIsRightClicjed = rightClickKnife();
+
+                if (knifeIsRightClicjed) //right click on the knife
+                {
+                    cout << "knife is selected" << endl;
+                    Point2D knifePos = Point2D(pos[0][0], pos[0][1]);
+
+                    Point2D tomatoPos = Point2D(pos[3][0], pos[3][1]);
+                    Point2D potatoPos = Point2D(pos[2][0], pos[2][1]);
+                    Point2D onionPos = Point2D(pos[4][0], pos[4][1]);
+
+                    //compute the distance with tomato, potato, onion
+                    if (knifePos.distanceTo(tomatoPos) < 3.5 && knifePos.mY>tomatoPos.mY)
+                    {
+                        cut["tomato"] = true;
+                    }
+                    
+                    printf("tomato: %f, %f\n", knifePos.distanceTo(tomatoPos), knifePos.mY-tomatoPos.mY);
+
+                    
+                    if (knifePos.distanceTo(potatoPos) < 3.0 && knifePos.mY>potatoPos.mY)
+                    {
+                        cut["potato"] = true;
+                    }
+                    printf("potato: %f, %f\n", knifePos.distanceTo(potatoPos), knifePos.mY-potatoPos.mY);
+                    
+
+                    if (knifePos.distanceTo(onionPos) < 3.5 && knifePos.mY>onionPos.mY)
+                    {
+                        cut["onion"] = true;
+                    }
+                    printf("onion: %f, %f\n", knifePos.distanceTo(onionPos), knifePos.mY-onionPos.mY);
                 }
             }
             
