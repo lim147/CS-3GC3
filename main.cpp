@@ -457,7 +457,15 @@ void gameRestart(){
 
         pick[i] = false; 
         selectable[i] = true; 
+
     }
+    cut["banana"] = false;
+    cut["orange"] = false;
+    cut["mango"] = false;
+    cut["onion"] = false;
+    cut["potato"] =  false;
+    cut["tomato"] =  false;
+    cut["beef"] = false;
 
 }
 
