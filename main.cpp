@@ -1,4 +1,4 @@
-// works
+
 #ifdef __APPLE__
 #  define GL_SILENCE_DEPRECATION
 #  include <OpenGL/gl.h>
@@ -450,12 +450,6 @@ void gameRestart(){
     scene = 0;
     tick = allotedTime;
 
-    pick[0] = false; 
-    pick[1] = false; 
-    pick[2] = false;
-    pick[3] = false; 
-    pick[4] = false; 
-
     for (int i = 0; i < 6; i++){
         pos[i][0] = -10; 
         pos[i][2] = -30;
@@ -465,8 +459,6 @@ void gameRestart(){
         pick[i] = false;
         selectable[i] = true;
     }
-
-
 
 }
 
@@ -484,7 +476,7 @@ void gameSetUp()
     cut["beef"] = false;
 }
 
-/*
+
 void displayInstructions(){
 
     glMatrixMode(GL_PROJECTION); // Tells opengl that we are doing project matrix work
@@ -515,7 +507,7 @@ void displayInstructions(){
     glPopMatrix();
     glEnable(GL_DEPTH_TEST);
 
-}*/
+}
 
 /**
  *  \brief Displays ingredients needed for salad recipe
@@ -919,15 +911,15 @@ void draw3DScene(){
             displayMenu();
         else if (scene == 1){
             displaySaladIngrts();
-            //displayInstructions();
+            displayInstructions();
         }
         else if (scene == 2){
             displayCurryIngrts();
-            //displayInstructions();
+            displayInstructions();
         }
         else if (scene == 3){
             displaySteakIngrts();
-            //displayInstructions();
+            displayInstructions();
         }
         else if (scene == 4){
             displayScore();
@@ -968,12 +960,12 @@ void display()
 
     // The following is for the onscreen timer
     setOrthographicProjection();
+    glColor3d(1.0, 0.0, 1.0);;
     glPushMatrix();
         glLoadIdentity();
-        glDisable(GL_LIGHTING);
-        glColor3f(0, 0, 0);
-        renderBitmapString(20,40, (void*)GLUT_BITMAP_9_BY_15, s);
         glEnable(GL_LIGHTING);
+        renderBitmapString(20,40, (void*)GLUT_BITMAP_9_BY_15, s);
+        glDisable(GL_LIGHTING);
         // Make a variable for the score, similar to the s here, which is defined at the top
         // Check if the scene is 4
         // if the scene is 4, then display the score
@@ -1477,8 +1469,12 @@ void FPS(int val)
 
     if (scene == 1 or scene == 2 or scene == 3){
         passedTime = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
+        //glDisable(GL_LIGHTING);
+        //glDisable(GL_TEXTURE_2D);
         tick = (int)(allotedTime-(passedTime-startTime));
         sprintf(s, "%2d", tick);
+        //glEnable(GL_TEXTURE_2D)
+        //glEnable(GL_LIGHTING);
     }
 
     glutTimerFunc(1000, FPS, 0);
