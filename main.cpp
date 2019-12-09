@@ -56,7 +56,7 @@ char s[30];
 char s2[30];
 
 // Variables for time
-double allotedTime = 5;
+double allotedTime = 30;
 double startTime; // Time since the recipe was chosen
 double passedTime;  // Time since the program compiled
 double steakTime = 0; 
