@@ -57,7 +57,7 @@ char s[30];
 char s2[30];
 
 // Variables for time
-double allotedTime = 5;
+double allotedTime = 50;
 double startTime; // Time since the recipe was chosen
 double passedTime;  // Time since the program compiled
 double steakTime = 0; 
@@ -186,7 +186,7 @@ bool pick[5] = {
     false,           //onion  
     };
 float size[5] = {1.5, 1.5,1.5, 1.5,1.5};
-
+float selectable[5] = {true, true, true,true, true};
 
 /*
 Index  | Salad     | Curry     | Steak
@@ -450,6 +450,15 @@ void gameRestart(){
     steakTime = 0;
     scene = 0;
     tick = allotedTime;
+    for(int i = 0; i < 5; i++){
+        pos[i][0] = -10; 
+        pos[i][1] = 30 - i*5; 
+        pos[i][3] = -30 ;
+
+        pick[i] = false; 
+        selectable[i] = true; 
+    }
+
 }
 
 void gameSetUp()
@@ -466,21 +475,6 @@ void gameSetUp()
     cut["beef"] = false;
 
 
-    float pos[6][3] = {
-        {-10, 30, -30}, // pos[0] 
-        {-10, 25, -30}, // pos[1] 
-        {-10, 20, -30}, // pos[2] 
-        {-10, 15, -30}, // pos[3] 
-        {-10, 10, -30}, // pos[4] 
-        {-10, 5, -30}   // pos[5] 
-    }; 
-
-
-    pick[0] = false; 
-    pick[1] = false; 
-    pick[2] = false;
-    pick[3] = false; 
-    pick[4] = false; 
 }
 
 
@@ -580,7 +574,7 @@ void displaySaladIngrts(){
     glPushMatrix();
         glTranslatef(pos[4][0], pos[4][1], pos[4][2]); // z value larger moves it close to the camera
         glScalef(5.0, 5.0, 5.0); // rotating z will rotate counter clockwise on clock
-        if(pick[0]){
+        if(pick[1]){
             glScalef(1.6, 1.6, 1.6);
             
         }
@@ -970,9 +964,9 @@ void display()
     glColor3d(1.0, 0.0, 1.0);;
     glPushMatrix();
         glLoadIdentity();
-        glEnable(GL_LIGHTING);
-        renderBitmapString(20,40, (void*)GLUT_BITMAP_9_BY_15, s);
         glDisable(GL_LIGHTING);
+        renderBitmapString(20,40, (void*)GLUT_BITMAP_9_BY_15, s);
+        glEnable(GL_LIGHTING);
         // Make a variable for the score, similar to the s here, which is defined at the top
         // Check if the scene is 4
         // if the scene is 4, then display the score
@@ -1156,117 +1150,139 @@ void mouse(int btn, int state, int x, int y){
             else if(scene == 1)
             {
                 
+                for(int i = 0; i < 5; i++){
+
+                    if (selectable[i]){
+                        makeSelectable(i);
+                    }
+
+                }
+                
+
                     Point2D bowlPos = Point2D(pos[4][0], pos[4][1]);
 
-                    Point2D bananaPos = Point2D(pos[1][0], pos[1][1]);
-                    Point2D orangePos = Point2D(pos[2][0], pos[2][1]);
-                    Point2D mangoPos = Point2D(pos[3][0], pos[3][1]);
-
                     if (cut["banana"]){
-                        if(bowlPos.distanceTo(bananaPos) < 3.0 && bowlPos.mY>bananaPos.mY){
-                            pick[1] = !pick[1];
+                        Point2D bananaPos = Point2D(pos[1][0], pos[1][1]);
+                        if(bowlPos.distanceTo(bananaPos) < 5.0){
+                            selectable[1] = false; 
+                            printf("1, false\n");
+                            pick[1] = pick[4];
                             pos[1][0] = pos[4][0];
                             pos[1][1] = pos[4][1];
                             pos[1][2] = pos[4][2];
+                            
                         }
+
                     }
         
-                    else if (cut["orange"])
+                    if (cut["orange"])
                     {
-                        if(bowlPos.distanceTo(orangePos) < 3.0 && bowlPos.mY > orangePos.mY ){
-                            pick[2] = !pick[2];
+                        Point2D orangePos = Point2D(pos[2][0], pos[2][1]);
+                        if(bowlPos.distanceTo(orangePos) < 5.0 ){
+                            selectable[2] = false; 
+                            printf("2,false\n");
+                            pick[2] = pick[4];
                             pos[2][0] = pos[4][0];
                             pos[2][1] = pos[4][1];
                             pos[2][2] = pos[4][2];
+                            
                         }
                         
                     }
     
-                    else if (cut["mango"])
+                    if (cut["mango"])
                     {
-                        if (bowlPos.distanceTo(mangoPos) < 3.0 && bowlPos.mY>mangoPos.mY){
-                            pick[3] = !pick[3];
+                        Point2D mangoPos = Point2D(pos[3][0], pos[3][1]);
+                        if (bowlPos.distanceTo(mangoPos) < 5.0){
+                            selectable[3] = false; 
+                            printf("3,false\n");
+                            pick[3] = pick[4];
                             pos[3][0] = pos[4][0];
                             pos[3][1] = pos[4][1];
                             pos[3][2] = pos[4][2];
+                
                         }
                         
                     }
 
-                    else{
-                        for (int i = 0; i < 5; i++)
-                        {
-                        makeSelectable(i);
-                        }    
-                    }
             }
             else if(scene == 2)
             {
+                for(int i = 0; i < 5; i++){
+
+                    if (selectable[i]){
+                        makeSelectable(i);
+                    }
+
+                }
+
                 Point2D potPos = Point2D(pos[1][0], pos[1][1]);
-                Point2D potatoPos = Point2D(pos[2][0], pos[2][1]);
-                Point2D tomatoPos = Point2D(pos[3][0], pos[3][1]);
-                Point2D onionPos = Point2D(pos[4][0], pos[4][1]);
                 
                 if (cut["potato"])
                 {
+                    Point2D potatoPos = Point2D(pos[2][0], pos[2][1]);
                     if (potPos.distanceTo(potatoPos) < 3.0 && potPos.mY>potatoPos.mY){
-                        pick[2] = !pick[2];
+                        selectable[2] = false; 
+                        pick[2] = pick[1];
                         pos[2][0] = pos[1][0];
                         pos[2][1] = pos[1][1];
                         pos[2][2] = pos[1][2];
+                        
                     }
             
                 }
 
                 else if(cut["tomato"]){
-                        if (potPos.distanceTo(tomatoPos) < 3.5 && potPos.mY>tomatoPos.mY){
-                        pick[3] = !pick[3];
+                    Point2D tomatoPos = Point2D(pos[3][0], pos[3][1]);
+                    if (potPos.distanceTo(tomatoPos) < 3.5 && potPos.mY>tomatoPos.mY){
+                        selectable[3] = false;
+                        pick[3] = pick[1];
                         pos[3][0] = pos[1][0];
                         pos[3][1] = pos[1][1];
                         pos[3][2] = pos[1][2];
+                        
                     }
                 }
 
 
                 else if (cut["onion"])
                 {
+                    Point2D onionPos = Point2D(pos[4][0], pos[4][1]);
                     if (potPos.distanceTo(onionPos) < 3.5 && potPos.mY>onionPos.mY){
-                        pick[4] = !pick[4];
+                        selectable[4] = false;
+                        pick[4] = pick[1];
                         pos[4][0] = pos[1][0];
                         pos[4][1] = pos[1][1];
                         pos[4][2] = pos[1][2];
+                        
                     }
                         
                 }
-                    
-                else{
-                    for (int i = 0; i < 5; i++)
-                    {
-                        makeSelectable(i);
-                    }                                       
-                }
-
-                //n = 5; 
             }
             else if (scene == 3)
             {
+              
+              for(int i = 0; i < 2; i++){
+
+                    if (selectable[i]){
+                        makeSelectable(i);
+                    }
+
+                }
+                
                 Point2D panPos = Point2D(pos[0][0], pos[0][1]);
                 Point2D steakPos = Point2D(pos[1][0], pos[1][1]);
 
                 if (panPos.distanceTo(steakPos) < 3.5 && panPos.mY> steakPos.mY)
                     {
                         printf("steak is near the pan\n");
-                        pick[1] = !pick[1]; 
+                        selectable[1] = false; 
+                        pick[1] = pick[0]; 
                         pos[1][0] = pos[0][0];
                         pos[1][1] = pos[0][1];
                         pos[1][2] = pos[0][2];
+                        pick[0] = !pick[0];
 
-                }else{
-                
-                    for (int i = 0; i < 2; i++)
-                    {
-                        makeSelectable(i);
-                    }                     
                 }
 
             }
@@ -1499,6 +1515,12 @@ void selectSteak(){
 
 void done(){
 
+    if(chosenRecipe == 1){
+        if((selectable[1] == false) and (selectable[2] == false )and (selectable[3] == false)){
+
+            scene = 4; 
+        }
+    }else if 
 }
 
 Handler saladButton = {
