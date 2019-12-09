@@ -8,7 +8,7 @@ void IHandler::leftClickDown(int x, int y) {
 }
 
 void IHandler::drawHandlers() {
-    glColor3f(1, 0, 1);
+    glColor3f(1, 0, 0);
     glLineWidth(2);
     glBegin(GL_LINES);
     for (Handler *handler : mHandlers) {
