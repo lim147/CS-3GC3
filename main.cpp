@@ -42,8 +42,7 @@ int scene = 0;
 // scene 1 is the salad state
 //                curry state
 //                steak state
-
-int menuState = 0;
+int chosenRecipe = 1; // Variable to keep track of which recipe was chosen at start
 
 GLfloat eye[] = {8, 21, 10}; //z should be 10
 GLfloat lookAt[] = { 0, 20, 0 };
@@ -57,9 +56,10 @@ char s[30];
 char s2[30];
 
 // Variables for time
-double allotedTime = 100;
-double startTime;
-double passedTime; 
+double allotedTime = 5;
+double startTime; // Time since the recipe was chosen
+double passedTime;  // Time since the program compiled
+double steakTime = 0; 
 int tick = allotedTime;
 
 Image selectRecipe; // Image with the recipes to choose from
@@ -70,6 +70,10 @@ Image Steak; // Image with the recipe of Steak
 Image Score; // Image for score
 Image Controls; // Image for controls
 Image Done; // Image for done button
+Image NotComplete; // Image for when recipe was not completed in time
+Image CompleteSalad; // Image for when salad is complete
+Image CompleteCurry; // Image for when curry is complete
+Image CompleteSteak; // Image for when steak is complete
 
 IHandler mouseHandler; // For selecting recipe
 IHandler mouseHandler2; // For the try again button
@@ -385,15 +389,6 @@ void loadIngrts(){
     loadIngredient("obj/cookedBeef/cookedBeef.obj", "cookedBeef");
 }
 
-
-/*
-TO DO:
-    1. knife, cutMango make use of 2 images for texture, but i only know how to apply one ppm...
-        - Either search on line to figire out apply multiple texture on the same obj
-        - Or combine 2 jpg(/png...) into one jpg(/png..). Could check ktc_table for example.
-    2. Find new obj online: bowl(to make salad), spoon
-*/
-
 //load the ppm file in the given filename as the ith texture
 void texture(const char* filename, int i)
 {
@@ -407,8 +402,6 @@ void texture(const char* filename, int i)
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 }
-
-
 
 void loadTextures()
 {
@@ -452,7 +445,11 @@ void loadTextures()
 
 }
 
-
+void gameRestart(){
+    steakTime = 0;
+    scene = 0;
+    tick = allotedTime;
+}
 
 void gameSetUp()
 {
@@ -851,10 +848,6 @@ void displayScore(){
     glPopMatrix();
     glEnable(GL_DEPTH_TEST);
 }
-
-//105 x 
-
-//52 x 74
 
 /**
  *  \brief Displays Menu of Recipes
@@ -1451,14 +1444,19 @@ void FPS(int val)
 {
 
     if (tick <= 1){
+        chosenRecipe = 0;
         scene = 4;
     }
 
 
     if (scene == 1 or scene == 2 or scene == 3){
         passedTime = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
+        //glDisable(GL_LIGHTING);
+        //glDisable(GL_TEXTURE_2D);
         tick = (int)(allotedTime-(passedTime-startTime));
         sprintf(s, "%2d", tick);
+        //glEnable(GL_TEXTURE_2D)
+        //glEnable(GL_LIGHTING);
     }
 
     glutTimerFunc(1000, FPS, 0);
@@ -1471,32 +1469,27 @@ void FPS(int val)
 }
 
 void selectSalad() {
-    menuState=1;
+    chosenRecipe=1;
     scene=1;
     startTime = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
     //std::cout << "menustate "<< menuState << std::endl;
 }
 
 void selectCurry(){
-    menuState=2;
+    chosenRecipe=2;
     scene=2;
     startTime = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
     //std::cout << "menustate "<< menuState << std::endl;
 }
 
 void selectSteak(){
-    menuState=3;
+    chosenRecipe=3;
     scene=3;
     startTime = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
     //std::cout << "menustate "<< menuState << std::endl;
 }
 
-void restart(){
-    scene=0;
-    menuState=0;
-    tick=allotedTime;
-
-
+void done(){
 
 }
 
@@ -1529,7 +1522,7 @@ Handler tryAgainButton = {
     425, 
     367, 
     327, 
-    restart
+    gameRestart
 };
 
 Handler doneButton = {
@@ -1537,7 +1530,7 @@ Handler doneButton = {
     580, //right
     579, //bottom
     529,  //top
-    restart  
+    done
 };
 
 void init()
@@ -1550,6 +1543,12 @@ void init()
     Score.load("ppm/Score.ppm");
     Controls.load("ppm/Controls.ppm");
     Done.load("ppm/Done.ppm");
+
+    NotComplete.load("ppm/NotComplete.ppm"); 
+    CompleteSalad.load("ppm/CompleteFruit.ppm"); 
+    CompleteCurry.load("ppm/CompleteCurry.ppm"); 
+    CompleteSteak.load("ppm/CompleteSteak.ppm"); 
+
 
     //Add the buttons to the mouse handler
     mouseHandler.addHandler(&saladButton);
@@ -1589,7 +1588,22 @@ void display2D()
             Steak.draw(320, 0, 0.18, 0.18);
         }
         else if (scene == 4){
-
+            if (chosenRecipe == 0){
+                NotComplete.texture();
+                NotComplete.draw(320, 0, 0.18, 0.18);                
+            }
+            else if (chosenRecipe == 1){
+                CompleteSalad.texture();
+                CompleteSalad.draw(320, 0, 0.18, 0.18);
+            }
+            else if(chosenRecipe == 2){
+                CompleteCurry.texture();
+                CompleteCurry.draw(320, 0, 0.18, 0.18);
+            }
+            else if(chosenRecipe == 3){
+                CompleteSteak.texture();
+                CompleteSteak.draw(320, 0, 0.18, 0.18);
+            }
         }
 
     glPopMatrix();
