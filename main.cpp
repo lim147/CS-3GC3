@@ -467,6 +467,7 @@ void gameRestart(){
         selectable[i] = true; 
 
     }
+    cookBeefTime = 10;
     isBeefCooked = false;
     cut["banana"] = false;
     cut["orange"] = false;
