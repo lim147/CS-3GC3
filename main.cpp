@@ -66,7 +66,7 @@ int tick = allotedTime;
 Image selectRecipe; // Image with the recipes to choose from
 Image Instructions;
 Image Salad; // Image with the recipe of Salad
-Image Curry; // Image with the recpie of Curry
+Image Curry; // Image with the recipe of Curry
 Image Steak; // Image with the recipe of Steak
 Image Score; // Image for score
 Image Controls; // Image for controls
@@ -1517,6 +1517,13 @@ void selectSteak(){
 
 void done(){
 
+    if(scene == 1){
+        if(!selectable[1] && !selectable[2] && !selectable[3]){
+            scene = 4; 
+        }
+    }
+
+    
 }
 
 Handler saladButton = {
