@@ -1520,7 +1520,7 @@ void done(){
 
             scene = 4; 
         }
-    }else if 
+    }
 }
 
 Handler saladButton = {
