@@ -574,8 +574,8 @@ void displaySaladIngrts(){
     glPushMatrix();
         glTranslatef(pos[4][0], pos[4][1], pos[4][2]); // z value larger moves it close to the camera
         glScalef(5.0, 5.0, 5.0); // rotating z will rotate counter clockwise on clock
-        if(pick[1]){
-            glScalef(1.6, 1.6, 1.6);
+        if(pick[4]){
+            glScalef(1, 1, 1);
             
         }
         glBindTexture(GL_TEXTURE_2D, textures[21]);
@@ -1147,7 +1147,10 @@ void mouse(int btn, int state, int x, int y){
             {
                 mouseHandler2.leftClickDown(x,y);
             }
-            else if(scene == 1)
+            else if (scene==1 or scene==2 or scene==3)
+            {
+                mouseHandler3.leftClickDown(x,y);
+                if(scene == 1)
             {
                 
                 for(int i = 0; i < 5; i++){
@@ -1165,7 +1168,7 @@ void mouse(int btn, int state, int x, int y){
                         Point2D bananaPos = Point2D(pos[1][0], pos[1][1]);
                         if(bowlPos.distanceTo(bananaPos) < 5.0){
                             selectable[1] = false; 
-                            printf("1, false\n");
+                            
                             pick[1] = pick[4];
                             pos[1][0] = pos[4][0];
                             pos[1][1] = pos[4][1];
@@ -1180,7 +1183,7 @@ void mouse(int btn, int state, int x, int y){
                         Point2D orangePos = Point2D(pos[2][0], pos[2][1]);
                         if(bowlPos.distanceTo(orangePos) < 5.0 ){
                             selectable[2] = false; 
-                            printf("2,false\n");
+                            
                             pick[2] = pick[4];
                             pos[2][0] = pos[4][0];
                             pos[2][1] = pos[4][1];
@@ -1195,7 +1198,7 @@ void mouse(int btn, int state, int x, int y){
                         Point2D mangoPos = Point2D(pos[3][0], pos[3][1]);
                         if (bowlPos.distanceTo(mangoPos) < 5.0){
                             selectable[3] = false; 
-                            printf("3,false\n");
+                            
                             pick[3] = pick[4];
                             pos[3][0] = pos[4][0];
                             pos[3][1] = pos[4][1];
@@ -1281,14 +1284,16 @@ void mouse(int btn, int state, int x, int y){
                         pos[1][0] = pos[0][0];
                         pos[1][1] = pos[0][1];
                         pos[1][2] = pos[0][2];
-                        pick[0] = !pick[0];
+                        
 
                 }
 
             }
+
+            }
+            
         }
     }
-
 
 
     if (btn == GLUT_RIGHT_BUTTON)
@@ -1515,14 +1520,21 @@ void selectSteak(){
 
 void done(){
 
-    if(chosenRecipe == 1){
-        if((selectable[1] == false) and (selectable[2] == false )and (selectable[3] == false)){
-
+        if(chosenRecipe == 1){
+        if((selectable[1] == false) && (selectable[2] == false ) && (selectable[3] == false)){
             scene = 4; 
         }
+    }else if(chosenRecipe == 2){
+        if((selectable[2] == false) && (selectable[3] == false ) && (selectable[4] == false)){
+            scene = 4;
+        }
+    }else if(chosenRecipe == 3){
+        if(selectable[1]){
+            scene = 4;
+        }
     }
-}
 
+}
 Handler saladButton = {
     220, //mLeft
     270, //mRight
