@@ -1373,7 +1373,7 @@ void mouse(int btn, int state, int x, int y){
 
                 if (knifeIsRightClicjed) //right click on the knife
                 {
-                    cout << "knife is selected" << endl;
+                    //cout << "knife is selected" << endl;
                     Point2D knifePos = Point2D(pos[0][0], pos[0][1]);
 
                     Point2D bananaPos = Point2D(pos[1][0], pos[1][1]);
@@ -1409,7 +1409,7 @@ void mouse(int btn, int state, int x, int y){
 
                 if (knifeIsRightClicjed) //right click on the knife
                 {
-                    cout << "knife is selected" << endl;
+                    //cout << "knife is selected" << endl;
                     Point2D knifePos = Point2D(pos[0][0], pos[0][1]);
 
                     Point2D tomatoPos = Point2D(pos[3][0], pos[3][1]);
@@ -1537,7 +1537,7 @@ void FPS(int val)
     //cook beef
     if (scene == 3)
     {
-        cout << cookBeefTime << endl;
+        //cout << cookBeefTime << endl;
         Point2D panPos = Point2D(pos[0][0], pos[0][1]);
         Point2D beefPos = Point2D(pos[1][0], pos[1][1]);
 
