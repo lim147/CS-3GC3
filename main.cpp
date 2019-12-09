@@ -64,7 +64,6 @@ double steakTime = 0;
 int tick = allotedTime;
 
 
-
 //beef is cooked or not
 int cookBeefTime = 10; //wait for 10 seconds for row beef turing to cooked beef
 bool isBeefCooked = false;
@@ -851,7 +850,7 @@ void displayScore(){
     glPushMatrix();
         glLoadIdentity();
         glDisable(GL_LIGHTING);
-        renderBitmapString(300,480, (void*)GLUT_BITMAP_9_BY_15, s2);
+        renderBitmapString(390,390, (void*)GLUT_BITMAP_9_BY_15, s2);
         glEnable(GL_LIGHTING);
 
 
@@ -1596,7 +1595,7 @@ void done(){
             scene = 4;
         }
     }else if(chosenRecipe == 3){
-        if(selectable[1]){
+        if(selectable[1] && isBeefCooked){
             score = allotedTime - (allotedTime-(passedTime-startTime));
             scene = 4;
         }
