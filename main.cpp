@@ -467,6 +467,7 @@ void gameRestart(){
         selectable[i] = true; 
 
     }
+    isBeefCooked = false;
     cut["banana"] = false;
     cut["orange"] = false;
     cut["mango"] = false;
@@ -844,18 +845,7 @@ void displayScore(){
 
     sprintf(s2, "%2d", score);
 
-        // The following is for the onscreen timer
-    setOrthographicProjection();
-    glColor3d(1.0, 0.0, 1.0);;
-    glPushMatrix();
-        glLoadIdentity();
-        glDisable(GL_LIGHTING);
-        renderBitmapString(390,390, (void*)GLUT_BITMAP_9_BY_15, s2);
-        glEnable(GL_LIGHTING);
 
-
-    glPopMatrix();
-    resetPerspectiveProjection();
 
 
     glLoadIdentity();
@@ -880,6 +870,20 @@ void displayScore(){
 
     glPopMatrix();
     glEnable(GL_DEPTH_TEST);
+
+        // The following is for the onscreen timer
+    setOrthographicProjection();
+    glColor3d(1.0, 0.0, 1.0);;
+    glPushMatrix();
+        glLoadIdentity();
+        glDisable(GL_LIGHTING);
+        renderBitmapString(390,240, (void*)GLUT_BITMAP_9_BY_15, s2);
+        glEnable(GL_LIGHTING);
+
+
+    glPopMatrix();
+    resetPerspectiveProjection();
+
 }
 
 /**
@@ -1087,9 +1091,9 @@ void makeSelectable(int i)
 
     double discriminant = B*B - 4* A *C;
 
-    if( discriminant < 0)
-        printf("no intersection!\n");
-    else{
+    if( discriminant >= 0){
+        //printf("no intersection!\n");
+    
         double t1 = (-B + sqrt(discriminant)) / (2*A);
         double t2 = (-B - sqrt(discriminant)) / (2*A);
 
@@ -1393,7 +1397,7 @@ void mouse(int btn, int state, int x, int y){
                     {
                         cut["orange"] = true;
                     }
-                    printf("%f\n", knifePos.distanceTo(bananaPos) && knifePos.mY>orangePos.mY);
+                    //printf("%f\n", knifePos.distanceTo(bananaPos) && knifePos.mY>orangePos.mY);
 
                     if (knifePos.distanceTo(mangoPos) < 3.0 && knifePos.mY>mangoPos.mY)
                     {
@@ -1422,21 +1426,21 @@ void mouse(int btn, int state, int x, int y){
                         cut["tomato"] = true;
                     }
                     
-                    printf("tomato: %f, %f\n", knifePos.distanceTo(tomatoPos), knifePos.mY-tomatoPos.mY);
+                    //printf("tomato: %f, %f\n", knifePos.distanceTo(tomatoPos), knifePos.mY-tomatoPos.mY);
 
                     
                     if (knifePos.distanceTo(potatoPos) < 3.0 && knifePos.mY>potatoPos.mY)
                     {
                         cut["potato"] = true;
                     }
-                    printf("potato: %f, %f\n", knifePos.distanceTo(potatoPos), knifePos.mY-potatoPos.mY);
+                    //printf("potato: %f, %f\n", knifePos.distanceTo(potatoPos), knifePos.mY-potatoPos.mY);
                     
 
                     if (knifePos.distanceTo(onionPos) < 3.5 && knifePos.mY>onionPos.mY)
                     {
                         cut["onion"] = true;
                     }
-                    printf("onion: %f, %f\n", knifePos.distanceTo(onionPos), knifePos.mY-onionPos.mY);
+                    //printf("onion: %f, %f\n", knifePos.distanceTo(onionPos), knifePos.mY-onionPos.mY);
                 }
             }
             
@@ -1586,17 +1590,17 @@ void done(){
 
         if(chosenRecipe == 1){
         if((selectable[1] == false) && (selectable[2] == false ) && (selectable[3] == false)){
-            score = allotedTime - (allotedTime-(passedTime-startTime));
+            score = tick;
             scene = 4; 
         }
     }else if(chosenRecipe == 2){
         if((selectable[2] == false) && (selectable[3] == false ) && (selectable[4] == false)){
-            score = allotedTime - (allotedTime-(passedTime-startTime));
+            score = tick;
             scene = 4;
         }
     }else if(chosenRecipe == 3){
-        if(selectable[1] && isBeefCooked){
-            score = allotedTime - (allotedTime-(passedTime-startTime));
+        if(selectable[1] == false && isBeefCooked){
+            score = tick;
             scene = 4;
         }
     }
