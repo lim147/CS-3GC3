@@ -766,7 +766,7 @@ void displaySteakIngrts(){
     if (isBeefCooked)
     {
         glPushMatrix();
-            glTranslatef(pos[1][0], pos[1][1], pos[1][2]);
+            glTranslatef(pos[1][0], pos[1][1]+1, pos[1][2]);
             glRotatef(90, 0, 1, 0);
             glBindTexture(GL_TEXTURE_2D, textures[13]);
             glScalef(0.15, 0.15, 0.15);
