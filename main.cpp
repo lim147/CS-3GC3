@@ -1,3 +1,4 @@
+// works
 #ifdef __APPLE__
 #  define GL_SILENCE_DEPRECATION
 #  include <OpenGL/gl.h>
@@ -969,7 +970,14 @@ void display()
     glColor3d(1.0, 0.0, 1.0);;
     glPushMatrix();
         glLoadIdentity();
+        glEnable(GL_LIGHTING);
         renderBitmapString(20,40, (void*)GLUT_BITMAP_9_BY_15, s);
+        glDisable(GL_LIGHTING);
+        // Make a variable for the score, similar to the s here, which is defined at the top
+        // Check if the scene is 4
+        // if the scene is 4, then display the score
+        // if you need help formatting this, check FPS function
+
     glPopMatrix();
     resetPerspectiveProjection();
 
