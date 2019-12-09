@@ -18,7 +18,11 @@ A cooking game that takes place in a 3-D simulating kitchen,
  - right arrow - move camerat to look right
 
  - left-click to select an ingredient or tool
- - right click to use tool (if a tool is selcted)
+   - The selected object moves along with the mouse until left-click again
+     to deselect.
+ - right click on knife to cut the ingredient objects
+   - Move the knife over the ingredient and right-click on knife to cut
+     the ingredient into small pieces.
  
 
 * Features from Prototype
@@ -29,8 +33,7 @@ A cooking game that takes place in a 3-D simulating kitchen,
 Summed Up:
  - Basic room with floors, walls, lighting
  - Basic meshes for each food object and tool object, and kitchen counter
- - .obj file parser (modification of parser taken from tutorial)
-  - Extracts data (mesh, texture, normals, faces) into c++ vectors
+ - .ppm file parser (modification of parser taken from tutorial)
  - Loading object meshes into the room
 
 * New Features
@@ -45,7 +48,9 @@ Summed Up:
    - Pixel map for choosing a recipe, and End screen 
    - Interaction handlers on the pixel map
    - Timer text on the top left corner (Bitmap String)
- - [5%]
+ - Own idea [5%]
+   - .obj file parser: extracts data (mesh, texture, normals, faces) 
+     into c++ vectors and renders it out in opengl
 
 ** Other Relevant Features
 Some of the features that were implemented in the final implementation include the
@@ -73,7 +78,7 @@ Summed up:
 - Start screen
 - End screen
 - Use of both orthographic and perspective projection
-- Ray shading
+- Ray casting
 
 ** Recipe Details
 
