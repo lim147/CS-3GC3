@@ -80,6 +80,7 @@ IHandler mouseHandler; // For selecting recipe
 IHandler mouseHandler2; // For the try again button
 IHandler mouseHandler3; // For the done button
 
+int score;
 /* 
 //origin light
 
@@ -828,6 +829,22 @@ void renderBitmapString(float x, float y, void *font,const char *string){
 
 void displayScore(){
 
+    sprintf(s2, "%2d", score);
+
+        // The following is for the onscreen timer
+    setOrthographicProjection();
+    glColor3d(1.0, 0.0, 1.0);;
+    glPushMatrix();
+        glLoadIdentity();
+        glDisable(GL_LIGHTING);
+        renderBitmapString(300,480, (void*)GLUT_BITMAP_9_BY_15, s2);
+        glEnable(GL_LIGHTING);
+
+
+    glPopMatrix();
+    resetPerspectiveProjection();
+
+
     glLoadIdentity();
     glMatrixMode(GL_PROJECTION); // Tells opengl that we are doing project matrix work
     glDisable(GL_DEPTH_TEST); // Makes it so that it stays on screen even when the camera moves
@@ -1245,7 +1262,7 @@ void mouse(int btn, int state, int x, int y){
                 
                     }
 
-                    else if(cut["tomato"]){
+                    if(cut["tomato"]){
                         Point2D tomatoPos = Point2D(pos[3][0], pos[3][1]);
                         if (potPos.distanceTo(tomatoPos) < 5.0 ){
                             selectable[3] = false;
@@ -1260,7 +1277,7 @@ void mouse(int btn, int state, int x, int y){
                     }
 
 
-                    else if (cut["onion"])
+                    if (cut["onion"])
                     {
                         Point2D onionPos = Point2D(pos[4][0], pos[4][1]);
                         if (potPos.distanceTo(onionPos) < 5.0 ){
@@ -1537,14 +1554,17 @@ void done(){
 
         if(chosenRecipe == 1){
         if((selectable[1] == false) && (selectable[2] == false ) && (selectable[3] == false)){
+            score = allotedTime - (allotedTime-(passedTime-startTime));
             scene = 4; 
         }
     }else if(chosenRecipe == 2){
         if((selectable[2] == false) && (selectable[3] == false ) && (selectable[4] == false)){
+            score = allotedTime - (allotedTime-(passedTime-startTime));
             scene = 4;
         }
     }else if(chosenRecipe == 3){
         if(selectable[1]){
+            score = allotedTime - (allotedTime-(passedTime-startTime));
             scene = 4;
         }
     }
