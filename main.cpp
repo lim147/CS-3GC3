@@ -960,12 +960,13 @@ void display()
 
     // The following is for the onscreen timer
     setOrthographicProjection();
-    glColor3d(1.0, 0.0, 1.0);;
+
     glPushMatrix();
         glLoadIdentity();
-        glEnable(GL_LIGHTING);
-        renderBitmapString(20,40, (void*)GLUT_BITMAP_9_BY_15, s);
         glDisable(GL_LIGHTING);
+        glColor3f(0,0,0);
+        renderBitmapString(20,40, (void*)GLUT_BITMAP_9_BY_15, s);
+        glEnable(GL_LIGHTING);
         // Make a variable for the score, similar to the s here, which is defined at the top
         // Check if the scene is 4
         // if the scene is 4, then display the score
@@ -1510,7 +1511,7 @@ void selectSteak(){
 void done(){
 
     if(scene == 1){
-        if(!selectable[1] && !selectable[2] && !selectable[3]){
+        if(selectable[1] == false && selectable[2] == false && selectable[3] == false){
             scene = 4; 
         }
     }
