@@ -63,6 +63,14 @@ double passedTime;  // Time since the program compiled
 double steakTime = 0; 
 int tick = allotedTime;
 
+
+
+//beef is cooked or not
+int cookBeefTime = 10; //wait for 10 seconds for row beef turing to cooked beef
+bool isBeefCooked = false;
+
+
+
 Image selectRecipe; // Image with the recipes to choose from
 Image Instructions;
 Image Salad; // Image with the recipe of Salad
@@ -740,24 +748,30 @@ void displaySteakIngrts(){
     glPopMatrix();
 
 
-    glPushMatrix();
-        glTranslatef(pos[1][0], pos[1][1], pos[1][2]);
-        glRotatef(0, 1, 0, 0);
-        glScalef(0.4, 0.4, 0.4);
-        if(pick[1])
-            glScalef(1.4,1.4,1.4);
-        glBindTexture(GL_TEXTURE_2D, textures[7]);
-        displayIngredient("steak");
-    glPopMatrix();
+    if (isBeefCooked == false)
+    {
+        glPushMatrix();
+            glTranslatef(pos[1][0], pos[1][1], pos[1][2]);
+            glRotatef(0, 1, 0, 0);
+            glScalef(0.4, 0.4, 0.4);
+            if(pick[1])
+                glScalef(1.4,1.4,1.4);
+            glBindTexture(GL_TEXTURE_2D, textures[7]);
+            displayIngredient("steak");
+        glPopMatrix();
+    }
+    
 
-
-    // glPushMatrix();
-    //     glTranslatef(-10, 15, -30);
-    //     glRotatef(90, 0, 1, 0);
-    //     glBindTexture(GL_TEXTURE_2D, textures[13]);
-    //     glScalef(0.15, 0.15, 0.15);
-    //     displayIngredient("cookedBeef");
-    // glPopMatrix();
+    if (isBeefCooked)
+    {
+        glPushMatrix();
+            glTranslatef(pos[1][0], pos[1][1], pos[1][2]);
+            glRotatef(90, 0, 1, 0);
+            glBindTexture(GL_TEXTURE_2D, textures[13]);
+            glScalef(0.15, 0.15, 0.15);
+            displayIngredient("cookedBeef");
+        glPopMatrix();
+    }
 
 }
 
@@ -1518,6 +1532,25 @@ void FPS(int val)
         sprintf(s, "%2d", tick);
         //glEnable(GL_TEXTURE_2D)
         //glEnable(GL_LIGHTING);
+    }
+
+
+    //cook beef
+    if (scene == 3)
+    {
+        cout << cookBeefTime << endl;
+        Point2D panPos = Point2D(pos[0][0], pos[0][1]);
+        Point2D beefPos = Point2D(pos[1][0], pos[1][1]);
+
+        if (panPos.distanceTo(beefPos) < 3.0 && cookBeefTime > 0)
+        {
+            cookBeefTime = cookBeefTime - 1;
+        }
+
+        if (cookBeefTime == 0)
+        {
+            isBeefCooked = true;
+        }
     }
 
     glutTimerFunc(1000, FPS, 0);
