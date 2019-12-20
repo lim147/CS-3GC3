@@ -1,8 +1,29 @@
 # 3GC3_Final_Project
 
-To compile the project, use the command "make" while in the main directory. (Inside the Project Folder)
+This culmulative group project was designed and developed for a computer graphics undergraduate course at McMaster University. To be able to compile and run the project, it is necessary to set up OpenGL and freeglut. To compile the project, use the command "make" while in the main directory. (Inside the Project Folder).
 
-## References: 
+## Project Description
+A cooking game that takes place in a 3-D simulating kitchen, where the player selects a recipe and must interact with
+ ingredient objects and tool objects and follow the instructions given to create the dish.
+ 
+ <img src="/jpg/CompleteCurry.jpg"
+     alt="Markdown Monster icon"
+     style="float: left; margin-right: 10px;" />
+
+## Interface
+| Command  | Description  |
+|---|---|
+| q  | quit  |
+| up arrow  | move camera to look up  |
+| down arrow  | move camera to look down  |
+| left arrow  | move camera to look left |
+| right arrow  | move camera to look right  |
+| left-click  | To select an ingredient or tool. The selected object moves along with the mouse until the next left click.  |   
+| right-click  | To use a tool, if a tool is selected, over an ingredient  |
+
+
+     
+## Project References: 
 
 renderBitmapString:
  - referenced from https://www.programming-techniques.com/2012/05/font-rendering-in-glut-using-bitmap-fonts-with-sample-example.html
