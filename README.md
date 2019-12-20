@@ -5,11 +5,10 @@ This culmulative group project was designed and developed for a computer graphic
 ## Project Description
 A cooking game that takes place in a 3-D simulating kitchen, where the player selects a recipe and must interact with
  ingredient objects and tool objects and follow the instructions given to create the dish.
- 
- <img src="/jpg/CompleteCurry.jpg"
-     alt="Markdown Monster icon"
-     style="float: left; margin-right: 10px;" />
 
+<img src="/jpg/gameplay.png" alt="Kitten"
+	title="A cute kitten" width="400" height="350" />
+ 
 ## Interface
 | Command  | Description  |
 |---|---|
