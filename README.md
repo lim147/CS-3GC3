@@ -18,7 +18,7 @@ A cooking game that takes place in a 3-D simulating kitchen, where the player se
 | left arrow  | move camera to look left |
 | right arrow  | move camera to look right  |
 | left-click  | To select an ingredient or tool. The selected object moves along with the mouse until the next left click.  |   
-| right-click  | To use a tool, if a tool is selected, over an ingredient  |
+| right-click  | To use the knife tool. Place the knife over an ingredient and then right click on knife to cut the ingredient into pieces.  |
 
 
      
