@@ -43,7 +43,7 @@ vector<string> split (const string &s, char delim) {
 //load the object file
 bool Ingredient::loadObject(const char* filename)
 {
-	cout << "Loaded object" << endl;
+	//cout << "Loaded object" << endl;
 
     // Counters
     int p = 0;

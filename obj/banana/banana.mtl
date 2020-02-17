@@ -1,7 +1,7 @@
 # Blender MTL File: 'None'
 # Material Count: 1
 
-newmtl Material_MainTexture
+newmtl Material_MainTexture.001
 Ns 47.058813
 Ka 1.000000 1.000000 1.000000
 Kd 0.640000 0.464954 0.101317

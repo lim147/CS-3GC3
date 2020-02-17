@@ -194,7 +194,7 @@ bool pick[5] = {
     false,           //onion  
     };
 float size[5] = {1.5, 1.5,1.5, 1.5,1.5};
-float selectable[5] = {true, true, true,true, true};
+bool selectable[5] = {true, true, true,true, true};
 
 /*
 Index  | Salad     | Curry     | Steak
@@ -211,13 +211,12 @@ pos[] | cutBanana | cutTomato |
 pos[] | cutMango  | cutPotato |
 
 */
-float pos[6][3] = {
+float pos[5][3] = {
     {-10, 30, -30}, // pos[0] 
     {-10, 25, -30}, // pos[1] 
     {-10, 20, -30}, // pos[2] 
     {-10, 15, -30}, // pos[3] 
-    {-10, 10, -30}, // pos[4] 
-    {-10, 5, -30}   // pos[5] 
+    {-10, 10, -30}  // pos[4] 
 }; 
 
 double matModelView[16], matProjection[16]; 
@@ -458,17 +457,23 @@ void gameRestart(){
     steakTime = 0;
     scene = 0;
     tick = allotedTime;
-    for(int i = 0; i < 5; i++){
-        pos[i][0] = -10; 
-        pos[i][1] = 30 - i*5; 
-        pos[i][3] = -30 ;
 
-        pick[i] = false; 
-        selectable[i] = true; 
+    pos[0][0] = -10; pos[0][1] = 30; pos[0][2] = -30; // pos[0]
+    pos[1][0] = -10; pos[1][1] = 25; pos[1][2] = -30; // pos[1] 
+    pos[2][0] = -10; pos[2][1] = 20; pos[2][2] = -30; // pos[2] 
+    pos[3][0] = -10; pos[3][1] = 15; pos[3][2] = -30; // pos[3] 
+    pos[4][0] = -10; pos[4][1] = 10; pos[4][2] = -30; // pos[4] 
 
+    for (int i = 0; i < 5; i++)
+    {
+        pick[i] = false;
+        size[i] = 1.5;
+        selectable[i] = true;
     }
+
     cookBeefTime = 10;
     isBeefCooked = false;
+
     cut["banana"] = false;
     cut["orange"] = false;
     cut["mango"] = false;
@@ -593,7 +598,7 @@ void displaySaladIngrts(){
         glTranslatef(pos[4][0], pos[4][1], pos[4][2]); // z value larger moves it close to the camera
         glScalef(5.0, 5.0, 5.0); // rotating z will rotate counter clockwise on clock
         if(pick[4]){
-            glScalef(1, 1, 1);
+            glScalef(1.2, 1.2, 1.2);
             
         }
         glBindTexture(GL_TEXTURE_2D, textures[21]);
@@ -607,6 +612,10 @@ void displaySaladIngrts(){
             glTranslatef(pos[1][0], pos[1][1], pos[1][2]);
             glBindTexture(GL_TEXTURE_2D, textures[8]);
             glScalef(0.2, 0.2, 0.2);
+            if(pick[1]){
+                glScalef(1.2, 1.2, 1.2);
+            
+            }
             displayIngredient("cutBanana");
         glPopMatrix();
     }
@@ -616,7 +625,11 @@ void displaySaladIngrts(){
         glPushMatrix();
             glTranslatef(pos[2][0], pos[2][1], pos[2][2]);
             glBindTexture(GL_TEXTURE_2D, textures[20]);
-            glScalef(0.25, 0.25, 0.25);
+            glScalef(0.3, 0.3, 0.3);
+            if(pick[2]){
+                glScalef(1.2, 1.2, 1.2);
+            
+            }
             displayIngredient("cutOrange");
         glPopMatrix();
     }
@@ -628,6 +641,10 @@ void displaySaladIngrts(){
             glTranslatef(pos[3][0], pos[3][1], pos[3][2]);
             glBindTexture(GL_TEXTURE_2D, textures[9]);
             glScalef(0.2, 0.2, 0.2);
+            if(pick[3]){
+                glScalef(1.2, 1.2, 1.2);
+            
+            }
             displayIngredient("cutMango");
         glPopMatrix();
     }
@@ -704,6 +721,10 @@ void displayCurryIngrts(){
             glTranslatef(pos[4][0], pos[4][1], pos[4][2]);
             glRotatef(30, 1, 0, 0);
             glScalef(0.2, 0.2, 0.2);
+            if(pick[4]){
+                glScalef(1.2, 1.2, 1.2);
+            
+            }
             glBindTexture(GL_TEXTURE_2D, textures[10]);
             displayIngredient("cutOnion");
         glPopMatrix();
@@ -716,6 +737,10 @@ void displayCurryIngrts(){
             glTranslatef(pos[3][0], pos[3][1], pos[3][2]);
             glRotatef(30, 1, 0, 0);
             glScalef(0.2, 0.2, 0.2);
+            if(pick[3]){
+                glScalef(1.2, 1.2, 1.2);
+            
+            }
             glBindTexture(GL_TEXTURE_2D, textures[12]);
             displayIngredient("cutTomato");
         glPopMatrix();
@@ -726,6 +751,10 @@ void displayCurryIngrts(){
         glPushMatrix();
             glTranslatef(pos[2][0], pos[2][1], pos[2][2]);
             glScalef(0.15, 0.15, 0.15);
+            if(pick[2]){
+                glScalef(1.2, 1.2, 1.2);
+            
+            }
             glBindTexture(GL_TEXTURE_2D, textures[11]);
             displayIngredient("cutPotato");
         glPopMatrix();
@@ -770,6 +799,10 @@ void displaySteakIngrts(){
             glRotatef(90, 0, 1, 0);
             glBindTexture(GL_TEXTURE_2D, textures[13]);
             glScalef(0.15, 0.15, 0.15);
+            if(pick[1]){
+                glScalef(1.4, 1.4, 1.4);
+            
+            }
             displayIngredient("cookedBeef");
         glPopMatrix();
     }
@@ -1047,14 +1080,17 @@ void keyboard(unsigned char key, int x, int y)
     if (key == '1'){
         startTime = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
         scene = 1;
+        chosenRecipe = 1;
     }
     if (key == '2'){
         startTime = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
         scene = 2;
+        chosenRecipe = 2;
     }
     if (key == '3'){
         startTime = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
         scene = 3;
+        chosenRecipe = 3;
     }
     if (key == '4')
         scene = 4;
@@ -1093,8 +1129,6 @@ void makeSelectable(int i)
     double discriminant = B*B - 4* A *C;
 
     if( discriminant >= 0){
-        //printf("no intersection!\n");
-    
         double t1 = (-B + sqrt(discriminant)) / (2*A);
         double t2 = (-B - sqrt(discriminant)) / (2*A);
 
@@ -1212,7 +1246,7 @@ void mouse(int btn, int state, int x, int y){
                             if(bowlPos.distanceTo(bananaPos) < 5.0){
                                 selectable[1] = false; 
                                 
-                                pick[1] = pick[4];
+                                pick[1] = pick[4]; //bowl
                                 pos[1][0] = pos[4][0];
                                 pos[1][1] = pos[4][1];
                                 pos[1][2] = pos[4][2];
@@ -1269,7 +1303,7 @@ void mouse(int btn, int state, int x, int y){
                         Point2D potatoPos = Point2D(pos[2][0], pos[2][1]);
                         if (potPos.distanceTo(potatoPos) < 5.0){
                             selectable[2] = false; 
-                            pick[2] = pick[1];
+                            pick[2] = pick[1]; //pot
                             pos[2][0] = pos[1][0];
                             pos[2][1] = pos[1][1];
                             pos[2][2] = pos[1][2];
@@ -1328,7 +1362,7 @@ void mouse(int btn, int state, int x, int y){
                         {
                             
                             selectable[1] = false; 
-                            pick[1] = pick[0]; 
+                            pick[1] = pick[0]; //pan
                             pos[1][0] = pos[0][0];
                             pos[1][1] = pos[0][1];
                             pos[1][2] = pos[0][2];

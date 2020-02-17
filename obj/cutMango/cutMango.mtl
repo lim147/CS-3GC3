@@ -1,7 +1,7 @@
-# Blender MTL File: 'CUTMANGO.blend'
+# Blender MTL File: 'None'
 # Material Count: 2
 
-newmtl bottom.006
+newmtl bottom.000
 Ns 225.000000
 Ka 1.000000 1.000000 1.000000
 Kd 0.800000 0.800000 0.800000
@@ -12,7 +12,7 @@ d 1.000000
 illum 2
 map_Kd 11551575692429_.pic.jpg
 
-newmtl surface.006
+newmtl surface.000
 Ns 225.000000
 Ka 1.000000 1.000000 1.000000
 Kd 0.800000 0.800000 0.800000
