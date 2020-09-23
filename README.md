@@ -12,7 +12,7 @@ A cooking game that takes place in a 3-D simulating kitchen, where the player se
 	
 #### This is a short demo:	
 <img src="/jpg/demo-steak.gif" alt="demo"
-	title="cooking a steak" width="400" height="350" />
+	title="cooking a steak" width="500" height="350" />
 
  
 ## Interface
